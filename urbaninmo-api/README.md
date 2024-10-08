@@ -1,66 +1,210 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Sistema de Rentas - API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Esta es la API desarrollada en **Laravel 11** para gestionar el sistema de rentas de usuarios. Permite realizar operaciones CRUD para inmuebles, gestionar usuarios, roles y permisos, y ofrece un historial de rentas con gráficas y generación de PDF con código QR.
 
-## About Laravel
+## Tecnologías utilizadas
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+-   **Laravel 11**
+-   **PHP 8.x**
+-   **MySQL** (o el sistema de base de datos que se utilice)
+-   **Composer**
+-   **Eloquent ORM**
+-   **JWT (JSON Web Token)** para autenticación
+-   **QrCode** (para la generación de códigos QR)
+-   **Apache** (servidor compatible)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Características
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+-   **Autenticación**: Gestión de usuarios con login y registro, incluyendo roles y permisos.
+-   **Gestión de inmuebles**: Crear, editar, eliminar y listar inmuebles.
+-   **Búsquedas avanzadas**: Filtrar inmuebles por parámetros como tamaño, número de cuartos, baños, etc.
+-   **Generación de PDF con QR**: Cada inmueble tiene la opción de generar un PDF con un código QR que redirige a su página de detalles.
+-   **Historial de rentas**: Los usuarios pueden ver un historial de sus inmuebles rentados, con gráficas detalladas.
+-   **Paginación y filtros**: Listados con paginación y múltiples filtros de búsqueda.
+-   **Seeders**: Datos precargados mediante seeders para facilitar las pruebas.
 
-## Learning Laravel
+## Requisitos
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+-   **PHP 8.x** o superior
+-   **Composer**
+-   **MySQL** o cualquier otro sistema de base de datos compatible
+-   **Servidor Apache**
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Features
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+-   **Autenticación de usuarios**: Login y registro de usuarios, gestión de roles y permisos.
+-   **Gestión de inmuebles**: CRUD para registrar propiedades en alquiler (casas, departamentos, etc.).
+-   **Generación de PDF**: Genera un PDF de cada propiedad con un código QR que redirige a la página de detalles.
+-   **Búsquedas avanzadas**: Permite realizar búsquedas por múltiples parámetros (tamaño, cuartos, baños, etc.).
+-   **Historial de rentas**: Registro histórico de las rentas con gráficas que muestran estadísticas.
+-   **Validación de datos**: Validaciones tanto en el backend como en el frontend.
+-   **Paginación y filtros**: Listados con paginación y filtros avanzados para facilitar la navegación.
+-   **Layout responsivo**: Diseño responsivo con Tailwind CSS, adaptable a cualquier dispositivo.
+-   **Seeders**: Datos precargados mediante seeders para facilitar el desarrollo y pruebas.
 
-## Laravel Sponsors
+## Instalación
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+1. **Clonar el repositorio**
 
-### Premium Partners
+    ```bash Copy code
+    git clone https://gitlab.com/dragonroliver/urbaninmo-api.git
+    cd <nombre-del-repositorio>
+    ```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+2. **Instalar dependencias**
 
-## Contributing
+```bash Copy code
+  composer install
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+3. **Configurar el archivo .env**
 
-## Code of Conduct
+Copia el archivo de configuración .env.example a .env:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash Copy code
+cp .env.example .env
+```
 
-## Security Vulnerabilities
+Luego, actualiza las variables de entorno en el archivo .env para conectar la base de datos y configurar las credenciales necesarias:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash Copy code
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=<nombre-de-la-base-de-datos>
+DB_USERNAME=<tu-usuario>
+DB_PASSWORD=<tu-contraseña>
+JWT_SECRET=<llave-secreta-jwt>
+```
 
-## License
+4. **Migraciones y Seeders**
+   Ejecuta las migraciones y seeders para crear las tablas y datos iniciales en la base de datos:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash Copy code
+php artisan migrate --seed
+```
+
+5. **Iniciar el servidor local**
+
+Inicia el servidor de desarrollo local de Laravel:
+
+```bash Copy code
+php artisan serve
+```
+
+La API estará disponible en http://localhost:8000.
+
+## Endpoints de Items
+
+### Obtener todos los items
+
+```bash
+GET /api/items
+```
+
+Este endpoint devuelve una lista de todos los items disponibles.
+
+#### Headers
+
+| Header        | Tipo   | Descripción                             |
+| :------------ | :----- | :-------------------------------------- |
+| Authorization | string | Requerido. Token JWT para autenticación |
+
+**Respuesta Exitosa:**
+
+**Código:** 200 OK  
+**Ejemplo de respuesta:**
+
+```json
+[
+    {
+        "id": 1,
+        "name": "Item 1",
+        "description": "Descripción del Item 1"
+    },
+    {
+        "id": 2,
+        "name": "Item 2",
+        "description": "Descripción del Item 2"
+    }
+]
+```
+
+### Obtener un item por ID
+
+```bash
+GET /api/items/{id}
+```
+
+Este endpoint devuelve la información detallada de un item específico.
+
+#### Parámetros de ruta:
+
+| Parámetro | Tipo     | Descripción                     |
+| :-------- | :------- | :------------------------------ |
+| `id`      | `string` | Requerido. ID del item a buscar |
+
+#### Headers
+
+| Header        | Tipo   | Descripción                             |
+| :------------ | :----- | :-------------------------------------- |
+| Authorization | string | Requerido. Token JWT para autenticación |
+
+**Respuesta Exitosa:**
+
+**Código:** 200 OK  
+**Ejemplo de respuesta:**
+
+```json
+{
+    "id": 1,
+    "name": "Item 1",
+    "description": "Descripción detallada del Item 1",
+    "price": 100,
+    "stock": 20
+}
+```
+
+**Respuesta de Error:**
+
+**Código:** 404 Not Found  
+**Ejemplo de respuesta:**
+
+```json
+{
+    "message": "Item no encontrado"
+}
+```
+
+## Errores comunes
+
+| Código | Descripción                |
+| :----- | :------------------------- |
+| 400    | Solicitud malformada       |
+| 401    | No autenticado             |
+| 404    | No encontrado              |
+| 500    | Error interno del servidor |
+
+## Tests
+
+Para ejecutar las pruebas unitarias:
+
+```bash
+php artisan test
+```
+
+## Contribuir
+
+1. Haz un fork del proyecto.
+2. Crea una nueva rama (`git checkout -b feature/nueva-funcionalidad`).
+3. Realiza tus cambios y haz commit (`git commit -m 'Añadida nueva funcionalidad'`).
+4. Haz push a la rama (`git push origin feature/nueva-funcionalidad`).
+5. Abre un Pull Request en GitLab.
+
+## Licencia
+
+Este proyecto está bajo la licencia del TEC.
+
+```
+Este **README** ahora incluye una sección **Features** que destaca las funcionalidades principales de la API, junto con la referencia de la API, requisitos, instalación y más. Puedes ajustarlo según lo que necesites agregar o modificar.
+```

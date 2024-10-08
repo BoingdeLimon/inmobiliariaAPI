@@ -1,93 +1,210 @@
-# UrbanInmo-API
+# Sistema de Rentas - API
 
+Esta es la API desarrollada en **Laravel 11** para gestionar el sistema de rentas de usuarios. Permite realizar operaciones CRUD para inmuebles, gestionar usuarios, roles y permisos, y ofrece un historial de rentas con gráficas y generación de PDF con código QR.
 
+## Tecnologías utilizadas
 
-## Getting started
+- **Laravel 11**
+- **PHP 8.x**
+- **MySQL** (o el sistema de base de datos que se utilice)
+- **Composer**
+- **Eloquent ORM**
+- **JWT (JSON Web Token)** para autenticación
+- **QrCode** (para la generación de códigos QR)
+- **Apache** (servidor compatible)
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+## Características
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+- **Autenticación**: Gestión de usuarios con login y registro, incluyendo roles y permisos.
+- **Gestión de inmuebles**: Crear, editar, eliminar y listar inmuebles.
+- **Búsquedas avanzadas**: Filtrar inmuebles por parámetros como tamaño, número de cuartos, baños, etc.
+- **Generación de PDF con QR**: Cada inmueble tiene la opción de generar un PDF con un código QR que redirige a su página de detalles.
+- **Historial de rentas**: Los usuarios pueden ver un historial de sus inmuebles rentados, con gráficas detalladas.
+- **Paginación y filtros**: Listados con paginación y múltiples filtros de búsqueda.
+- **Seeders**: Datos precargados mediante seeders para facilitar las pruebas.
 
-## Add your files
+## Requisitos
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+- **PHP 8.x** o superior
+- **Composer**
+- **MySQL** o cualquier otro sistema de base de datos compatible
+- **Servidor Apache**
+
+## Features
+
+- **Autenticación de usuarios**: Login y registro de usuarios, gestión de roles y permisos.
+- **Gestión de inmuebles**: CRUD para registrar propiedades en alquiler (casas, departamentos, etc.).
+- **Generación de PDF**: Genera un PDF de cada propiedad con un código QR que redirige a la página de detalles.
+- **Búsquedas avanzadas**: Permite realizar búsquedas por múltiples parámetros (tamaño, cuartos, baños, etc.).
+- **Historial de rentas**: Registro histórico de las rentas con gráficas que muestran estadísticas.
+- **Validación de datos**: Validaciones tanto en el backend como en el frontend.
+- **Paginación y filtros**: Listados con paginación y filtros avanzados para facilitar la navegación.
+- **Layout responsivo**: Diseño responsivo con Tailwind CSS, adaptable a cualquier dispositivo.
+- **Seeders**: Datos precargados mediante seeders para facilitar el desarrollo y pruebas.
+
+## Instalación
+
+1. **Clonar el repositorio**
+
+   ```bash Copy code
+   git clone https://gitlab.com/dragonroliver/urbaninmo-api.git
+   cd <nombre-del-repositorio>
+   ```
+
+2. **Instalar dependencias**
+
+```bash Copy code
+  composer install
+```
+
+3. **Configurar el archivo .env**
+
+Copia el archivo de configuración .env.example a .env:
+
+```bash Copy code
+cp .env.example .env
+```
+
+Luego, actualiza las variables de entorno en el archivo .env para conectar la base de datos y configurar las credenciales necesarias:
+
+```bash Copy code
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=<nombre-de-la-base-de-datos>
+DB_USERNAME=<tu-usuario>
+DB_PASSWORD=<tu-contraseña>
+JWT_SECRET=<llave-secreta-jwt>
+```
+
+4. **Migraciones y Seeders**
+   Ejecuta las migraciones y seeders para crear las tablas y datos iniciales en la base de datos:
+
+```bash Copy code
+php artisan migrate --seed
+```
+
+5. **Iniciar el servidor local**
+
+Inicia el servidor de desarrollo local de Laravel:
+
+```bash Copy code
+php artisan serve
+```
+
+La API estará disponible en http://localhost:8000.
+
+## Endpoints de Items
+
+### Obtener todos los items
+
+```bash
+GET /api/items
+```
+
+Este endpoint devuelve una lista de todos los items disponibles.
+
+#### Headers
+
+| Header        | Tipo   | Descripción                             |
+| :------------ | :----- | :-------------------------------------- |
+| Authorization | string | Requerido. Token JWT para autenticación |
+
+**Respuesta Exitosa:**
+
+**Código:** 200 OK  
+**Ejemplo de respuesta:**
+
+```json
+[
+  {
+    "id": 1,
+    "name": "Item 1",
+    "description": "Descripción del Item 1"
+  },
+  {
+    "id": 2,
+    "name": "Item 2",
+    "description": "Descripción del Item 2"
+  }
+]
+```
+
+### Obtener un item por ID
+
+```bash
+GET /api/items/{id}
+```
+
+Este endpoint devuelve la información detallada de un item específico.
+
+#### Parámetros de ruta:
+
+| Parámetro | Tipo     | Descripción                     |
+| :-------- | :------- | :------------------------------ |
+| `id`      | `string` | Requerido. ID del item a buscar |
+
+#### Headers
+
+| Header        | Tipo   | Descripción                             |
+| :------------ | :----- | :-------------------------------------- |
+| Authorization | string | Requerido. Token JWT para autenticación |
+
+**Respuesta Exitosa:**
+
+**Código:** 200 OK  
+**Ejemplo de respuesta:**
+
+```json
+{
+  "id": 1,
+  "name": "Item 1",
+  "description": "Descripción detallada del Item 1",
+  "price": 100,
+  "stock": 20
+}
+```
+
+**Respuesta de Error:**
+
+**Código:** 404 Not Found  
+**Ejemplo de respuesta:**
+
+```json
+{
+  "message": "Item no encontrado"
+}
+```
+
+## Errores comunes
+
+| Código | Descripción                |
+| :----- | :------------------------- |
+| 400    | Solicitud malformada       |
+| 401    | No autenticado             |
+| 404    | No encontrado              |
+| 500    | Error interno del servidor |
+
+## Tests
+
+Para ejecutar las pruebas unitarias:
+
+```bash
+php artisan test
+```
+
+## Contribuir
+
+1. Haz un fork del proyecto.
+2. Crea una nueva rama (`git checkout -b feature/nueva-funcionalidad`).
+3. Realiza tus cambios y haz commit (`git commit -m 'Añadida nueva funcionalidad'`).
+4. Haz push a la rama (`git push origin feature/nueva-funcionalidad`).
+5. Abre un Pull Request en GitLab.
+
+## Licencia
+
+Este proyecto está bajo la licencia del TEC.
 
 ```
-cd existing_repo
-git remote add origin https://gitlab.com/dragonroliver/urbaninmo-api.git
-git branch -M main
-git push -uf origin main
+Este **README** ahora incluye una sección **Features** que destaca las funcionalidades principales de la API, junto con la referencia de la API, requisitos, instalación y más. Puedes ajustarlo según lo que necesites agregar o modificar.
 ```
-
-## Integrate with your tools
-
-- [ ] [Set up project integrations](https://gitlab.com/dragonroliver/urbaninmo-api/-/settings/integrations)
-
-## Collaborate with your team
-
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
