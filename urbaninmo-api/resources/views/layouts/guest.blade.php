@@ -23,10 +23,10 @@
                 @php
                 // Determine which image to show based on the route
                 $imagePath = request()->routeIs('login') 
-                    ? 'storage/photos/login.jpg' 
+                    ? '/img/login.jpg' 
                     : (request()->routeIs('register') 
-                        ? 'storage/photos/register.jpg' 
-                        : 'storage/photos/login2.jpg'); // Optional fallback image
+                        ? '/img/register.jpg' 
+                        : '/img/login2.jpg'); // Optional fallback image
             @endphp
 
             <img src="{{ asset($imagePath) }}" 
