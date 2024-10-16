@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+@import 'flowbite';
+
+
 [x-cloak] {
     display: none;
 }
