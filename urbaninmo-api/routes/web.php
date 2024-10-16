@@ -1,10 +1,23 @@
 <?php
-
+use App\Livewire\Rentals;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Route;
 
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+
+// Route::get('/hm', function () {
+//     return view('hm'); 
+// })->name('hm'); 
+
+Route::get('/rental/{id}', function ($id) {
+    return view('rental', ['rentalId' => $id]); 
+})->name('rental.show');
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('home'); 
+})->name('Home'); 
 
 Route::middleware([
     'auth:sanctum',
