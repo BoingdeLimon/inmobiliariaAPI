@@ -1,0 +1,32 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('rentals', function (Blueprint $table) {
+            $table->id();
+            $table->foreign('id_real_estate')->references('id_real_estate')->on('real_estate')->onUpdate('cascade')->onDelete('cascade'); 
+            $table->foreign('id_user')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade'); 
+            $table->date('rent_start');
+            $table->date('rent_end');
+            $table->string('reason_end', 254);
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('rentals');
+    }
+};
