@@ -18,9 +18,26 @@
         @livewireStyles
     </head>
     <body>
-        <div class="font-sans text-gray-900 antialiased">
-            {{ $slot }}
-        </div>
+        <section class='w-full lg:grid lg:min-h-[600px] lg:grid-cols-5 xl:min-h-[800px]'>
+            <div class="hidden bg-muted lg:block col-span-3">
+                @php
+                // Determine which image to show based on the route
+                $imagePath = request()->routeIs('login') 
+                    ? 'storage/photos/login.jpg' 
+                    : (request()->routeIs('register') 
+                        ? 'storage/photos/register.jpg' 
+                        : 'storage/photos/login2.jpg'); // Optional fallback image
+            @endphp
+
+            <img src="{{ asset($imagePath) }}" 
+                 alt="Page Image" 
+                 class='h-full w-full object-cover dark:brightness-[0.2] dark:grayscale'/>
+            </div>
+              <div class='h-screen  flex items-center justify-center col-span-2 grow px-3 font-sans text-gray-900 antialiased'>
+                {{ $slot }}
+              </div>
+          </section>
+        
 
         @livewireScripts
     </body>
