@@ -39,9 +39,10 @@ class Logo extends HTMLElement {
                 font-size: 24px;
                 display: inline-block;
             }
-            .logo-part {
-                padding: 2.5px;
-            }
+                    .logo-part {
+          padding: 2.5px;
+color: black;
+        }
             .logo-highlight {
                 background-color: #3563E9;
                 color: white;
