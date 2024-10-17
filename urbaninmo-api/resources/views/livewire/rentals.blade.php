@@ -1,7 +1,7 @@
 <div class="p-6">
     <ul class="space-y-4">
         @foreach ($rentals as $rental)
-            <li class="p-4 border rounded-lg">
+            <li class="p-4  rounded-lg">
 
                 <a href="{{ route('rental.show', $rental['id']) }}" class="flex flex-col md:flex-row bg-white shadow-md rounded-lg overflow-hidden max-w-5xl mx-auto">
                     
