@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->foreign('id_real_estate')->references('id_real_estate')->on('real_estate')->onUpdate('cascade')->onDelete('cascade'); 
-            $table->string('comment', 254);
-            $table->integer('rating');
+            $table->foreignId('id_property')->constrained('real_estate')->onDelete('cascade');
+            $table->text('comment');
+            $table->integer('rating')->default(0)->comment('Valoración entre 0 a 4');
             $table->timestamps();
         });
     }

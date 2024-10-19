@@ -12,24 +12,23 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('real_estate', function (Blueprint $table) {
-            $table->id('id_real_estate'); 
-            $table->integer('id_user');
-            $table->string('title', 100);
-            $table->string('description', 254)->nullable();
-            $table->float('size');
-            $table->smallInteger('rooms');
-            $table->smallInteger('bathrooms');
-            $table->string('type', 100);
-            $table->boolean('has_garage');
-            $table->boolean('has_garden');
-            $table->boolean('has_patio');
-            //$table->foreign('id_address')->references('id')->on('address')->onUpdate('cascade')->onDelete('cascade');
-            $table->string('price');
-            $table->boolean('is_occupied');
-            $table->string('pdf');   
-            $table->timestamps();
-            
-            $table->foreign('id_user')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade'); 
+            $table->id();
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->string('title');
+            $table->text('description')->nullable();
+            $table->float('size'); // Metros cuadrados
+            $table->integer('rooms');
+            $table->integer('bathrooms');
+            $table->string('type'); // Casa, depa, bodega
+            $table->boolean('has_garage')->default(false);
+            $table->boolean('has_garden')->default(false);
+            $table->boolean('has_patio')->default(false);
+            $table->foreignId('id_address')->constrained('address')->onDelete('cascade');
+            $table->decimal('price', 10, 2); // Mensualidad de la renta
+            $table->boolean('isOccupied')->default(false); // Ocupada: 1, No: 0
+            $table->string('pdf')->nullable();
+            $table->timestampTz('created_at')->useCurrent();
+            $table->timestampTz('updated_at')->useCurrent()->nullable();
         });
     }
 

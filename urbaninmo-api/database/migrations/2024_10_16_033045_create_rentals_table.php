@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('rentals', function (Blueprint $table) {
             $table->id();
-            $table->foreign('id_real_estate')->references('id_real_estate')->on('real_estate')->onUpdate('cascade')->onDelete('cascade'); 
-            $table->foreign('id_user')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade'); 
+            $table->foreignId('id_user')->constrained('users')->onDelete('cascade');
+            $table->foreignId('property_id')->constrained('real_estate')->onDelete('cascade');
             $table->date('rent_start');
-            $table->date('rent_end');
-            $table->string('reason_end', 254);
-            $table->timestamps();
+            $table->date('rent_end')->nullable();
+            $table->text('reason_end')->nullable();
+            $table->timestampTz('created_at')->useCurrent();
         });
     }
 
