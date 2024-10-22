@@ -4,12 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\RealEstate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RealEstateController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         return response()->json([
@@ -17,42 +16,110 @@ class RealEstateController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        try {
+            // Validar los campos requeridos
+            $validatedData = $request->validate([
+                'user_id' => 'required|exists:users,id', // Asegúrate de que user_id exista en la tabla users
+                'title' => 'required|string|max:255',
+                'description' => 'nullable|string',
+                'size' => 'required|numeric',
+                'rooms' => 'required|integer',
+                'bathrooms' => 'required|integer',
+                'type' => 'required|string',
+                'has_garage' => 'required|boolean',
+                'has_garden' => 'required|boolean',
+                'has_patio' => 'required|boolean',
+                'id_address' => 'required|integer',
+                'price' => 'required|numeric',
+                'is_occupied' => 'required|boolean',
+                'pdf' => 'nullable|string',
+            ]);
+            $realEstate = RealEstate::create($validatedData);
+
+            return response()->json([
+                'message' => 'Real Estate created successfully',
+                'real_estate' => $realEstate
+            ], 201);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'An error occurred',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
+    
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function update(Request $request, $id)
     {
-        //
+        try {
+            // Buscar el inmueble
+            $realEstate = RealEstate::find($id);
+    
+            // Verificar si el inmueble existe
+            if (!$realEstate) {
+                return response()->json(['error' => 'Real Estate not found'], 404);
+            }
+    
+            //  Validar que el usuario autenticado tiene permiso para modificar
+            // if ($realEstate->user_id !== Auth::id() && !Auth::user()->is_admin) {
+            //     return response()->json(['error' => 'Unauthorized'], 403);
+            // }
+    
+            // Validar los campos a actualizar
+            $validated = $request->validate([
+                'title' => 'nullable|string|max:255',
+                'description' => 'nullable|string',
+                'size' => 'nullable|numeric',
+                'rooms' => 'nullable|integer|min:1',
+                'bathrooms' => 'nullable|integer|min:1',
+                'type' => 'nullable|string|max:100',
+                'has_garage' => 'nullable|boolean',
+                'has_garden' => 'nullable|boolean',
+                'has_patio' => 'nullable|boolean',
+                'price' => 'nullable|numeric|min:0',
+                'is_occupied' => 'nullable|boolean',
+                'pdf' => 'nullable|string',
+            ]);
+    
+            // Actualizar la propiedad con los datos validados
+            $realEstate->update($validated);
+    
+            return response()->json([
+                'message' => 'Real Estate updated successfully',
+                'real_estate' => $realEstate,
+            ], 200);
+    
+        } catch (\Exception $e) {
+            // En caso de error, devolver un mensaje de error
+            return response()->json([
+                'message' => 'An error occurred',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
+    
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function destroy($id)
     {
-        if(!$request->id) return "No hay coincidencias";
+        // Validar que el inmueble existe
+        $realEstate = RealEstate::find($id);
 
-        //$realestate = $this->save($request);
+        if (!$realEstate) {
+            return response()->json(['error' => 'Real Estate not found'], 404);
+        }
+
+        // Validar que el usuario actual tiene permiso para eliminar 
+        if ($realEstate->id_user !== Auth::id() && !Auth::user()->is_admin) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
+        $realEstate->delete();
 
         return response()->json([
-         //   'real_estate' => $realestate
+            'message' => 'Real Estate deleted successfully',
         ]);
     }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
-
 }

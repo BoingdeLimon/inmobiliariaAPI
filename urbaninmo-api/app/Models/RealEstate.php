@@ -10,11 +10,11 @@ class RealEstate extends Model
     /** @use HasFactory<\Database\Factories\RealEstateFactory> */
     use HasFactory;
     protected $table = 'real_estate';
-    protected $primaryKey = 'id_real_estate';
+    protected $primaryKey = 'id';
     public $incrementing = true;
 
     protected $fillable = [
-        'id_user',
+        'user_id',
         'title',
         'description',
         'size',
@@ -24,7 +24,7 @@ class RealEstate extends Model
         'has_garage',
         'has_garden',
         'has_patio',
-        //'id_address',
+        'id_address',
         'price',
         'is_occupied',
         'pdf'

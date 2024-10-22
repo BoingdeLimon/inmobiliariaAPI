@@ -25,7 +25,7 @@ return new class extends Migration
             $table->boolean('has_patio')->default(false);
             $table->foreignId('id_address')->constrained('address')->onDelete('cascade');
             $table->decimal('price', 10, 2); // Mensualidad de la renta
-            $table->boolean('isOccupied')->default(false); // Ocupada: 1, No: 0
+            $table->boolean('is_occupied')->default(false); // Ocupada: 1, No: 0
             $table->string('pdf')->nullable();
             $table->timestampTz('created_at')->useCurrent();
             $table->timestampTz('updated_at')->useCurrent()->nullable();
