@@ -60,9 +60,7 @@
             <a class="inline-flex items-center justify-center whitespace-nowrap transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 text-primary underline-offset-4 hover:underline h-8 rounded-md px-3 text-xs font-normal w-full dark:text-white" href="{{ route('login')}}">
                 {{ __('¿Ya tienes una cuenta? Inicia sesión') }}
             </a>
-            <button onclick="document.documentElement.classList.toggle('dark')">
-                Cambiar Modo
-            </button>
+            
         </div>
     </x-authentication-card>
 </x-guest-layout>
