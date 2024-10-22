@@ -1,34 +1,34 @@
 <x-guest-layout>
     <x-authentication-card>
         <x-label class="flex flex-col space-y-1.5 p-6">
-            <div class="w-full flex flex-col gap-y-4 items-center justify-center text-black">
+            <div class="w-full flex flex-col gap-y-4 items-center justify-center text-black dark:text-white">
             <h1 class="text-3xl font-semibold">Registra tus datos</h1>
             </div>
         </x-label>
 
         <x-validation-errors class="mb-4" />
 
-        <form method="POST" action="{{ route('register') }}">
+        <form method="POST" action="{{ route('register') }}" class="dark:text-gray-200">
             @csrf
 
             <div>
-                <x-label for="name" value="{{ __('Nombre') }}" />
-                <x-input id="name" placeholder="Nombre y apellido" class="block mt-3 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
+                <x-label for="name" value="{{ __('Nombre') }}" class="dark:text-gray-200"/>
+                <x-input id="name" placeholder="Nombre y apellido" class="block mt-3 w-full dark:bg-gray-800 dark:text-white dark:placeholder-gray-400" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
             </div>
 
             <div class="mt-4">
-                <x-label for="email" value="{{ __('Correo Electronico') }}" />
-                <x-input id="email" placeholder="Ingresa tu correo" class="block mt-3 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
+                <x-label for="email" value="{{ __('Correo Electronico') }}" class="dark:text-gray-200"/>
+                <x-input id="email" placeholder="Ingresa tu correo" class="block mt-3 w-full dark:bg-gray-800 dark:text-white dark:placeholder-gray-400" type="email" name="email" :value="old('email')" required autocomplete="username" />
             </div>
 
             <div class="mt-4">
-                <x-label for="password" value="{{ __('Contraseña') }}" />
-                <x-input id="password" placeholder="Debe tener al menos 6 caracteres" class="block mt-3 w-full" type="password" name="password" required autocomplete="new-password" />
+                <x-label for="password" value="{{ __('Contraseña') }}" class="dark:text-gray-200"/>
+                <x-input id="password" placeholder="Debe tener al menos 6 caracteres" class="block mt-3 w-full dark:bg-gray-800 dark:text-white dark:placeholder-gray-400" type="password" name="password" required autocomplete="new-password" />
             </div>
 
             <div class="mt-4">
-                <x-label for="password_confirmation" value="{{ __('Confirmar contraseña') }}" />
-                <x-input id="password_confirmation" placeholder="Confirmar contraseña" class="block mt-3 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
+                <x-label for="password_confirmation" value="{{ __('Confirmar contraseña') }}" class="dark:text-gray-200"/>
+                <x-input id="password_confirmation" placeholder="Confirmar contraseña" class="block mt-3 w-full dark:bg-gray-800 dark:text-white dark:placeholder-gray-400" type="password" name="password_confirmation" required autocomplete="new-password" />
             </div>
 
             @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
@@ -57,9 +57,12 @@
             </div>
         </form>
         <div class="flex items-center p-6 pt-4">
-            <a class="inline-flex items-center justify-center whitespace-nowrap transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 text-primary underline-offset-4 hover:underline h-8 rounded-md px-3 text-xs font-normal w-full" href="{{ route('login')}}">
+            <a class="inline-flex items-center justify-center whitespace-nowrap transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 text-primary underline-offset-4 hover:underline h-8 rounded-md px-3 text-xs font-normal w-full dark:text-white" href="{{ route('login')}}">
                 {{ __('¿Ya tienes una cuenta? Inicia sesión') }}
             </a>
+            <button onclick="document.documentElement.classList.toggle('dark')">
+                Cambiar Modo
+            </button>
         </div>
     </x-authentication-card>
 </x-guest-layout>
