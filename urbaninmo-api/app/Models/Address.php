@@ -9,7 +9,7 @@ class Address extends Model
 {
      
     use HasFactory;
-    protected $table = 'addresses';
+    protected $table = 'address';
     protected $primaryKey = 'id';
     public $incrementing = true;
 
