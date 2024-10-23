@@ -30,9 +30,9 @@
 
             <img src="{{ asset($imagePath) }}" 
                  alt="Page Image" 
-                 class='h-full w-full object-cover dark:brightness-[0.2] dark:grayscale'/>
+                 class='h-full w-full object-cover '/>
             </div>
-              <div class='h-screen  flex items-center justify-center col-span-2 grow px-3 font-sans antialiased'>
+              <div class='h-screen  flex items-center justify-center col-span-2 grow px-3 font-sans antialiased dark:bg-gray-800'>
                 {{ $slot }}
               </div>
           </section>
