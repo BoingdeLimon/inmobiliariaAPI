@@ -11,6 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if (!Schema::hasTable('address')) {
+
         Schema::create('address', function (Blueprint $table) {
             $table->id();
             $table->string('address', 254);
@@ -20,6 +22,7 @@ return new class extends Migration
             $table->string('country', 100);
             $table->timestamps();
         });
+    }
     }
 
     /**

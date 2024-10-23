@@ -14,7 +14,7 @@ class RealEstateSeeder extends Seeder
     public function run(): void
     {
         RealEstate::create([
-            'id_user' => 1,
+            'user_id' => 1,
             'title' => 'Casa en venta',
             'description' => 'Casa en venta en la colonia San José',
             'size' => 200,
@@ -25,7 +25,7 @@ class RealEstateSeeder extends Seeder
             'has_garden' => true,
             'has_patio' => true,
             'id_address' => 1,
-            'price' => '$1,000,000',
+            'price' => 1000000,
             'is_occupied' => false,
             'pdf' => 'casa-en-venta.pdf'
 

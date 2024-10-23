@@ -2,8 +2,12 @@
 
 namespace Database\Seeders;
 
+use App\Livewire\Rentals;
 use App\Models\User;
 use App\Models\Address;
+use App\Models\Comments;
+use App\Models\Photos;
+use App\Models\RealEstate;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -22,6 +26,13 @@ class DatabaseSeeder extends Seeder
         $this->call([
             AddressSeeder::class
         ]);
+
+ 
+
+        $this->call([
+            RealEstateSeeder::class
+        ]);
+        
 
         //**     */
     }

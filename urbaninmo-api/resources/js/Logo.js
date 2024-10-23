@@ -30,7 +30,7 @@ class Logo extends HTMLElement {
         const style = document.createElement('style');
         style.textContent = `
             .logo-container {
-
+                /* Puedes agregar más estilos aquí si es necesario */
             }
             .logo {
                 text-decoration: none;
@@ -39,16 +39,21 @@ class Logo extends HTMLElement {
                 font-size: 24px;
                 display: inline-block;
             }
-                    .logo-part {
-          padding: 2.5px;
-color: black;
-        }
+            .logo-part {
+                padding: 2.5px;
+                color: black; /* Color por defecto */
+            }
             .logo-highlight {
                 background-color: #3563E9;
                 color: white;
                 padding: .25rem;
                 border-radius: 8px;
             }
+
+            :host-context(.dark) .logo-part {
+                color: white; /* Cambiar color para el modo oscuro */
+            }
+
         `;
         shadow.appendChild(style);
     }

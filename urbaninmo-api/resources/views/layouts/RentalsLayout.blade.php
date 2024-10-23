@@ -8,7 +8,7 @@
 
     <link rel="stylesheet" href="{{ asset('css/app.css') }}"> 
 </head>
-<body>
+<body  class="{{ session('darkMode') ? 'dark' : '' }} ">
     <x-header /> 
     <main>
         @yield('content') 

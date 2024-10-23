@@ -1,4 +1,4 @@
-<div class="p-6">
+<div class=" grid grid-cols-1 gap-6 p-2 dark:bg-gray-900 ">
     <ul class="space-y-4">
         @foreach ($rentals as $rental)
             <li class="p-4 rounded-lg">
