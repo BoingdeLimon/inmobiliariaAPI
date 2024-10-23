@@ -22,7 +22,7 @@
                 <x-input 
                     id="email" 
                     placeholder="Ingresa tu email" 
-                    class="block mt-1 w-full dark:bg-gray-800 dark:text-white dark:placeholder-gray-400" 
+                    class="block mt-1 w-full dark:bg-gray-800 dark:text-white dark:placeholder-gray-400 autofill:bg-gray-800" 
                     type="email" 
                     name="email" 
                     :value="old('email')" 
@@ -37,7 +37,7 @@
                 <x-input 
                     id="password" 
                     placeholder="Debe tener al menos 6 caracteres" 
-                    class="block mt-1 w-full dark:bg-gray-800 dark:text-white dark:placeholder-gray-400" 
+                    class="block mt-1 w-full dark:bg-gray-800 dark:text-white dark:placeholder-gray-400 autofill:bg-gray-800" 
                     type="password" 
                     name="password" 
                     required 

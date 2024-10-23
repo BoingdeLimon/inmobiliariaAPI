@@ -13,22 +13,22 @@
 
             <div>
                 <x-label for="name" value="{{ __('Nombre') }}" class="dark:text-gray-200"/>
-                <x-input id="name" placeholder="Nombre y apellido" class="block mt-3 w-full dark:bg-gray-800 dark:text-white dark:placeholder-gray-400" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
+                <x-input id="name" placeholder="Nombre y apellido" class="block mt-3 w-full  dark:bg-gray-800 dark:text-white dark:placeholder-gray-400 autofill:bg-gray-800" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
             </div>
 
             <div class="mt-4">
                 <x-label for="email" value="{{ __('Correo Electronico') }}" class="dark:text-gray-200"/>
-                <x-input id="email" placeholder="Ingresa tu correo" class="block mt-3 w-full dark:bg-gray-800 dark:text-white dark:placeholder-gray-400" type="email" name="email" :value="old('email')" required autocomplete="username" />
+                <x-input id="email" placeholder="Ingresa tu correo" class="block mt-3 w-full dark:bg-gray-800 dark:text-white dark:placeholder-gray-400 autofill:bg-gray-800" type="email" name="email" :value="old('email')" required autocomplete="username" />
             </div>
 
             <div class="mt-4">
                 <x-label for="password" value="{{ __('Contraseña') }}" class="dark:text-gray-200"/>
-                <x-input id="password" placeholder="Debe tener al menos 6 caracteres" class="block mt-3 w-full dark:bg-gray-800 dark:text-white dark:placeholder-gray-400" type="password" name="password" required autocomplete="new-password" />
+                <x-input id="password" placeholder="Debe tener al menos 6 caracteres" class="block mt-3 w-full dark:bg-gray-800 dark:text-white dark:placeholder-gray-400 autofill:bg-gray-800" type="password" name="password" required autocomplete="new-password" />
             </div>
 
             <div class="mt-4">
                 <x-label for="password_confirmation" value="{{ __('Confirmar contraseña') }}" class="dark:text-gray-200"/>
-                <x-input id="password_confirmation" placeholder="Confirmar contraseña" class="block mt-3 w-full dark:bg-gray-800 dark:text-white dark:placeholder-gray-400" type="password" name="password_confirmation" required autocomplete="new-password" />
+                <x-input id="password_confirmation" placeholder="Confirmar contraseña" class="block mt-3 w-full dark:bg-gray-800 dark:text-white dark:placeholder-gray-400 autofill:bg-gray-800" type="password" name="password_confirmation" required autocomplete="new-password" />
             </div>
 
             @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
