@@ -18,7 +18,7 @@
 
 </head>
 
-<body>
+<body  class="{{ session('darkMode') ? 'dark' : '' }}">
     @livewire("profile");
 </body>
 
