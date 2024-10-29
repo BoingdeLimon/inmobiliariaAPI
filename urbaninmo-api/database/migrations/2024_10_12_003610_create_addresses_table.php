@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('city', 100);
             $table->string('state', 100);
             $table->string('country', 100);
+            $table->decimal('x', 10, 8); // 10 dígitos en total, 8 después del punto decimal
+            $table->decimal('y', 10, 8);
             $table->timestamps();
         });
     }

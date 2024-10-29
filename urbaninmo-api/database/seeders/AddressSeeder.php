@@ -18,7 +18,9 @@ class AddressSeeder extends Seeder
             'zipcode' => '12345',
             'city' => 'Ciudad de México',
             'state' => 'CDMX',
-            'country' => 'México'
+            'country' => 'México',
+            'x' => '18.4830556',
+            'y' => '-69.9391667'
         ]);
     }
 }

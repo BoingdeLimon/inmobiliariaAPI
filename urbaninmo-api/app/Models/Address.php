@@ -18,6 +18,8 @@ class Address extends Model
         'zipcode',
         'city',
         'state',
-        'country'
+        'country',
+        'x',
+        'y'
     ];
 }
