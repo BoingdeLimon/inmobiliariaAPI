@@ -21,6 +21,7 @@ class UserController extends Controller
             'password' => 'required|string|min:8',
             'phone' => 'nullable|string|max:10',
             'photo' => 'nullable|string',
+            'role' => 'nullable|string',
         ]);
 
         $data['password'] = bcrypt($data['password']);

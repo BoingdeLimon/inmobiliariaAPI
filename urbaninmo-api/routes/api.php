@@ -13,7 +13,6 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::get('/users', [UserController::class, 'index']);
-Route::get('/register', [UserController::class, 'store']);
 
 
 Route::get('/real-estates', [RealEstateController::class, 'index']);
@@ -29,3 +28,5 @@ Route::delete('addresses/{id}', [AddressController::class, 'destroy']);
 
 
 Route::post('/login', [LoginController::class, 'login']);
+Route::post('/loginAuthApi', [LoginController::class, 'loginAuthApi']);
+Route::post('/register', [UserController::class, 'store']);

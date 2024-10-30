@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers\Auth;
-
 use App\Http\Controllers\Controller;
 use App\Models\User; // Asegúrate de importar el modelo User
 use Illuminate\Http\Request;
@@ -12,40 +10,75 @@ class LoginController extends Controller
 {
     public function login(Request $request)
     {
+        /**
+     * Handle the login request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+        // Validate the request data
         $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
-        
+
+        // Attempt to authenticate the user
         if (Auth::attempt($request->only('email', 'password'), $request->boolean('remember'))) {
-            // $request->session()->regenerate();            
-            $user = Auth::user();
-            if ($request->expectsJson()) {
-                $token = $request->user()->createToken('MiToken');
-                return response()->json([
-                    'id' => $user->id,
-                    'name' => $user->name,
-                    'email' => $user->email,
-                    'phone' => $user->phone,
-                    'photo' => $user->photo,
-                    'token' => $token->plainTextToken,
-                    'status' => "success"
-                ]);
-            } else {
-                return redirect()->intended('/dashboard');
-            }
+            // Regenerate the session to prevent session fixation attacks
+            $request->session()->regenerate();
+
+            // Redirect to dashboard or any intended route
+            return redirect()->intended('/dashboard');
         }
-        
+
+        // Handle failed login attempt
+        throw ValidationException::withMessages([
+            'email' => __('Usuario o contraseña incorrectos'),
+        ]);
+    }
+    
+    public function loginAuthApi(Request $request)
+    {
+
+        $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
+
+        if (Auth::attempt($request->only('email', 'password'), $request->boolean('remember'))) {
+            // Obtener el usuario autenticado
+            $user = Auth::user();
+            
+            $token = $request->user()->createToken('MiToken');
+            return response()->json([
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'phone' => $user->phone,
+                'photo' => $user->photo,
+                'token' => $token->plainTextToken,
+                'status' => "success"
+            ]);
+        }
         throw ValidationException::withMessages([
             'email' => __('Usuario o contraseña incorrectos'),
         ]);
     }
 
+
+    /**
+     * Handle logout request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function logout(Request $request)
     {
         Auth::logout();
+
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
         return redirect('/');
     }
 }
