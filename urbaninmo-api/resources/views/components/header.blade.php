@@ -43,14 +43,15 @@
         </div>
 
         <div class="w-full md:w-1/4 md:space-x-5 flex flex-col md:flex-row items-center justify-center">
-    @livewire('new-rentals-form')
+    
 
-    @auth
+    @auth   
+    @livewire('new-rentals-form')
         <!-- Display the user's profile picture if authenticated -->
         <div class="flex items-center">
         <a href="{{ route('profile') }}">
             <img src="{{ Auth::user()->photo }}" alt="{{ Auth::user()->name }}" class="w-10 h-10 rounded-full mr-2">
-            <span class="text-white">{{ Auth::user()->name }}</span>
+            <span class="text-black dark:text-white">{{ Auth::user()->name }}</span>
         </a>
         </div>
     @else
@@ -60,6 +61,14 @@
                 border-gray-800 bg-gray-900 focus:ring-4 focus:outline-none
                 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                 Login
+            </button>
+        </a>
+        <a href="{{ route('register') }}">
+            <button type="button"
+                class="w-full md:w-auto text-white bg-blue-700 hover:bg-white hover:text-blue-700 border hover:border-blue-700
+                 focus:ring-4 focus:outline-none
+                focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                Registrarse
             </button>
         </a>
     @endauth
