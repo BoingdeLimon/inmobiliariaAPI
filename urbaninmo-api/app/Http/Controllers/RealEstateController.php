@@ -122,4 +122,10 @@ class RealEstateController extends Controller
             'message' => 'Real Estate deleted successfully',
         ]);
     }
+    public function showProperties()
+    {
+        $userId = Auth::id(); // Get the logged-in user's ID
+        $properties = RealEstate::where('user_id', $userId)->get(); // Fetch user's properties
+        return view('profile', compact('properties'));
+    }
 }
