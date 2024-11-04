@@ -36,6 +36,10 @@ class AddressController extends Controller
         // $validatedData['x'] = floatval($validatedData['x']); 
         // $validatedData['y'] = floatval($validatedData['y']);
 
+        // $validatedData['x'] = (float) $validatedData['x'];
+        // $validatedData['y'] = (float) $validatedData['y'];
+
+
         $address = Address::create($validatedData);
         return $address->id;
     }
@@ -76,7 +80,9 @@ class AddressController extends Controller
         ]);
         // $validatedData['x'] = floatval($validatedData['x']); 
         // $validatedData['y'] = floatval($validatedData['y']);
-
+        // $validatedData['x'] = (float) $validatedData['x'];
+        // $validatedData['y'] = (float) $validatedData['y'];
+        
         $address->update($validatedData);
         return $address->id;
     }

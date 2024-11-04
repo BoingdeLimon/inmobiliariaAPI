@@ -19,8 +19,8 @@ class AddressSeeder extends Seeder
             'city' => 'Ciudad de México',
             'state' => 'CDMX',
             'country' => 'México',
-            'x' => '18.4830556',
-            'y' => '-69.9391667'
+            'x' => 18.4830556,
+            'y' => -69.9391667
         ]);
     }
 }
