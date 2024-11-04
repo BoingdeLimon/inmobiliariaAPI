@@ -24,89 +24,81 @@ class AddressController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            // Validar los campos requeridos
-            $validatedData = $request->validate([
-                'address' => 'required|string|max:255',
-                'zipcode' => 'required|string|max:20',
-                'city' => 'required|string|max:100',
-                'state' => 'required|string|max:100',
-                'country' => 'required|string|max:100',
-            ]);
+        $validatedData = $request->validate([
+            'address' => 'required|string|max:255',
+            'zipcode' => 'required|string|max:20',
+            'city' => 'required|string|max:100',
+            'state' => 'required|string|max:100',
+            'country' => 'required|string|max:100',
+            'x' => 'required|numeric',
+            'y' => 'required|numeric',
+        ]);
+        // $validatedData['x'] = floatval($validatedData['x']); 
+        // $validatedData['y'] = floatval($validatedData['y']);
 
-            // Crear una nueva dirección
-            $address = Address::create($validatedData);
-
-            return response()->json([
-                'message' => 'Address created successfully',
-                'address' => $address
-            ], 201);
-
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'An error occurred',
-                'error' => $e->getMessage()
-            ], 500);
-        }
+        $address = Address::create($validatedData);
+        return $address->id;
     }
 
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    // ! Se cambio la forma de buscar Address de tal forma que que solo me mostraran los datos sin otros datos inecesarios como "original, headers, otro address anidad"
+    // ! ---Oliver
+    public function show(Request $request)
     {
-        $address = Address::find($id);
-
-        if (!$address) {
-            return response()->json(['error' => 'Address not found'], 404);
-        }
-
-        return response()->json([
-            'address' => $address
-        ]);
+        $address = Address::find($request->input('id_address'));
+        return $address;
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        $address = Address::find($id);
+        // $address = Address::find($request->input('id_address'));
+        $id_address = $request->input('id_address');
+        $address = Address::find($id_address);
 
         if (!$address) {
-            return response()->json(['error' => 'Address not found'], 404);
+            return [
+                'error' => 'Address not found'
+            ];
         }
-
         $validatedData = $request->validate([
             'address' => 'nullable|string|max:255',
             'zipcode' => 'nullable|string|max:20',
             'city' => 'nullable|string|max:100',
             'state' => 'nullable|string|max:100',
             'country' => 'nullable|string|max:100',
+            'x' => 'required|numeric',
+            'y' => 'required|numeric',
         ]);
+        // $validatedData['x'] = floatval($validatedData['x']); 
+        // $validatedData['y'] = floatval($validatedData['y']);
 
         $address->update($validatedData);
-
-        return response()->json([
-            'message' => 'Address updated successfully',
-            'address' => $address
-        ]);
+        return $address->id;
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $address = Address::find($id);
+        try {
+            $id_address = $request->input('id_address');
+            $address = Address::find($id_address);
 
-        if (!$address) {
-            return response()->json(['error' => 'Address not found'], 404);
+            if (!$address) {
+                // return ["addd" => $address];
+                return ['status' => 'error'];
+            }
+
+            $address->delete();
+            return ['status' => 'successfull'];
+        } catch (\Exception $e) {
+            return ['status' => 'error'];
         }
-
-        $address->delete();
-
-        return response()->json(['message' => 'Address deleted successfully']);
     }
 }
-

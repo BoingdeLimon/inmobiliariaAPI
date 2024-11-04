@@ -42,7 +42,7 @@ return new class extends Migration
             LEFT JOIN 
                 address a ON re.id_address = a.id
             LEFT JOIN 
-                photos p ON p.id_propiedad = re.id
+                photos p ON p.id_real_estate = re.id
             LEFT JOIN 
                 comments c ON c.id_property = re.id
             GROUP BY 

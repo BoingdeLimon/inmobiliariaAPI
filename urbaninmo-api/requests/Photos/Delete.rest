@@ -1,0 +1,6 @@
+POST  http://127.0.0.1:8000/api/deleteAllPhotos
+Content-Type: application/json
+
+{
+    "id_real_estate": 6,
+}

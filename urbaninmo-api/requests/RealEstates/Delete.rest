@@ -1,0 +1,7 @@
+POST http://127.0.0.1:8000/api/deleteRental
+Content-Type: application/json
+Authorization: Bearer 2|hbjI2DVCC1GAprWmqtRECtMRnOALjAGH0HgdzUFAcf415d36
+
+{
+    "id_real_estate" : 5
+}

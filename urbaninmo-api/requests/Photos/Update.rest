@@ -1,0 +1,7 @@
+POST  http://127.0.0.1:8000/api/editPhoto
+Content-Type: application/json
+
+{
+    "id_real_estate": 6,
+    "photo": ["prueba.png", "prueba2.png"]
+}

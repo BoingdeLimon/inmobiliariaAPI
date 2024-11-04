@@ -1,0 +1,13 @@
+POST http://127.0.0.1:8000/api/editAddress
+Content-Type: application/json
+
+{
+    "id_address": 6,
+    "address": "Avenida Reforma 789",
+    "zipcode": "54321",
+    "city": "Monterrey",
+    "state": "Nuevo Leon",
+    "country": "Alemania",
+    "x": "11.11",
+    "y": "14.12222"
+}

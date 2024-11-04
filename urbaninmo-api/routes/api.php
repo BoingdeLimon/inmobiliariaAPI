@@ -2,9 +2,11 @@
 
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\Auth\LoginController;
-
+use App\Http\Controllers\MessagesController;
+use App\Http\Controllers\PhotosController;
 use App\Http\Controllers\RealEstateController;
 use App\Http\Controllers\UserController;
+use App\Models\Messages;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -12,6 +14,7 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
+Route::post('/login', [LoginController::class, 'login']);
 Route::get('/users', [UserController::class, 'index']);
 
 
@@ -27,6 +30,59 @@ Route::put('addresses/{id}', [AddressController::class, 'update']);
 Route::delete('addresses/{id}', [AddressController::class, 'destroy']);
 
 
-Route::post('/login', [LoginController::class, 'login']);
+
+// ! ENDPOINTS QUE OCUPA NEXT   
+// ! - Oliver
+
+//* Para AUTH
 Route::post('/loginAuthApi', [LoginController::class, 'loginAuthApi']);
 Route::post('/register', [UserController::class, 'store']);
+
+// * Para RealEstates
+Route::post("/listAllRealEstates", [RealEstateController::class, 'listAllRentals']);
+
+//  Solo usuario autenticado puede crear, editar y eliminar
+Route:: 
+middleware(['auth:sanctum'])->
+post("/newRental", [RealEstateController::class, 'newRental']);
+
+Route:: 
+middleware(['auth:sanctum'])->
+post("/editRental", [RealEstateController::class, 'editRental']);
+
+Route:: 
+middleware(['auth:sanctum'])->
+post("/deleteRental", [RealEstateController::class, 'deleteRental']);
+
+
+// * Para fotos 
+Route::get('/listAllPhotos', [PhotosController::class, 'index']);
+
+Route::post('/deleteAllPhotos', [PhotosController::class, 'deleteAllPhotos']);
+
+Route::post('/editPhoto', [PhotosController::class, 'updatePhoto']);
+
+Route::post('/createPhoto', [PhotosController::class, 'store']);
+
+
+//* Para address
+
+Route::post('/listAllAddress', [AddressController::class, "index"]);
+
+Route::post('/deleteAddress', [AddressController::class, "destroy"]);
+
+Route::post('/editAddress', [AddressController::class, "update"]);
+
+
+
+// * Para messages
+
+Route::post('/showMessagesByUser', [MessagesController::class, "showMessagesByUser"]);
+
+Route::post('/newMessage', [MessagesController::class, "newMessage"]);
+
+Route::post('/deleteMessage', [MessagesController::class, "deleteMessage"]);
+
+
+
+

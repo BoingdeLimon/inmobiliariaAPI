@@ -1,0 +1,33 @@
+POST http://127.0.0.1:8000/api/editRental
+Content-Type: application/json
+Authorization: Bearer 1|6gUI9JN2ucIxRitfrbOykLpFzWTBmQUkABrh0skM2fa2d325
+
+{
+  "id_real_estate": 8,
+  "user_id": 1,
+  "title": "Apartamento con vista a la ciudad - actualizado",
+  "description": "Apartamento moderno de 2 habitaciones en el piso 10, con vistas panorámicas de la ciudad. Ahora incluye acceso a gimnasio.",
+  "size": 90.0,
+  "rooms": 2,
+  "bathrooms": 1,
+  "type": "apartamento",
+  "has_garage": true,
+  "has_garden": false,
+  "has_patio": false,
+
+  "address": "Avenida Reforma",
+  "zipcode": "54321",
+  "city": "Monterrey",
+  "state": "Nuevo León",
+  "country": "Argen",
+  "x": 25.6866,
+  "y": 100.3161,
+
+  "photo": [
+    "url_foto_vista_1_actualizada.jpg",
+    "url_foto_vista_2_actualizada.jpg"
+  ],
+  "price": 2700,
+  "is_occupied": false,
+  "pdf": "url_documento_apartamento_actualizado.pdf"
+}

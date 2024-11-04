@@ -3,6 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\RealEstate;
+
+use App\Models\Address;
+use App\Models\Photos;
+use App\Http\Controllers\AddressController;
+
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,6 +21,7 @@ class RealEstateController extends Controller
             'real_estate' => RealEstate::paginate()
         ]);
     }
+
 
     public function store(Request $request)
     {
@@ -42,7 +49,6 @@ class RealEstateController extends Controller
                 'message' => 'Real Estate created successfully',
                 'real_estate' => $realEstate
             ], 201);
-
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'An error occurred',
@@ -50,24 +56,24 @@ class RealEstateController extends Controller
             ], 500);
         }
     }
-    
+
 
     public function update(Request $request, $id)
     {
         try {
             // Buscar el inmueble
             $realEstate = RealEstate::find($id);
-    
+
             // Verificar si el inmueble existe
             if (!$realEstate) {
                 return response()->json(['error' => 'Real Estate not found'], 404);
             }
-    
+
             //  Validar que el usuario autenticado tiene permiso para modificar
             // if ($realEstate->user_id !== Auth::id() && !Auth::user()->is_admin) {
             //     return response()->json(['error' => 'Unauthorized'], 403);
             // }
-    
+
             // Validar los campos a actualizar
             $validated = $request->validate([
                 'title' => 'nullable|string|max:255',
@@ -83,15 +89,14 @@ class RealEstateController extends Controller
                 'is_occupied' => 'nullable|boolean',
                 'pdf' => 'nullable|string',
             ]);
-    
+
             // Actualizar la propiedad con los datos validados
             $realEstate->update($validated);
-    
+
             return response()->json([
                 'message' => 'Real Estate updated successfully',
                 'real_estate' => $realEstate,
             ], 200);
-    
         } catch (\Exception $e) {
             // En caso de error, devolver un mensaje de error
             return response()->json([
@@ -100,7 +105,7 @@ class RealEstateController extends Controller
             ], 500);
         }
     }
-    
+
 
     public function destroy($id)
     {
@@ -127,5 +132,242 @@ class RealEstateController extends Controller
         $userId = Auth::id(); // Get the logged-in user's ID
         $properties = RealEstate::where('user_id', $userId)->get(); // Fetch user's properties
         return view('profile', compact('properties'));
+    }
+
+
+
+
+    // ! Endpoints Oliver
+    protected $addressController;
+    protected $photosController;
+
+    public function __construct(AddressController $addressController, PhotosController $photosController)
+    {
+        $this->addressController = $addressController;
+        $this->photosController = $photosController;
+    }
+
+
+
+    //* Esta funcion actua de la siguiente manera
+    //* Si recibe user_id se va filtrar por ese id del usuario
+    //* Si recibe id se va a filtrar por el id en especifico de RealEstate
+    //* Si no recibe id, lista todas los realestates
+    //* Este enfoque nos evita tener 3 funciones similares
+
+    public function listAllRentals(Request $request)
+    {
+        $realEstates = null;
+
+        if ($request->has('id')) {
+            $realEstate = RealEstate::find($request->input('id'));
+            if (!$realEstate) {
+                return response()->json(['error' => 'Real estate not found'], 404);
+            }
+            $realEstates = collect([$realEstate]);
+        } elseif ($request->has('user_id')) {
+            $realEstates = RealEstate::where('user_id', $request->input('user_id'))->paginate();
+        } else {
+            $realEstates = RealEstate::paginate();
+        }
+
+        $fullRealEstate = $realEstates->map(function ($realEstate) {
+
+            $address = $this->addressController->show(new Request(['id_address' =>  $realEstate->id_address]));
+            $photos = $this->photosController->show(new Request(['id_real_estate' => $realEstate->id]));
+            $realEstate->address = $address ? $address : null;
+            $realEstate->photos = $photos ? $photos : null;
+
+            return $realEstate;
+        });
+
+        return response()->json([
+            'real_estate' => $fullRealEstate,
+        ]);
+    }
+
+
+
+
+    public function newRental(Request $request)
+    {
+        try {
+            $validatedData = $request->validate([
+                'user_id' => 'required|exists:users,id',
+                'title' => 'required|string|max:255',
+                'description' => 'nullable|string',
+                'size' => 'required|numeric',
+                'rooms' => 'required|integer',
+                'bathrooms' => 'required|integer',
+                'type' => 'required|string',
+                'has_garage' => 'required|boolean',
+                'has_garden' => 'required|boolean',
+                'has_patio' => 'required|boolean',
+
+                'address' => 'required|string|max:255',
+                'zipcode' => 'required|string|max:20',
+                'city' => 'required|string|max:100',
+                'state' => 'required|string|max:100',
+                'country' => 'required|string|max:100',
+                'x' => 'required|numeric',
+                'y' => 'required|numeric',
+
+                // * Puede ser confuso las siguientes lineas de codigo, lo que investigue fue que para que sea un array de strings, primero definimos el array
+                // * despues decimos que cada elemento del array (photo) sea string, vaya lo unico que hace es validar
+                // * -Oliver
+
+                'photo' => 'required|array',
+                'photo.*' => 'string',
+
+
+                'price' => 'required|numeric',
+                'is_occupied' => 'required|boolean',
+                'pdf' => 'nullable|string',
+            ]);
+            $addressId = $this->addressController->store(new Request([
+                'address' => $validatedData['address'],
+                'zipcode' => $validatedData['zipcode'],
+                'city' => $validatedData['city'],
+                'state' => $validatedData['state'],
+                'country' => $validatedData['country'],
+                'x' => $validatedData['x'],
+                'y' => $validatedData['y'],
+            ]));
+
+
+            $realEstateData = array_merge($validatedData, ['id_address' => $addressId]);
+            unset($realEstateData['address'], $realEstateData['zipcode'], $realEstateData['city'], $realEstateData['state'], $realEstateData['country']);
+
+            $realEstate = RealEstate::create($realEstateData);
+
+            // * Como explique arriba en el comentario, aqui es crear un registro de foto por cada elemento del array
+
+            foreach ($validatedData['photo'] as $photo) {
+                $photoRequest = new Request([
+                    'id_real_estate' => $realEstate->id,
+                    'photo' => $photo,
+                ]);
+                $this->photosController->store($photoRequest);
+            }
+
+            return response()->json([
+                'message' => 'Real Estate created successfully',
+                'real_estate' => $realEstate
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'An error occurred',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+
+
+    public function editRental(Request $request)
+    {
+        try {
+            $validatedData = $request->validate([
+                'user_id' => 'required|exists:users,id',
+                'title' => 'required|string|max:255',
+                'description' => 'nullable|string',
+                'size' => 'required|numeric',
+                'rooms' => 'required|integer',
+                'bathrooms' => 'required|integer',
+                'type' => 'required|string',
+                'has_garage' => 'required|boolean',
+                'has_garden' => 'required|boolean',
+                'has_patio' => 'required|boolean',
+
+                'address' => 'required|string|max:255',
+                'zipcode' => 'required|string|max:20',
+                'city' => 'required|string|max:100',
+                'state' => 'required|string|max:100',
+                'country' => 'required|string|max:100',
+                'x' => 'required|numeric',
+                'y' => 'required|numeric',
+
+                'photo' => 'required|array',
+                'photo.*' => 'string',
+
+                'price' => 'required|numeric',
+                'is_occupied' => 'required|boolean',
+                'pdf' => 'nullable|string',
+            ]);
+
+            $realEstateEdit = $request->input('id_real_estate');
+            $realEstate = RealEstate::findOrFail($realEstateEdit);
+
+            $addressId = $this->addressController->update(
+                new Request(
+                    [
+                        'id_address' => $realEstate->id_address,
+                        'address' => $validatedData['address'],
+                        'zipcode' => $validatedData['zipcode'],
+                        'city' => $validatedData['city'],
+                        'state' => $validatedData['state'],
+                        'country' => $validatedData['country'],
+                        'x' => $validatedData['x'],
+                        'y' => $validatedData['y'],
+
+                    ]
+                )
+            );
+
+            $realEstateData = array_merge($validatedData, ['id_address' => $addressId]);
+            unset($realEstateData['address'], $realEstateData['zipcode'], $realEstateData['city'], $realEstateData['state'], $realEstateData['country']);
+
+            $realEstate->update($realEstateData);
+
+            $this->photosController->updatePhoto(new Request(
+                [
+                    "id_real_estate" => $realEstate->id,
+                    "photo" => $validatedData['photo']
+                ]
+            ));
+
+            return response()->json([
+                'message' => 'Real Estate updated successfully',
+                'real_estate' => $realEstate
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'An error occurred',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+
+    public function deleteRental(Request $request)
+    {
+        try {
+            $id_real_estate = $request->input('id_real_estate');
+            $realEstate = RealEstate::find($id_real_estate);
+            if (!$realEstate) {
+                return ['status' => 'error'];
+            }
+            $addressResponse = $this->addressController->destroy(new Request(
+                [
+                    "id_address" => $realEstate->id_address
+                ]
+            ));
+            if ($addressResponse['status'] === 'error') {
+                return ['status' => 'error'];
+            }
+            $photosResponse = $this->photosController->deleteAllPhotos(new Request(
+                [
+                    "id_real_estate" => $id_real_estate
+                ]
+            ));
+
+            if ($photosResponse['status'] === 'error') {
+                return ['status' => 'error photo'];
+            }
+            $realEstate->delete();
+            return ['status' => 'successfull'];
+        } catch (\Exception $e) {
+            return ['status' => 'error realestate'];
+        }
     }
 }

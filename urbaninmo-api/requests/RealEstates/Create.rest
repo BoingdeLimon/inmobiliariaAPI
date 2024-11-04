@@ -1,0 +1,63 @@
+POST http://127.0.0.1:8000/api/newRental
+Content-Type: application/json
+Authorization: Bearer 1|6gUI9JN2ucIxRitfrbOykLpFzWTBmQUkABrh0skM2fa2d325
+
+{
+  "user_id": 1,
+  "title": "Apartamento con vista a la ciudad",
+  "description": "Apartamento moderno de 2 habitaciones en el piso 10, con vistas panorámicas de la ciudad.",
+  "size": 85.5,
+  "rooms": 2,
+  "bathrooms": 1,
+  "type": "apartamento",
+  "has_garage": false,
+  "has_garden": false,
+  "has_patio": false,
+
+  "address": "Avenida Reforma 789",
+  "zipcode": "54321",
+  "city": "Monterrey",
+  "state": "Nuevo León",
+  "country": "México",
+  "x": 25.6866,
+  "y": 100.3161,
+
+  "photo": [
+    "url_foto_vista_1.jpg",
+    "url_foto_vista_2.jpg"
+  ],
+  "price": 2500,
+  "is_occupied": false,
+  "pdf": "url_documento_apartamento.pdf"
+}
+
+# {
+#   "user_id": 1,
+#   "title": "Hermosa casa en la playa",
+#   "description": "Casa de 3 habitaciones, vista al mar y acceso a la playa.",
+#   "size": 150.5,
+#   "rooms": 3,
+#   "bathrooms": 2,
+#   "type": "casa",
+#   "has_garage": true,
+#   "has_garden": true,
+#   "has_patio": false,
+
+#   "address": "Avenida del Mar 123",
+#   "zipcode": "12345",
+#   "city": "Cancún",
+#   "state": "Quintana Roo",
+#   "country": "México",
+#   "x": 10.66,
+#   "y": 10.66,
+
+
+#   "photo": [
+#     "url_de_la_foto_1.jpg",
+#     "url_de_la_foto_2.jpg",
+#     "url_de_la_foto_3.jpg"
+#   ],
+#   "price": 3000,
+#   "is_occupied": false,
+#   "pdf": "url_del_documento.pdf"
+# }

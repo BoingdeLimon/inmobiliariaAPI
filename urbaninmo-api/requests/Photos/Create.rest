@@ -1,0 +1,7 @@
+POST    http://127.0.0.1:8000/api/createPhoto
+Content-Type: application/json
+
+{
+     "id_real_estate": 2,
+     "photo":"prueba.png",
+}

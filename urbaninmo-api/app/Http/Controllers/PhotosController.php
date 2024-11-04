@@ -1,0 +1,89 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Photos;
+
+class PhotosController extends Controller
+{
+    // ! Este controller se hizo para hacer codigo fuera de RealEstateController
+    public function index()
+    {
+        $photos = Photos::all();
+        return response()->json($photos);
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'id_real_estate' => 'required|exists:real_estate,id',
+            'photo' => 'required|string',
+        ]);
+
+        $photo = Photos::create([
+            'id_real_estate' => $request->id_real_estate,
+            'photo' => $request->photo,
+        ]);
+
+        return response()->json($photo, 201);
+    }
+
+    public function show(Request $request)
+    {
+        $photos = Photos::where('id_real_estate', $request->input('id_real_estate'))->get();
+        return $photos;
+    }
+
+
+
+    public function updatePhoto(Request $request)
+    {
+        $data = $request->validate([
+            'photo' => 'required|array',
+            'photo.*' => 'string',
+        ]);
+        $id_real_estate = $request->input('id_real_estate');
+
+
+        try {
+            Photos::where('id_real_estate', $id_real_estate)->delete();
+            foreach ($data['photo'] as $photoUrl) {
+                Photos::create([
+                    'id_real_estate' => $id_real_estate,
+                    'photo' => $photoUrl,
+                ]);
+            }
+
+            return ['status' => 'successfull'];
+        } catch (\Exception $e) {
+            return ['status' => 'error'];
+        }
+    }
+
+
+
+
+    public function deleteSpecificPhoto(Request $request) {}
+
+
+    public function deleteAllPhotos(Request $request)
+    {
+        try {
+            $id_real_estate = $request->input('id_real_estate');
+            $photos = Photos::where('id_real_estate', $id_real_estate)->get();
+
+            if (!$photos) {
+                return ['status' => 'error'];
+            }
+
+            foreach ($photos as $photo) {
+                $photo->delete();
+            }
+
+            return ['status' => 'successfull'];
+        } catch (\Exception $e) {
+            return ['status' => 'error'];
+        }
+    }
+}

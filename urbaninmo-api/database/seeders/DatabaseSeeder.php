@@ -33,6 +33,10 @@ class DatabaseSeeder extends Seeder
             RealEstateSeeder::class
         ]);
         
+        $this->call([
+            PhotosSeeder::class
+        ]);
+        
 
         //**     */
     }

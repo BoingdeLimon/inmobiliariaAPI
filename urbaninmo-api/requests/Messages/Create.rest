@@ -1,0 +1,10 @@
+POST http://127.0.0.1:8000/api/newMessage
+Content-Type: application/json
+
+{
+    "name" : "Oliver Mondragon Reyes",
+    "email" : "oliver@example.com",
+    "phone" : "4211100335",
+    "message": "Me interesa mucho la casa se ve bonita",
+    "user_id": 1
+}
