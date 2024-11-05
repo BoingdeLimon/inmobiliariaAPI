@@ -7,7 +7,7 @@ use App\Models\RealEstate;
 use App\Models\Address;
 use App\Models\Photos;
 use App\Http\Controllers\AddressController;
-
+use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -370,4 +370,103 @@ class RealEstateController extends Controller
             return ['status' => 'error realestate'];
         }
     }
+    public function filterRentals(Request $request)
+    {
+        try {
+            $validatedData = $request->validate([
+                'size' => 'nullable|numeric',
+                'rooms' => 'nullable|integer',
+                'bathrooms' => 'nullable|integer',
+                'type' => 'nullable|string',
+                
+                'has_garage' => 'nullable|boolean',
+                'has_garden' => 'nullable|boolean',
+                'has_patio' => 'nullable|boolean',
+    
+                // TODO: Se necesita filtrar por la tabla address
+                'zipcode' => 'nullable|string|max:20',
+                'city' => 'nullable|string|max:100',
+                'state' => 'nullable|string|max:100',
+                'country' => 'nullable|string|max:100',
+    
+                // TODO: Se necesita filtrar por los precios
+                'min_price' => 'nullable|numeric',
+                'max_price' => 'nullable|numeric',
+    
+                'is_occupied' => 'nullable|boolean',
+            ]);
+    
+            $query = DB::table('real_estate')
+                ->join('address', 'real_estate.id_address', '=', 'address.id')
+                ->select('real_estate.*', 'address.zipcode', 'address.city', 'address.state');
+    
+            foreach ($validatedData as $field => $value) {
+                if ($value !== null) {
+                    if (in_array($field, ['zipcode', 'city', 'state'])) {
+                        $query->where("address.$field", $value);
+                    } elseif ($field === 'min_price') {
+                        $query->where("real_estate.price", '>=', floatval($value));
+                    } elseif ($field === 'max_price') {
+                        $query->where("real_estate.price", '<=', floatval($value));
+                    } else {
+                        $query->where("real_estate.$field", $value);
+                    }
+                }
+            }
+    
+            $realEstatesFilter = $query->get();
+            $fullRealEstate = $realEstatesFilter->map(function ($realEstate) {
+                $address = $this->addressController->show(new Request(['id_address' =>  $realEstate->id_address]));
+                $photos = $this->photosController->show(new Request(['id_real_estate' => $realEstate->id]));
+                $realEstate->address = $address ? $address : null;
+                $realEstate->photos = $photos ? $photos : null;
+                return $realEstate;
+            });
+
+            return response()->json(['status' => 'successfull', 'data' => $fullRealEstate], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['status' => 'error'], 500);
+        }
+    }
+
+    // public function filterRentals(Request $request)
+    // {
+    //     try {
+    //         $validatedData = $request->validate([
+    //             'size' => 'nullable|numeric',
+    //             'rooms' => 'nullable|integer',
+    //             'bathrooms' => 'nullable|integer',
+    //             'type' => 'nullable|string',
+    //             'has_garage' => 'nullable|boolean',
+    //             'has_garden' => 'nullable|boolean',
+    //             'has_patio' => 'nullable|boolean',
+
+    //             // TODO: Se necesita filtrar por la tabla address
+    //             'zipcode' => 'nullable|string|max:20',
+    //             'city' => 'nullable|string|max:100',
+    //             'state' => 'nullable|string|max:100',
+    //             'country' => 'nullable|string|max:100',
+
+    //             'price' => 'nullable|numeric',
+    //             'is_occupied' => 'nullable|boolean',
+    //         ]);
+    //         $query = DB::table('real_estate')
+    //             ->join('address', 'real_estate.id_address', '=', 'address.id')
+    //             ->select('real_estate.*', 'address.zipcode', 'address.city', 'address.state');
+
+    //         foreach ($validatedData as $field => $value) {
+    //             if ($value !== null) {
+    //                 if (in_array($field, ['zipcode', 'city', 'state'])) {
+    //                     $query->where("address.$field", $value);
+    //                 } else {
+    //                     $query->where("real_estate.$field", $value);
+    //                 }
+    //             }
+    //         }
+    //         $realEstatesFilter = $query->get();
+    //         return response()->json(['status' => 'successfull', 'data' => $realEstatesFilter], 200);
+    //     } catch (\Throwable $th) {
+    //         return ["status" => "error"];
+    //     }
+    // }
 }

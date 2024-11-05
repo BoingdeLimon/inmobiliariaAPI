@@ -41,6 +41,9 @@ Route::post('/register', [UserController::class, 'store']);
 // * Para RealEstates
 Route::post("/listAllRealEstates", [RealEstateController::class, 'listAllRentals']);
 
+Route::post("/filterRentals", [RealEstateController::class, 'filterRentals']);
+
+
 //  Solo usuario autenticado puede crear, editar y eliminar
 Route:: 
 middleware(['auth:sanctum'])->
