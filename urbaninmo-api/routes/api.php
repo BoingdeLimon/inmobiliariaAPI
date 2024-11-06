@@ -17,6 +17,7 @@ Route::get('/user', function (Request $request) {
 Route::post('/login', [LoginController::class, 'login']);
 Route::get('/users', [UserController::class, 'index']);
 
+Route::get('/seachEmail', [UserController::class, 'searchEmail']);
 
 Route::get('/real-estates', [RealEstateController::class, 'index']);
 Route::post('/real-estates', [RealEstateController::class, 'store']);

@@ -1,9 +1,13 @@
 ### GET request con token
-# GET http://127.0.0.1:8000/api/users
+#GET http://127.0.0.1:8000/api/users
 # # Authorization: Bearer tu_token_aqui
 # # Content-Type: application/json
 
 # GET http://127.0.0.1:8000/api/real-estates
 
+GET http://127.0.0.1:8000/api/searchEmail
+Content-Type: application/json
 
-
+ {
+     "email": "AlvaradoJose@example.com"
+ }
