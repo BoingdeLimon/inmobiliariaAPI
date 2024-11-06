@@ -36,6 +36,11 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         return response()->json($user);
     }
+    public function searchEmail($email)
+    {
+        $user = User::where('email', $email)->first();
+        return response()->json($user);
+    }
 
     public function update(Request $request, $id)
     {
