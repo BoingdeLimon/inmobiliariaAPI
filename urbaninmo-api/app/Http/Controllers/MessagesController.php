@@ -20,6 +20,13 @@ class MessagesController extends Controller
         $messages = Messages::where('user_id', $user_id)->get();
         return response()->json(["status" => "success", "messages" => $messages], 200);
     }
+    public function showAllMessages()
+    {
+       $messages = Messages::all();
+        return response()->json(["status" => "success", "messages" => $messages], 200);
+    }
+    
+
     
     /**
      * Show the form for creating a new resource.

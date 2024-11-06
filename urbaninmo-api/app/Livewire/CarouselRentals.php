@@ -1,28 +1,17 @@
 <?php
-
 namespace App\Livewire;
 
 use Livewire\Component;
 
 class CarouselRentals extends Component
 {
-    public $images = [
+    public $images = [];
 
-    ];
-    public function mount()
+    public function mount($photos = null)
     {
-        $this->images = [
-            'imgs/uno.jpg',
-            'imgs/uno.jpg',
-            'imgs/uno.jpg',
-            'imgs/uno.jpg',
-            'imgs/uno.jpg',
-            'imgs/uno.jpg',
-            'imgs/uno.jpg',
-            'imgs/uno.jpg',
-            'imgs/uno.jpg',
-        ];
+        $this->images = $photos ?? [];
     }
+
     public function render()
     {
         return view('livewire.carousel-rentals');
