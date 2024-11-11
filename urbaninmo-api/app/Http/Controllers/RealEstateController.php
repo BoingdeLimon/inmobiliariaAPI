@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 class RealEstateController extends Controller
 {
 
+    
     public function index()
     {
         return response()->json([
