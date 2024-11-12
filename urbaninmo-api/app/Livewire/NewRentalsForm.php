@@ -2,147 +2,125 @@
 
 namespace App\Livewire;
 
-use App\Http\Controllers\RealEstateController;
-use Illuminate\Http\Request;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use App\Models\Address;
+use App\Models\RealEstate;
+use App\Models\Photos;
+
 
 class NewRentalsForm extends Component
 {
     use WithFileUploads;
-    public $user_id = 0;
-    public $title = "";
-    public $description = "";
-    public $size = 0;
-    public $rooms = 0;
-    public $bathrooms = 0;
+    public $user_id;
+    public $title;
+    public $description;
+    public $size;
+    public $rooms;
+    public $bathrooms;
     public $type = "Casa";
     public $has_garage = false;
     public $has_garden = false;
     public $has_patio = false;
 
-    public $address = "";
-    public $zipcode = "";
-    public $city = "";
-    public $state = "";
-    public $country = "";
-    public $x = 0.0;
-    public $y = 0.0;
-
-    public $price = 0.0;
-    public $photos;
-    public $file;
-
-
-    public $data = [];
-
+    public $address;
+    public $zipcode;
+    public $city;
+    public $state;
+    public $country;
+    public $x;
+    public $y;
+    public $price;
+    public $photo;
     public $is_occupied = false;
+    public $isModalOpen = false;
+
 
     public function mount($user_id = null)
     {
         $this->user_id = $user_id;
     }
 
-    // protected $rules = [
-    //     'title' => 'required|string|max:255',
-    //     'description' => 'nullable|string',
-    //     'size' => 'required|numeric',
-    //     'rooms' => 'required|integer',
-    //     'bathrooms' => 'required|integer',
-    //     'type' => 'required|string',
-    //     'has_garage' => 'required|boolean',
-    //     'has_garden' => 'required|boolean',
-    //     'has_patio' => 'required|boolean',
+    protected $rules = [
+        'title' => 'required|string|max:255',
+        'description' => 'nullable|string',
+        'size' => 'required|numeric',
+        'rooms' => 'required|integer',
+        'bathrooms' => 'required|integer',
+        'type' => 'required|string',
+        'has_garage' => 'required|boolean',
+        'has_garden' => 'required|boolean',
+        'has_patio' => 'required|boolean',
 
-    //     'address' => 'required|string|max:255',
-    //     'zipcode' => 'required|string|max:20',
-    //     'city' => 'required|string|max:100',
-    //     'state' => 'required|string|max:100',
-    //     'country' => 'required|string|max:100',
-    //     'x' => 'required|numeric',
-    //     'y' => 'required|numeric',
+        'address' => 'required|string|max:255',
+        'zipcode' => 'required|string|max:20',
+        'city' => 'required|string|max:100',
+        'state' => 'required|string|max:100',
+        'country' => 'required|string|max:100',
+        'x' => 'required|numeric',
+        'y' => 'required|numeric',
 
-    //     'photo' => 'required|array',
-    //     'photo.*' => 'string',
+        'photo' => 'required|array',
+        'photo.*' => 'string',
 
-    //     'price' => 'required|numeric',
-    // ];
-    public function submit(RealEstateController $realEstateController)
+        'price' => 'required|numeric',
+    ];
+
+
+    public function openModal()
     {
-        $fileName = $this->photos->getClientOriginalName();
+        $this->isModalOpen = true;
+    }
 
-        dd($fileName);
+    public function closeModal()
+    {
+        $this->isModalOpen = false;
+    }
 
-        // if ($this->photos) {
-        //     foreach ($this->photos as $photo) {
-        //         $fileName = $photo->getClientOriginalName();
-        //         dd($fileName); // Puedes usar dd() o almacenarlo en una variable para usarlo después
-        //     }
-        // } else {
+    public function submit()
+    {
+        if ($this->photo) {
+            $photoNames = collect($this->photo)->map(function ($photo) {
+                return $photo->getClientOriginalName();
+            });
+        }
+        $this->photo = $photoNames;
+        $this->validate();
 
-        //     dd("no hay nada");
-        // }
-        // // dd($this->photo[0]);
-        // dd(
-        //     $this->user_id,
-        //     $this->title,
-        //     $this->description,
-        //     $this->size,
-        //     $this->rooms,
-        //     $this->bathrooms,
-        //     $this->type,
-        //     $this->has_garage,
-        //     $this->has_garden,
-        //     $this->has_patio,
-        //     $this->address,
-        //     $this->zipcode,
-        //     $this->city,
-        //     $this->state,
-        //     $this->country,
-        //     $this->x,
-        //     $this->y,
-        //     $this->photo,
-        //     $this->photos,
+        $address = Address::create([
+            'address' => $this->address,
+            'zipcode' => $this->zipcode,
+            'city' => $this->city,
+            'state' => $this->state,
+            'country' => $this->country,
+            'x' => $this->x,
+            'y' => $this->y,
+        ]);
+        $id_address = $address->id;
 
-        //     $this->price
-        // );
+        $rentals = RealEstate::create([
+            'user_id' => $this->user_id,
+            'title' => $this->title,
+            'description' => $this->description,
+            'size' => $this->size,
+            'rooms' => $this->rooms,
+            'bathrooms' => $this->bathrooms,
+            'type' => $this->type,
+            'has_garage' => $this->has_garage,
+            'has_garden' => $this->has_garden,
+            'has_patio' => $this->has_patio,
+            'id_address' => $id_address,
+            'price' => $this->price,
+            'is_occupied' => $this->is_occupied,
+        ]);
+        foreach ($this->photo as $photoFile) {
+            Photos::create([
+                'id_real_estate' => $rentals->id,
+                'photo' => $photoFile 
+            ]);
+        }
 
-
-        // $this->rooms = floatval($this->rooms);
-        // $this->bathrooms = floatval($this->bathrooms);
-
-        // $this->size = floatval($this->size);
-        // $this->x = floatval($this->x);
-
-        // $this->y = floatval($this->y);
-
-
-        // $request = new Request([
-        //     'user_id' => $this->user_id,
-        //     'title' => $this->title,
-        //     'description' => $this->description,
-        //     'size' => $this->size,
-        //     'rooms' => $this->rooms,
-        //     'bathrooms' => $this->bathrooms,
-        //     'type' => $this->type,
-        //     'has_garage' => $this->has_garage,
-        //     'has_garden' => $this->has_garden,
-        //     'has_patio' => $this->has_patio,
-        //     'address' => $this->address,
-        //     'zipcode' => $this->zipcode,
-        //     'city' => $this->city,
-        //     'state' => $this->state,
-        //     'country' => $this->country,
-        //     'x' => $this->x,
-        //     'y' => $this->y,
-        //     'photo' => $this->photos,
-        //     'price' => $this->price,
-        //     'is_occupied' => $this->is_occupied
-        // ]);
-        // $this->data = $realEstateController->newRental($request);
-        // dd($this->data);
-        // $this->emit('cnuevoAlquilerCreado', $this->data);
-
+        $this->reset();
     }
 
     public function render()

@@ -1,6 +1,6 @@
-<div>
+<div class="w-full shadow-md dark:shadow-lg rounded-lg transition-all duration-300 hover:shadow-2xl dark:hover:shadow-gray-700">
     <form wire:submit.prevent="submit"
-        class="grid grid-cols-1 gap-4 bg-white dark:bg-gray-800 shadow-xl rounded-lg p-6 transition-all duration-300 hover:shadow-2xl">
+        class="w-full grid grid-cols-1 gap-4 bg-white dark:bg-gray-800 shadow-xl rounded-lg p-6 transition-all duration-300 hover:shadow-2xl">
         <h3 class="text-lg font-bold dark:text-gray-200">Contáctame</h3>
 
         <div>
@@ -42,7 +42,7 @@
         <button type="submit" class="bg-blue-600 text-white rounded p-2 hover:bg-blue-700">Enviar</button>
 
         <button type="button"
-            onclick="window.open('https://wa.me/5211234567890?text=Hola,%20estoy%20interesado%20en%20la%20renta%20de%20la%20casa.', '_blank')"
+        <button onclick="window.open('https://wa.me/' + {{$phoneRental}} + '?text=Hola,%20estoy%20interesado%20en%20la%20renta%20de%20la%20casa.', '_blank')"
             class="bg-green-500 text-white rounded p-2 hover:bg-green-600">WhatsApp</button>
 
         <button type="button" onclick="window.open('/path-to-your-pdf-file.pdf', '_blank')"

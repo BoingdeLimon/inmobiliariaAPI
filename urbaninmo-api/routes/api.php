@@ -83,6 +83,8 @@ Route::post('/editAddress', [AddressController::class, "update"]);
 
 Route::post('/showMessagesByUser', [MessagesController::class, "showMessagesByUser"]);
 
+Route::get('/showAllMessages', [MessagesController::class, "showAllMessages"]);
+
 Route::post('/newMessage', [MessagesController::class, "newMessage"]);
 
 Route::post('/deleteMessage', [MessagesController::class, "deleteMessage"]);

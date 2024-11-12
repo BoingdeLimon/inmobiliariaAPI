@@ -4,6 +4,9 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use App\Http\Controllers\MessagesController;
+use App\Models\Messages;
+use App\Models\User;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -12,6 +15,8 @@ class MessageForm extends Component
     public $name = "";
     public $email = "";
     public $phone = "";
+    public $phoneRental = "";
+
     public $message = "";
     public $user_id = "";
 
@@ -25,18 +30,19 @@ class MessageForm extends Component
     public function mount($user_id = null)
     {
         $this->user_id = $user_id;
+        $user = User::find($this->user_id);
+        $this -> phoneRental = $user -> phone;
     }
-    public function submit(MessagesController $messagesController)
+    public function submit()
     {
         $this->validate();
-        $request = new Request([
+        Messages::create([
             'name' => $this->name,
             'email' => $this->email,
             'phone' => $this->phone,
             'message' => $this->message,
             'user_id' => $this->user_id
         ]);
-        $messagesController->newMessage($request);
         $this->reset(['name', 'email', 'phone', 'message']);
     }
 

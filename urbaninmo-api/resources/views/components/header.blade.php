@@ -47,7 +47,6 @@
 
     @auth   
     @livewire('new-rentals-form', ['user_id' => Auth::user()->id, "token" => Auth::user()->token]))
-        <!-- Display the user's profile picture if authenticated -->
         <div class="flex items-center">
         <a href="{{ route('profile') }}">
             <img src="{{ Auth::user()->photo }}" alt="{{ Auth::user()->name }}" class="w-10 h-10 rounded-full mr-2">

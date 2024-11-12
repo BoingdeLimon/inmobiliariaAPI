@@ -4,13 +4,20 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use App\Http\Controllers\RealEstateController;
+use App\Models\Address;
 use Illuminate\Http\Request;
+use App\Models\RealEstate;
+use App\Models\Messages;
+use App\Models\Photos;
+use App\Models\User;
+
 
 class Rental extends Component
 {
 
     public $rentalId;
     public $user_id;
+
     public $title;
     public $description;
     public $size;
@@ -20,6 +27,7 @@ class Rental extends Component
     public $has_garage;
     public $has_garden;
     public $has_patio;
+    
     public $id_address;
     public $price;
     public $is_occupied;
@@ -27,7 +35,6 @@ class Rental extends Component
     public $created_at;
     public $updated_at;
 
-    public $address_id;
     public $address;
     public $zipcode;
     public $city;
@@ -35,49 +42,45 @@ class Rental extends Component
     public $country;
     public $x;
     public $y;
-    public $address_created_at;
-    public $address_updated_at;
 
     public $photos = [];
 
 
 
-    public function mount(RealEstateController $realEstateController, $rentalId = null)
+    public function mount($rentalId = null)
     {
         $this->rentalId = $rentalId;
-        $request = new Request(['id' => $this->rentalId]);
-        $data = $realEstateController->listAllRentals($request);
-        $rental = $data->original['real_estate'][0];
+        $rental = RealEstate::find($this->rentalId);
+        $address = Address::find($rental->id_address);
+        $photo = Photos::where('id_real_estate', $rental->id)->get();
+       
+        $this->user_id = $rental->user_id;
+        $this->title = $rental->title;
+        $this->description = $rental->description;
+        $this->size = $rental->size;
+        $this->rooms = $rental->rooms;
+        $this->bathrooms = $rental->bathrooms;
+        $this->type = $rental->type;
+        $this->has_garage = $rental->has_garage;
+        $this->has_garden = $rental->has_garden;
+        $this->has_patio = $rental->has_patio;
+        $this->price = $rental->price;
+        $this->is_occupied = $rental->is_occupied;
+        $this->pdf = $rental->pdf;
+        $this->created_at = $rental->created_at;
+        $this->updated_at = $rental->updated_at;
+        $this->id_address = $rental->id_address;
+        $this->address = $address->address;
+        $this->zipcode = $address->zipcode;
+        $this->city = $address->city;
+        $this->state = $address->state;
+        $this->country = $address->country;
+        $this->x = $address->x;
+        $this->y = $address->y;
 
-        $this->user_id = $rental['user_id'];
-        $this->title = $rental['title'];
-        $this->description = $rental['description'];
-        $this->size = $rental['size'];
-        $this->rooms = $rental['rooms'];
-        $this->bathrooms = $rental['bathrooms'];
-        $this->type = $rental['type'];
-        $this->has_garage = $rental['has_garage'];
-        $this->has_garden = $rental['has_garden'];
-        $this->has_patio = $rental['has_patio'];
-        $this->id_address = $rental['id_address'];
-        $this->price = $rental['price'];
-        $this->is_occupied = $rental['is_occupied'];
-        $this->pdf = $rental['pdf'];
-        $this->created_at = $rental['created_at'];
-        $this->updated_at = $rental['updated_at'];
-
-        $this->address_id = $rental['address']['id'];
-        $this->address = $rental['address']['address'];
-        $this->zipcode = $rental['address']['zipcode'];
-        $this->city = $rental['address']['city'];
-        $this->state = $rental['address']['state'];
-        $this->country = $rental['address']['country'];
-        $this->x = $rental['address']['x'];
-        $this->y = $rental['address']['y'];
-        $this->address_created_at = $rental['address']['created_at'];
-        $this->address_updated_at = $rental['address']['updated_at'];
-
-         $this->photos = $rental['photos'];
+        foreach ($photo as $p) {
+            $this->photos[] = $p->photo;
+        }
     }
 
 

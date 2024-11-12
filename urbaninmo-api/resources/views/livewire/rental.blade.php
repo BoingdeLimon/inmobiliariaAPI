@@ -39,6 +39,6 @@
         @livewire('message-form', ['user_id' => $user_id])
     </div>
     <div class="w-full h-64 flex items-center justify-center">
-        @livewire("map-component", ['x' => (float) $x, 'y' => (float) $y])
+        @livewire('map-component', ['x' => (float) $x, 'y' => (float) $y])
     </div>
 </div>
