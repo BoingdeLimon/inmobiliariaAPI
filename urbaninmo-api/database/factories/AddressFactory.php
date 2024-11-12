@@ -17,12 +17,16 @@ class AddressFactory extends Factory
     public function definition(): array
     {
         return [
-            'id' => uniqid(),
+            //! aqui marca error en el test debido a que no
+            //! se permite que la base de datos genere un id auto-incremental conforme a la configuración en la migració
+            // 'id' => uniqid(),
             'address' => $this->faker->address(),
             'zipcode' => $this->faker->postcode(),
             'city' => $this->faker->city(),
             'state' => $this->faker->state(),
             'country' => $this->faker->country(),
+            'x' => $this->faker->latitude(),  
+            'y' => $this->faker->longitude(), 
         ];
     }
 }

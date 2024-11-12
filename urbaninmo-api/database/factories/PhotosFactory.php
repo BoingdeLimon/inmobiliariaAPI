@@ -18,7 +18,10 @@ class PhotosFactory extends Factory
     {
         return [
             'id_real_estate' => uniqid(),
-            'photo' => $this->faker->word() . '.jpg',
+            // * Aqui simulamos cualquier tipo de archivo
+            'photo' => $this->faker->word() . '.' . $this->faker->randomElement(['jpg', 'png', 'jpeg']),
+
+            // 'photo' => $this->faker->word() . '.jpg',
         ];
     }
 }

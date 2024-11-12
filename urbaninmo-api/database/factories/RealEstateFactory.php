@@ -17,7 +17,7 @@ class RealEstateFactory extends Factory
     public function definition(): array
     {
         return [
-            'id_user' => uniqid(),
+            'user_id' => uniqid(),
             'title' => $this->faker->sentence(3),
             'description' => $this->faker->sentence(10),
             'size' => $this->faker->randomFloat(2, 50, 500),
@@ -28,7 +28,8 @@ class RealEstateFactory extends Factory
             'has_garden' => $this->faker->boolean(),
             'has_patio' => $this->faker->boolean(),
             'id_address' => uniqid(),
-            'price' => "$1,600,000",
+            'price' => $this->faker->randomNumber(6),
+            // 'price' => "$1,600,000",
             'is_occupied' => $this->faker->boolean(),
             'pdf' => $this->faker->word() . '.pdf',
             
