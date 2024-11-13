@@ -33,5 +33,12 @@ class RealEstate extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
-
+    public function photos()
+    {
+        return $this->hasMany(Photos::class, 'id_real_estate'); 
+    }
+    public function address()
+    {
+        return $this->belongsTo(Address::class, 'id_address');
+    }
 }

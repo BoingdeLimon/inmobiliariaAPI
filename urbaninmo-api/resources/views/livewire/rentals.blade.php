@@ -1,43 +1,54 @@
 <div class=" grid grid-cols-1 gap-6 p-2 dark:bg-gray-900 ">
+    @livewire('filters')
     <ul class="space-y-4">
         @foreach ($rentals as $rental)
             <li class="p-4 rounded-lg">
 
-                <a href="{{ route('rental.show', $rental['id']) }}" class="flex flex-col md:flex-row bg-white dark:bg-gray-600 shadow-md rounded-lg overflow-hidden max-w-5xl mx-auto">
-                    
+                <a href="{{ route('rental.show', $rental['id']) }}"
+                    class="flex flex-col md:flex-row bg-white dark:bg-gray-600 shadow-md rounded-lg overflow-hidden max-w-5xl mx-auto">
+
                     <!-- Imagen -->
-                    <div class="relative h-48 w-full md:w-[30vw]">
-                        <img src="{{ $rental['image'] }}" alt="Foto Principal" class="object-cover h-full w-full" />
-                    </div>z
+                    <div class="relative h-48 w-full ">
+                        <img src="{{ $rental['photos'][0]['photo'] ?? '/default-image.jpg' }}" alt="Foto Principal"
+                            class="object-cover h-full w-full" />
+                    </div>
 
                     <!-- Detalles -->
-                    <div class="p-5 flex flex-col justify-between w-full md:w-[30vw]">
+                    <div class="p-5 flex flex-col justify-between w-full">
+                        <div class="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                            {{ $rental['title'] }}
+                        </div>
                         <div class="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                            {{ $rental['price'] }}
+                            ${{ number_format($rental['price'], 2) }}
                         </div>
                         <div class="text-gray-700 dark:text-gray-300 text-sm">
-                            {{ $rental['location'] }}
+                            @if (!empty($rental['address']))
+                                {{ $rental['address']['state'] }}, {{ $rental['address']['address'] }}
+                            @else
+                                Dirección no disponible
+                            @endif
                         </div>
                         <div class="text-blue-500 dark:text-blue-400 text-sm">
-                            {{ $rental['size'] }} metros cuadrados
+                            {{ $rental['size'] }} m²
                         </div>
                         <div class="flex gap-5 text-gray-600 dark:text-gray-400 text-sm">
+                            <span>{{ $rental['rooms'] }} Habitaciones</span>
                             <span>{{ $rental['bathrooms'] }} Baños</span>
                         </div>
                     </div>
 
                     <!-- Características y opciones -->
-                    <div class="w-full md:w-[20vw]">
-                        <div class="flex flex-wrap gap-2 p-5 justify-end md:justify-end">
-                            @foreach ($rental['amenities'] as $feature)
-                                <span class="bg-[#3563E9] text-white text-xs px-2 py-1 rounded-lg">{{ $feature }}</span>
-                            @endforeach
-                        </div>
-                        <div class="flex justify-end space-x-4 text-gray-600 dark:text-gray-400 p-5">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-8">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
-                            </svg>
+                    <div class="w-full ">
+                        <div class="flex flex-row gap-2 p-5 justify-end">
+                            @if ($rental['has_garage'] ?? false)
+                                <span class="bg-[#3563E9] text-white text-xs px-2 py-1 rounded-lg">Garage</span>
+                            @endif
+                            @if ($rental['has_garden'] ?? false)
+                                <span class="bg-[#3563E9] text-white text-xs px-2 py-1 rounded-lg">Jardín</span>
+                            @endif
+                            @if ($rental['has_patio'] ?? false)
+                                <span class="bg-[#3563E9] text-white text-xs px-2 py-1 rounded-lg">Patio</span>
+                            @endif
                         </div>
                     </div>
                 </a>
