@@ -16,8 +16,8 @@ class AddressSeeder extends Seeder
         Address::create([
             'address' => 'Calle 1 #123',
             'zipcode' => '12345',
-            'city' => 'Ciudad de México',
-            'state' => 'CDMX',
+            'city' => 'Campeche',
+            'state' => 'Campeche',
             'country' => 'México',
             'x' => 18.4830556,
             'y' => -69.9391667
