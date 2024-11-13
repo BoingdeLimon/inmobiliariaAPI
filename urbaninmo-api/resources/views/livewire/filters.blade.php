@@ -1,4 +1,4 @@
-<div class="grid grid-cols-1 md:grid-cols-5 w-auto mx-auto mt-2 gap-3 md:gap-2">
+<div class="grid grid-cols-3 md:grid-cols-5 w-auto mx-auto mt-2 gap-3 md:gap-2">
     {{-- Estado --}}
     <select wire:model="state"
         class="flex items-center w-[220px] border-gray-300 dark:border-gray-600 h-10 rounded-md dark:bg-gray-800 dark:text-white overflow-hidden">
@@ -18,7 +18,7 @@
     </select>
 
     {{-- Precio --}}
-    <div class="flex items-center w-[220px] border-gray-300 dark:border-gray-600 h-10 rounded-md dark:bg-gray-800 dark:text-white overflow-hidden" id="precio-container">
+    <div class=" flex items-center w-[220px] border-gray-300 dark:border-gray-600 h-10 rounded-md dark:bg-gray-800 dark:text-white overflow-hidden" id="precio-container">
         <button class="w-[220px] flex items-center h-10 dark:bg-gray-800 dark:text-white"
             onclick="toggleDropdown('precio-dropdown')">
             <span class="ml-4">Precio</span>
@@ -27,7 +27,7 @@
             </svg>
         </button>
         <div id="precio-dropdown"
-            class="hidden w-[220px] p-2 bg-white dark:bg-gray-800 dark:text-white shadow-lg rounded-md dark:border-gray-600 absolute z-50 mt-2">
+            class="hidden w-[220px] p-2 bg-white dark:bg-gray-800 dark:text-white shadow-lg rounded-md dark:border-gray-600 absolute z-50 mt-32">
             <div class="flex space-x-2">
                 <div class="flex flex-col">
                     <label class="text-sm text-gray-600 dark:text-gray-400 mb-1">Desde</label>
@@ -56,7 +56,7 @@
             </svg>
         </button>
         <div id="mas-filtros-dropdown"
-            class="hidden w-[220px] p-4 space-y-4 bg-white dark:bg-gray-800 dark:text-white shadow-lg rounded-md dark:border-gray-600 absolute z-50 mt-2">
+            class="hidden w-[220px] p-4 space-y-4 bg-white dark:bg-gray-800 dark:text-white shadow-lg rounded-md dark:border-gray-600 absolute z-50 mt-56">
 
             {{-- Baños --}}
             <div class="flex flex-col space-y-2">
