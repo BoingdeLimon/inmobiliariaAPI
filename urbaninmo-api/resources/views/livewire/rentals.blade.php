@@ -1,8 +1,8 @@
-<div class=" grid grid-cols-1 gap-6 p-2 dark:bg-gray-900 ">
+<div class=" grid grid-cols-1  gap-6 p-2 w-full h-screen dark:bg-gray-900 ">
     @livewire('filters')
     <ul class="space-y-4">
         @foreach ($rentals as $rental)
-            <li class="p-4 rounded-lg">
+            <li class="p-4 w-full rounded-lg">
 
                 <a href="{{ route('rental.show', $rental['id']) }}"
                     class="flex flex-col md:flex-row bg-white dark:bg-gray-600 shadow-md rounded-lg overflow-hidden max-w-5xl mx-auto">
