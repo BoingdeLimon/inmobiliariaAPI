@@ -1,7 +1,7 @@
-<div class="grid grid-cols-3 md:grid-cols-5 w-auto mx-auto mt-2 gap-3 md:gap-2">
+<div class="grid grid-cols-3 md:grid-cols-5 w-full mx-auto mt-2 gap-3 md:gap-2">
     {{-- Estado --}}
     <select wire:model="state"
-        class="flex items-center w-[220px] border-gray-300 dark:border-gray-600 h-10 rounded-md dark:bg-gray-800 dark:text-white overflow-hidden">
+        class="flex items-center w-auto border-gray-300 dark:border-gray-600 h-10 rounded-md dark:bg-gray-800 dark:text-white overflow-hidden">
         <option value="" selected>Estado</option>
         @foreach ($estadosDeMexico as $stateOption)
             <option value="{{ $stateOption }}">{{ $stateOption }}</option>
@@ -10,7 +10,7 @@
 
     {{-- Tipo --}}
     <select wire:model="type"
-        class="flex items-center w-[220px]  border-gray-300 dark:border-gray-600 h-10 rounded-md dark:bg-gray-800 dark:text-white">
+        class="flex items-center w-auto border-gray-300 dark:border-gray-600 h-10 rounded-md dark:bg-gray-800 dark:text-white">
         <option value="" selected>Tipo</option>
         @foreach ($tiposDeRealEstate as $tipo)
             <option value="{{ $tipo }}">{{ $tipo }}</option>
@@ -18,7 +18,7 @@
     </select>
 
     {{-- Precio --}}
-    <div class=" flex items-center w-[220px] border-gray-300 dark:border-gray-600 h-10 rounded-md dark:bg-gray-800 dark:text-white overflow-hidden" id="precio-container">
+    <div class=" flex items-center w-auto border-gray-300 dark:border-gray-600 h-10 rounded-md dark:bg-gray-800 dark:text-white overflow-hidden" id="precio-container">
         <button class="w-[220px] flex items-center h-10 dark:bg-gray-800 dark:text-white"
             onclick="toggleDropdown('precio-dropdown')">
             <span class="ml-4">Precio</span>
@@ -27,8 +27,8 @@
             </svg>
         </button>
         <div id="precio-dropdown"
-            class="hidden w-[220px] p-2 bg-white dark:bg-gray-800 dark:text-white shadow-lg rounded-md dark:border-gray-600 absolute z-50 mt-32">
-            <div class="flex space-x-2">
+            class="hidden w-auto  p-2 bg-white dark:bg-gray-800 dark:text-white shadow-lg rounded-md dark:border-gray-600 absolute z-50 mt-52 md:mt-32">
+            <div class="flex md:flex-row flex-col md:space-x-2">
                 <div class="flex flex-col">
                     <label class="text-sm text-gray-600 dark:text-gray-400 mb-1">Desde</label>
                     <input type="text" placeholder="0" wire:model="min_price"
