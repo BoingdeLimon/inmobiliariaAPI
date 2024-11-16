@@ -4,6 +4,7 @@ use App\Livewire\Rentals;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PdfController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -48,3 +49,5 @@ Route::middleware([
 Route::get('/admin-dashboard', function () {
     return view('admin-dash');
 })->name('admin-dashboard');
+
+Route::get('/rental/{id}/pdf', [PdfController::class, 'generatePdf']);

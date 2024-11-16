@@ -19,6 +19,7 @@ class MessageForm extends Component
 
     public $message = "";
     public $user_id = "";
+    public $rental_id;
 
     protected $rules = [
         'name' => 'required|string|max:255',
@@ -27,9 +28,10 @@ class MessageForm extends Component
         'message' => 'required|string|max:500',
         'user_id' => 'required|exists:users,id'
     ];
-    public function mount($user_id = null)
+    public function mount($user_id = null,$rental_id = null)
     {
         $this->user_id = $user_id;
+        $this->rental_id = $rental_id;
         $user = User::find($this->user_id);
         $this -> phoneRental = $user -> phone;
     }

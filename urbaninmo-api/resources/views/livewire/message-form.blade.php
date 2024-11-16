@@ -45,7 +45,7 @@
         <button onclick="window.open('https://wa.me/' + {{$phoneRental}} + '?text=Hola,%20estoy%20interesado%20en%20la%20renta%20de%20la%20casa.', '_blank')"
             class="bg-green-500 text-white rounded p-2 hover:bg-green-600">WhatsApp</button>
 
-        <button type="button" onclick="window.open('/path-to-your-pdf-file.pdf', '_blank')"
+        <button type="button" onclick="window.open('/rental/{{ $rental_id }}/pdf', '_blank')"
             class="bg-red-500 text-white rounded p-2 hover:bg-red-600">Descargar PDF</button>
 
         <label class="text-[10px] text-center dark:text-gray-400">
