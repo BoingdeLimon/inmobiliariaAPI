@@ -27,8 +27,7 @@ class RentalList extends Component
     public function borrar($id)
     {
         if($id){
-            $controller = new RealEstateController();
-            $controller->deleteRentalById($id);
+            $controller = RealEstate::destroy($id);
             $this->dispatch('rentalDeleted');
         }else{
             session()->flash('error', 'No se ha podido borrar el alquiler');
