@@ -100,7 +100,7 @@ class Filters extends Component
 
         // Ejecuta la consulta y asigna los resultados a `realEstates`
         $this->realEstates = $query->get();
-        $this->emitTo('livewire.rentals','filtersApplied', $this->realEstates);
+        $this->dispatch('filtersApplied', $this->realEstates);
         // dd($this->realEstates);
     }
 

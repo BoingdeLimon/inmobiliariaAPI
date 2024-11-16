@@ -16,7 +16,16 @@ class Rentals extends Model
     protected $fillable = [
         'rent_start',
         'rent_end',
-        'reason_end'
-
+        'reason_end',
+        'id_real_estate',
+        'user_id'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+    public function real_estates(){
+        return $this->belongsTo(RealEstate::class, 'id_real_estate', 'id');
+    }
 }

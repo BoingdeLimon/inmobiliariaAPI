@@ -40,7 +40,6 @@ return new class extends Migration
         Schema::table('real_estate', function (Blueprint $table) {
             $table->dropForeign(['user_id']);
             $table->dropForeign(['id_address']);
-
         });
         
         Schema::dropIfExists('real_estate');
