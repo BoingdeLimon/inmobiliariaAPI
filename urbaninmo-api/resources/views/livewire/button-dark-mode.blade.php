@@ -1,29 +1,7 @@
 <button 
     wire:click="toggleDarkMode" 
+    x-cloak x-on:click="darkMode = !darkMode;"
     class="p-2 rounded-full bg-gray-200 dark:bg-gray-800" 
-    x-data="{ darkMode: @entangle('darkMode'), init() { this.$watch('darkMode', value => { 
-        if (value) {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
-    }) } }"
-    x-init="
-        if (localStorage.getItem('color-theme') === 'dark' || 
-            (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            darkMode = true;
-        } else {
-            darkMode = false;
-        }
-    "
-    x-on:click="
-        if (darkMode) {
-            localStorage.setItem('color-theme', 'light');
-        } else {
-            localStorage.setItem('color-theme', 'dark');
-        }
-        darkMode = !darkMode; // Alternar el estado de darkMode
-    "
 >
     <template x-if="darkMode">
         <span class="h-6 w-6 text-gray-900">
