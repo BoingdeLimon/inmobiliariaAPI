@@ -8,3 +8,23 @@
 [x-cloak] {
     display: none;
 }
+
+::-webkit-scrollbar {
+    display: none; 
+  }
+  
+  .scrollable-element {
+    scrollbar-width: none; 
+  }
+  
+  .scrollable-container {
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  
+  .scrollable-container::-webkit-scrollbar {
+    display: none;
+  }
+  
+  

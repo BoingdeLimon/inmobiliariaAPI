@@ -27,7 +27,7 @@ class LoginController extends Controller
             $request->session()->regenerate();
 
             // Redirect to dashboard or any intended route
-            return redirect()->intended('/dashboard');
+            return redirect()->intended('/');
         }
 
         // Handle failed login attempt

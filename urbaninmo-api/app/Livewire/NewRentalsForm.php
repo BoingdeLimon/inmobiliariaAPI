@@ -35,10 +35,41 @@ class NewRentalsForm extends Component
     public $is_occupied = false;
     public $isModalOpen = false;
 
+    public $realEstateId;
 
-    public function mount($user_id = null)
+    public function mount($user_id = null, $realEstateId = null)
     {
         $this->user_id = $user_id;
+        $this->realEstateId = $realEstateId;
+        if ($realEstateId) {
+            $realEstate = RealEstate::find($realEstateId);
+
+            if ($realEstate) {
+                $this->title = $realEstate->title;
+                $this->description = $realEstate->description;
+                $this->size = $realEstate->size;
+                $this->rooms = $realEstate->rooms;
+                $this->bathrooms = $realEstate->bathrooms;
+                $this->type = $realEstate->type;
+                $this->has_garage = $realEstate->has_garage;
+                $this->has_garden = $realEstate->has_garden;
+                $this->has_patio = $realEstate->has_patio;
+                $this->price = $realEstate->price;
+                $this->is_occupied = $realEstate->is_occupied;
+
+                $address = $realEstate->address;
+                $this->address = $address->address;
+                $this->zipcode = $address->zipcode;
+                $this->city = $address->city;
+                $this->state = $address->state;
+                $this->country = $address->country;
+                $this->x = $address->x;
+                $this->y = $address->y;
+
+                $photos = $realEstate->photos;
+                $this->photo = $photos;
+            }
+        }
     }
 
     protected $rules = [
@@ -79,6 +110,18 @@ class NewRentalsForm extends Component
 
     public function submit()
     {
+
+        if ($this->realEstateId) {
+            $this->update();
+        } else {
+            $this->save();
+        }
+        $this->reset();
+    }
+
+
+    public function save()
+    {
         if ($this->photo) {
             $photoNames = collect($this->photo)->map(function ($photo) {
                 return $photo->getClientOriginalName();
@@ -98,7 +141,7 @@ class NewRentalsForm extends Component
         ]);
         $id_address = $address->id;
 
-        $rentals = RealEstate::create([
+        $realEstates = RealEstate::create([
             'user_id' => $this->user_id,
             'title' => $this->title,
             'description' => $this->description,
@@ -115,12 +158,50 @@ class NewRentalsForm extends Component
         ]);
         foreach ($this->photo as $photoFile) {
             Photos::create([
-                'id_real_estate' => $rentals->id,
-                'photo' => $photoFile 
+                'id_real_estate' => $realEstates->id,
+                'photo' => $photoFile
             ]);
         }
+    }
 
-        $this->reset();
+
+    public function update()
+    {
+        if ($this->photo) {
+            $photoNames = collect($this->photo)->map(function ($photo) {
+                return $photo->getClientOriginalName();
+            });
+        }
+        $this->photo = $photoNames;
+
+        $address = Address::find($this->realEstateId);
+        $address -> update([
+            'address' => $this->address,
+            'zipcode' => $this->zipcode,
+            'city' => $this->city,
+            'state' => $this->state,
+            'country' => $this->country,
+            'x' => $this->x,
+            'y' => $this->y,
+        ]);
+
+        $realEstate = RealEstate::find($this->realEstateId);
+        $realEstate->update([
+            'user_id' => $this->user_id,
+            'title' => $this->title,
+            'description' => $this->description,
+            'size' => $this->size,
+            'rooms' => $this->rooms,
+            'bathrooms' => $this->bathrooms,
+            'type' => $this->type,
+            'has_garage' => $this->has_garage,
+            'has_garden' => $this->has_garden,
+            'has_patio' => $this->has_patio,
+            'id_address' => $address->id,
+            'price' => $this->price,
+            'is_occupied' => $this->is_occupied,
+        ]);
+
     }
 
     public function render()

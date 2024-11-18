@@ -46,7 +46,7 @@
     
 
     @auth   
-    @livewire('new-rentals-form', ['user_id' => Auth::user()->id, "token" => Auth::user()->token]))
+    @livewire('new-rentals-form', ['user_id' => Auth::user()->id]))
         <div class="flex items-center">
         <a href="{{ route('profile') }}">
             <img src="{{ Auth::user()->photo }}" alt="{{ Auth::user()->name }}" class="w-10 h-10 rounded-full mr-2">

@@ -35,15 +35,15 @@ Route::get('/', function () {
     return view('home'); 
 })->name('Home'); 
 
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
-])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('profile');
-    })->name('profile');
-});
+// Route::middleware([
+//     'auth:sanctum',
+//     config('jetstream.auth_session'),
+//     'verified',
+// ])->group(function () {
+//     Route::get('/dashboard', function () {
+//         return view('profile');
+//     })->name('profile');
+// });
 
 Route::get('/admin-dashboard', function () {
     return view('admin-dash');

@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Laravel</title>
+    <title>UrbanInmo</title>
 
 
     <!-- Fonts -->
@@ -16,9 +16,10 @@
 
 
 
+
 </head>
 
-<body class="{{ session('darkMode') ? 'dark' : '' }} ">
+<body class="dark:bg-gray-800  h-screen {{ session('darkMode') ? 'dark' : '' }} ">
     @livewire("profile");
 </body>
 
