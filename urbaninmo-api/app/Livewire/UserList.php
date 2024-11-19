@@ -9,12 +9,15 @@ use App\Http\Controllers\UserController;
 
 class UserList extends Component
 {
+    
     public $users;
-    #[On('userDeleted')]
+    #[On('userDeleted', 'editarUsuario')]
     public function mount()
     {
         $this->users = User::all(); // Assign the fetched users to the class property
     }
+    
+   
     public function borrar($id)
     {
         if($id){
@@ -24,8 +27,9 @@ class UserList extends Component
         }else{
             session()->flash('error', 'No se ha podido borrar el usuario');
         }
-    }   
-    
+    }  
+ 
+    #[On('editarUsuario', 'userDeleted')]
     public function render()
     {
         return view('livewire.user-list', [

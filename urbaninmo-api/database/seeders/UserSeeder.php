@@ -19,6 +19,7 @@ class UserSeeder extends Seeder
             'email' => 'AlvaradoJose@example.com',
             'password' => Hash::make('password123'), 
             'phone' => '1234567890',
+            'role' => 'admin',
             'photo' => 'https://cdn-images.livecareer.es/pages/foto_cv_lc_es_4.jpg', 
         ]);
 
