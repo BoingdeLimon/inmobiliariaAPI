@@ -1,3 +1,4 @@
+
 <header
     class="flex flex-col w-full md:flex-row items-center justify-between 
          shadow-md p-4 bg-white dark:bg-gray-900 dark:shadow-gray-800 dark:shadow-xl transition-all">
@@ -42,17 +43,11 @@
             </span>
         </div>
 
-        <div class="w-full md:w-1/4 md:space-x-5 flex flex-col md:flex-row items-center justify-center">
+    <div class="w-full md:w-1/4 md:space-x-5 flex flex-row md:flex-row items-center justify-center">
+    @auth  
+    @livewire('new-rentals-form', ['user_id' => Auth::user()->id, "token" => Auth::user()->token])
+    @livewire('dropdown-menu', ['user_id' => Auth::user()->id, "token" => Auth::user()->token])
     
-
-    @auth   
-    @livewire('new-rentals-form', ['user_id' => Auth::user()->id, "token" => Auth::user()->token]))
-        <div class="flex items-center">
-        <a href="{{ route('profile') }}">
-            <img src="{{ Auth::user()->photo }}" alt="{{ Auth::user()->name }}" class="w-10 h-10 rounded-full mr-2">
-            <span class="text-black dark:text-white">{{ Auth::user()->name }}</span>
-        </a>
-        </div>
     @else
         <a href="{{ route('login') }}">
             <button type="button"
@@ -71,7 +66,7 @@
             </button>
         </a>
     @endauth
-</div>
+    </div>
     </div>
 
     <div class="hidden md:block">
@@ -83,5 +78,14 @@
     function toggleNav() {
         const nav = document.getElementById('nav');
         nav.classList.toggle('hidden');
+    }
+
+    function toggleProfileMenu() {
+        const subMenuWrap = document.getElementById('sub-menu-wrap');
+        if (subMenuWrap.style.maxHeight) {
+            subMenuWrap.style.maxHeight = null;
+        } else {
+            subMenuWrap.style.maxHeight = subMenuWrap.scrollHeight + "px";
+        }
     }
 </script>

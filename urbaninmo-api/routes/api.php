@@ -35,6 +35,8 @@ Route::delete('addresses/{id}', [AddressController::class, 'destroy']);
 // ! ENDPOINTS QUE OCUPA NEXT   
 // ! - Oliver
 
+/// Añadir logica para update de usuario (para utilizarlos en Next)
+
 //* Para AUTH
 Route::post('/loginAuthApi', [LoginController::class, 'loginAuthApi']);
 Route::post('/register', [UserController::class, 'store']);

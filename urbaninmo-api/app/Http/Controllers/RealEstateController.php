@@ -370,6 +370,38 @@ class RealEstateController extends Controller
             return ['status' => 'error realestate'];
         }
     }
+    public function deleteRentalById($id)
+{
+    try {
+        $realEstate = RealEstate::find($id);
+        if (!$realEstate) {
+            return ['status' => 'error'];
+        }
+        
+        $addressResponse = $this->addressController->destroy(new Request([
+            'id_address' => $realEstate->id_address
+        ]));
+        
+        if ($addressResponse['status'] === 'error') {
+            return ['status' => 'error'];
+        }
+        
+        $photosResponse = $this->photosController->deleteAllPhotos(new Request([
+            'id_real_estate' => $id
+        ]));
+
+        if ($photosResponse['status'] === 'error') {
+            return ['status' => 'error photo'];
+        }
+
+        $realEstate->delete();
+        return ['status' => 'successful'];
+
+    } catch (\Exception $e) {
+        return ['status' => 'error realestate'];
+    }
+}
+
     public function filterRentals(Request $request)
     {
         try {
