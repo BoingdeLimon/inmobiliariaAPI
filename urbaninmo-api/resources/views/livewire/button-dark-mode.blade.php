@@ -1,32 +1,10 @@
 <button 
     wire:click="toggleDarkMode" 
-    class="p-2 rounded-full bg-gray-200 dark:bg-gray-800" 
-    x-data="{ darkMode: @entangle('darkMode'), init() { this.$watch('darkMode', value => { 
-        if (value) {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
-    }) } }"
-    x-init="
-        if (localStorage.getItem('color-theme') === 'dark' || 
-            (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            darkMode = true;
-        } else {
-            darkMode = false;
-        }
-    "
-    x-on:click="
-        if (darkMode) {
-            localStorage.setItem('color-theme', 'light');
-        } else {
-            localStorage.setItem('color-theme', 'dark');
-        }
-        darkMode = !darkMode; // Alternar el estado de darkMode
-    "
+    x-cloak x-on:click="darkMode = !darkMode;"
+    class="p-2 rounded-full flex items-center justify-center bg-gray-200 dark:bg-gray-800" 
 >
     <template x-if="darkMode">
-        <span class="h-6 w-6 text-gray-900">
+        <span class="h-6 w-6 text-gray-600">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
             </svg>

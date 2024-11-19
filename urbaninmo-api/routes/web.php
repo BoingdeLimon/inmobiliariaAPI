@@ -41,13 +41,29 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
+    
     Route::get('/dashboard', function () {
         return view('profile');
     })->name('profile');
+
 });
+
+
+// Route::middleware([
+//     'auth:sanctum',
+//     config('jetstream.auth_session'),
+//     'verified',
+// ])->group(function () {
+//     Route::get('/dashboard', function () {
+//         return view('profile');
+//     })->name('profile');
+// });
+
 Route::get('/admin-dashboard', function () {
     return view('admin-dash');
 })->name('admin-dashboard');
+
+
 Route::get('/statistics', function () {
     return view('statistics'); 
 })->name('statistics'); 

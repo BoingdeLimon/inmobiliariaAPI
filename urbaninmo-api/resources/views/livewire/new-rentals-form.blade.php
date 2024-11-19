@@ -1,7 +1,9 @@
 <div>
     <button wire:click="openModal"
-        class="block w-full transform transition-transform md:w-auto text-white bg-blue-700 hover:bg-white hover:text-blue-700 border hover:border-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-        Publicar
+        class=" w-full transform transition-transform md:w-full
+        block
+        text-white bg-blue-700 hover:bg-white hover:text-blue-700 border  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:text-white dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+        {{ $realEstateId ? 'Actualizar' : 'Publicar' }} 
     </button>
 
     @if ($isModalOpen)
@@ -49,7 +51,7 @@
                         </label>
                         <input type="number" min="0" name="size" id="size" wire:model='size'
                             class="flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                            placeholder="Tamaño en m²" required>
+                            placeholder="Tamaño en m²" required step="any" min="0">
                     </div>
 
                     <div class="flex items-center mb-4 space-x-4">
@@ -128,20 +130,22 @@
 
                     <div class="flex items-center mb-4 space-x-4">
                         <label for="x" class="text-md text-gray-900 dark:text-white text-left w-1/4">
-                            Coordenada
-                            X</label>
+                            Coordenada X
+                        </label>
                         <input type="number" name="x" id="x" wire:model='x'
                             class="flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                            placeholder="Coordenada X" required>
+                            placeholder="Coordenada X" required step="any" >
                     </div>
+                    
                     <div class="flex items-center mb-4 space-x-4">
                         <label for="y" class="text-md text-gray-900 dark:text-white text-left w-1/4">
                             Coordenada Y
                         </label>
                         <input type="number" name="y" id="y" wire:model='y'
                             class="flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                            placeholder="Coordenada Y" required>
+                            placeholder="Coordenada Y" required step="any" >
                     </div>
+                    
 
                     <div class="flex items-center mb-4 space-x-4">
                         <label for="type"
@@ -194,7 +198,7 @@
                     </div>
 
                     <button type="submit" class="w-full bg-blue-700 text-white p-2 rounded-lg">
-                        Publicar alquiler
+                        {{ $realEstateId ? 'Actualizar' : 'Publicar' }} 
                     </button>
 
                 </form>

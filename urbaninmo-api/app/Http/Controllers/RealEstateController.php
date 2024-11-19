@@ -7,6 +7,7 @@ use App\Models\RealEstate;
 use App\Models\Address;
 use App\Models\Photos;
 use App\Http\Controllers\AddressController;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
@@ -170,7 +171,7 @@ class RealEstateController extends Controller
         } else {
             $realEstates = RealEstate::paginate();
         }
-
+        
         $fullRealEstate = $realEstates->map(function ($realEstate) {
 
             $address = $this->addressController->show(new Request(['id_address' =>  $realEstate->id_address]));
@@ -178,6 +179,11 @@ class RealEstateController extends Controller
             $realEstate->address = $address ? $address : null;
             $realEstate->photos = $photos ? $photos : null;
 
+            $user_id = $realEstate->user_id;
+            $user = User::find($user_id);
+            $phoneRental = $user -> phone;
+            
+            $realEstate->phoneRental = $phoneRental;
             return $realEstate;
         });
 
