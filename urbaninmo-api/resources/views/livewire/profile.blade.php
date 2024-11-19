@@ -3,7 +3,7 @@
     <div class="max-w-7xl mx-auto p-4 w-full h-full md:flex lg:space-x-4">
 
         <div id="profile"
-            class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 md:w-1/4 text-center md:block hidden">
+            class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-10 md:w-1/4  h-modal text-center md:block hidden">
             <div class="w-full flex items-center justify-center">
                 <img src="{{ Auth::user()->photo }}" alt="{{ Auth::user()->name }}"
                     class="aspect-square w-24 rounded-full mr-2">
@@ -20,14 +20,14 @@
 
                 <button type="submit" class="bg-purple-600 text-white  w-full py-2 rounded-lg"> Editar Perfil</button>
                 @livewire('new-rentals-form', ['user_id' => Auth::user()->id])
+                <livewire:button-dark-mode />
             </div>
+
 
         </div>
 
-        <div class="overflow-y-auto grid w-full space-y-4 h-full">
-
-
-            <div id="properties" class="lg:w-full space-y-6 md:block hidden h-full">
+        <div class="overflow-y-auto grid w-full space-y-4 h-modal">
+            <div id="properties" class="lg:w-full space-y-6 md:block hidden ">
                 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
                     <div class="flex justify-between items-center">
                         <h3 class="text-xl font-semibold">Mis Propiedades</h3>
@@ -117,7 +117,7 @@
 
 
             <div id="messages"
-                class="lg:w-full space-y-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 md:block hidden">
+                class="lg:w-full space-y-6 h-modal bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 md:block hidden">
                 <div class="flex justify-between items-center">
                     <h3 class="text-xl font-semibold">Mensajes</h3>
                 </div>
@@ -158,6 +158,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 

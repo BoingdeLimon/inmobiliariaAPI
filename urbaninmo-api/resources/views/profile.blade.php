@@ -24,9 +24,10 @@
 </head>
 
 <body 
+class="h-screen overflow-y-hidden"
 {{-- class="dark:bg-gray-800  h-screen {{ session('darkMode') ? 'dark' : '' }} " --}}
 >
-    @livewire("profile");
+    @livewire("profile")
 </body>
 
 </html>
