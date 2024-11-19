@@ -1,6 +1,6 @@
 <div
     class="h-full bg-gray-100 dark:bg-gray-900 md:overflow-y-hidden text-gray-800 dark:text-gray-200 transition duration-300">
-    <div class="max-w-7xl mx-auto p-4 w-full h-full md:flex lg:space-x-4">
+    <div class="max-w-7xl mx-auto p-2 w-full h-full md:flex lg:space-x-4">
 
         <div id="profile"
             class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-10 md:w-1/4  h-modal text-center md:block hidden">
