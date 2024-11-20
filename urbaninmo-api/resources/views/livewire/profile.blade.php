@@ -89,7 +89,7 @@
 
                                 <div>
                                     <p class="text-sm font-semibold text-gray-600 dark:text-gray-400">Código Postal</p>
-                                    <p>{{ $selectedProperty->address->zipcode }} abc</p>
+                                    <p>{{ $selectedProperty->address->zipcode }}</p>
                                 </div>
 
                                 <div>
