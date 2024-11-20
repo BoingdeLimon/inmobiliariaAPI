@@ -185,7 +185,7 @@
                             class="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800">
                     </div>
 
-
+{{-- 
                     @csrf
                     <div class="mb-4">
                         <label for="photos"
@@ -204,7 +204,7 @@
                                     class="aspect-square w-20  object-cover rounded-lg">
                             @endforeach
                         @endif
-                    </div>
+                    </div> --}}
 
                     <button type="submit" class="w-full bg-blue-700 text-white p-2 rounded-lg">
                         {{ $realEstateId ? 'Actualizar' : 'Publicar' }}
