@@ -2,7 +2,10 @@
    <div class="md:ml-64 sm:ml-auto max-w-screen-lg px-4 py-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       @foreach ($rentals as $rental)
          <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-            <img src="{{ $rental->photos->first() ? asset($rental->photos->first()->photo) : asset('img/defaultRental.jpg') }}" alt="{{ $rental->title }} Photo" class="rounded-t-lg">
+            <img src="{{ $rental->photos->first() ? 
+            asset('storage/photos/'.$rental->photos->first()->photo) 
+            
+            : asset('img/defaultRental.jpg') }}" alt="{{ $rental->title }} Photo" class="rounded-t-lg">
             <div class="p-5">
                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ $rental->title }}</h5>
                <h3 class="mb-2 text-lg text-gray-900 dark:text-white">{{ $rental->type }}</h3>
