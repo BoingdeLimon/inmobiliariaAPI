@@ -3,7 +3,8 @@
         <div class="flex transition-transform duration-700 ease-in-out" id="carouselItems">
             @foreach ($images as $index => $image)
                 <div class="flex-none w-full md:w-1/2 p-2" data-carousel-item>
-                    <img src="{{ asset('imgs/' . $image) }}" class="w-full h-auto object-cover" alt="Imagen {{ $index + 1 }}">
+                    
+                    <img src="{{ asset('storage/photos/' . $image) }}" class="w-full h-auto object-cover" alt="Imagen {{ $index + 1 }}">
                 </div>
             @endforeach
         </div>

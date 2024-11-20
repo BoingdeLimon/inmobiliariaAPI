@@ -1,16 +1,28 @@
 <div
     class="h-full bg-gray-100 dark:bg-gray-900 md:overflow-y-hidden text-gray-800 dark:text-gray-200 transition duration-300">
-    <div class="max-w-7xl mx-auto p-2 w-full h-full md:flex lg:space-x-4">
+    <div class="max-w-7xl mx-auto  w-full h-full md:flex p-4 lg:space-x-4">
 
         <div id="profile"
             class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-10 md:w-1/4  h-modal text-center md:block hidden">
 
+            <div class="w-full flex items-start mb-5">
+                <button className="l hover:bg-slate-200 text-gray-600 dark:text-gray-300 hover:text-gray-900 ">
+                    <a href="/" class="flex items-start justify-start w-full dark:hover:text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                        </svg>
+                        Regresar
+                    </a>
+                </button>
+            </div>
 
             <div class="w-full flex items-center justify-center">
                 <img src="{{ Auth::user()->photo }}" alt="{{ Auth::user()->name }}"
                     class="aspect-square w-24 rounded-full mr-2">
             </div>
-            
+
+            </Link>
             <h2 class="text-lg font-semibold">{{ Auth::user()->name }}</h2>
             <p class="text-gray-600 dark:text-gray-400">{{ Auth::user()->email }}</p>
             <p class="text-gray-600 dark:text-gray-400">{{ Auth::user()->phone ?? 'Teléfono inexistente' }}</p>
@@ -31,6 +43,7 @@
 
         <div class="overflow-y-auto grid w-full space-y-4 h-modal">
             <div id="properties" class="lg:w-full space-y-6 md:block hidden ">
+
                 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
                     <div class="flex justify-between items-center">
                         <h3 class="text-xl font-semibold">Mis Propiedades</h3>
@@ -51,7 +64,7 @@
                                 @foreach ([
         'Nombre' => $selectedProperty->title,
         'Tamaño' => $selectedProperty->size . ' m²',
-        'Precio de Renta' => number_format($selectedProperty->price,2),
+        'Precio de Renta' => number_format($selectedProperty->price, 2),
         'Cuartos' => $selectedProperty->rooms,
         'Baños' => $selectedProperty->bathrooms,
         'Tipo' => $selectedProperty->type,
@@ -76,7 +89,7 @@
 
                                 <div>
                                     <p class="text-sm font-semibold text-gray-600 dark:text-gray-400">Código Postal</p>
-                                    <p>{{ $selectedProperty->address->zipcode }}</p>
+                                    <p>{{ $selectedProperty->address->zipcode }} abc</p>
                                 </div>
 
                                 <div>
@@ -88,10 +101,10 @@
 
                             <div class="mt-6">
                                 <p class="text-sm font-semibold text-gray-600 dark:text-gray-400">Fotos</p>
-                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-2">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 l :grid-cols-3 gap-4 mt-2">
                                     @foreach ($selectedProperty->photos as $photo)
-                                        <img src="{{ asset('imgs/' . $photo->photo) }}" alt="Foto de la propiedad "
-                                            class="w-full h-48 bg-gray-300 rounded-lg object-cover">
+                                        <img src="{{ asset('storage/photos/' . $photo->photo) }}" alt="Foto de la propiedad "
+                                            class="aspect-auto w-96 bg-gray-300 rounded-lg object-cover">
                                     @endforeach
                                 </div>
                             </div>

@@ -91,8 +91,11 @@ class NewRentalsForm extends Component
         'x' => 'required|numeric',
         'y' => 'required|numeric',
 
+        // 'photo' => 'required|array',
+        // 'photo.*' => 'string',
+
         'photo' => 'required|array',
-        'photo.*' => 'string',
+        'photo.*' => 'image|mimes:jpg,jpeg,png|max:2048',
 
         'price' => 'required|numeric',
     ];
@@ -122,13 +125,22 @@ class NewRentalsForm extends Component
 
     public function save()
     {
-        if ($this->photo) {
-            $photoNames = collect($this->photo)->map(function ($photo) {
-                return $photo->getClientOriginalName();
-            });
-        }
-        $this->photo = $photoNames;
+        // if ($this->photo) {
+        //     $photoNames = collect($this->photo)->map(function ($photo) {
+        //         return $photo->getClientOriginalName();
+        //     });
+        // }
         $this->validate();
+        
+        $photoNames = [];
+        if ($this->photo) {
+            foreach ($this->photo as $photoFile) {
+                $filePath = $photoFile->store('photos', 'public'); 
+                $photoNames[] = basename($filePath);
+            }
+        }
+    
+        $this->photo = $photoNames;
 
         $address = Address::create([
             'address' => $this->address,
@@ -175,7 +187,7 @@ class NewRentalsForm extends Component
         $this->photo = $photoNames;
 
         $address = Address::find($this->realEstateId);
-        $address -> update([
+        $address->update([
             'address' => $this->address,
             'zipcode' => $this->zipcode,
             'city' => $this->city,
@@ -201,7 +213,6 @@ class NewRentalsForm extends Component
             'price' => $this->price,
             'is_occupied' => $this->is_occupied,
         ]);
-
     }
 
     public function render()

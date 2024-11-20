@@ -1,15 +1,18 @@
-<div class=" grid grid-cols-1  gap-6 p-2 w-full h-screen dark:bg-gray-900 ">
+<div class=" grid grid-cols-1  gap-6 p-2 w-full  h-screen  dark:bg-gray-900 ">
     @livewire('filters')
-    <ul class="space-y-4">
+    <ul class="space-y-4 overflow-y-auto h-full">
         @foreach ($rentals as $rental)
-        <li class="p-4 w-full rounded-lg">
+        <li class="p-4 w-full rounded-lg ">
 
                 <a href="{{ route('rental.show', $rental['id']) }}"
                     class="flex flex-col md:flex-row bg-white dark:bg-gray-600 shadow-md rounded-lg overflow-hidden max-w-5xl mx-auto">
 
                     <!-- Imagen -->
                     <div class="relative h-48 w-full ">
-                        <img src="{{ $rental['photos'][0]['photo'] ?? '/default-image.jpg' }}" alt="Foto Principal"
+                        <img 
+                         src="{{ asset('storage/photos/' . $rental['photos'][0]['photo'])  }}" alt="Foto de la propiedad "
+
+                        {{-- src="{{ asset($rental['photos'][0]['photo']) ?? '/default-image.jpg' }}" alt="Foto Principal" --}}
                             class="object-cover h-full w-full" />
                     </div>
 

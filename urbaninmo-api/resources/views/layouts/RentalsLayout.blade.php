@@ -13,7 +13,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     {{-- <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />  --}}
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}"> 
+    {{-- <link rel="stylesheet" href="{{ asset('css/app.css') }}">  --}}
 
 </head>
 <body

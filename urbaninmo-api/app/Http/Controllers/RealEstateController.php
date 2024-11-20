@@ -171,7 +171,7 @@ class RealEstateController extends Controller
         } else {
             $realEstates = RealEstate::paginate();
         }
-        
+
         $fullRealEstate = $realEstates->map(function ($realEstate) {
 
             $address = $this->addressController->show(new Request(['id_address' =>  $realEstate->id_address]));
@@ -181,8 +181,8 @@ class RealEstateController extends Controller
 
             $user_id = $realEstate->user_id;
             $user = User::find($user_id);
-            $phoneRental = $user -> phone;
-            
+            $phoneRental = $user->phone;
+
             $realEstate->phoneRental = $phoneRental;
             return $realEstate;
         });
@@ -222,9 +222,11 @@ class RealEstateController extends Controller
                 // * despues decimos que cada elemento del array (photo) sea string, vaya lo unico que hace es validar
                 // * -Oliver
 
-                'photo' => 'required|array',
-                'photo.*' => 'string',
+                // 'photo' => 'required|array',
+                // 'photo.*' => 'string',
 
+                'photo' => 'required|array',
+                'photo.*' => 'image|mimes:jpg,jpeg,png|max:2048',
 
                 'price' => 'required|numeric',
                 'is_occupied' => 'required|boolean',
@@ -248,14 +250,22 @@ class RealEstateController extends Controller
 
             // * Como explique arriba en el comentario, aqui es crear un registro de foto por cada elemento del array
 
-            foreach ($validatedData['photo'] as $photo) {
+            // foreach ($validatedData['photo'] as $photo) {
+            //     $photoRequest = new Request([
+            //         'id_real_estate' => $realEstate->id,
+            //         'photo' => $photo,
+            //     ]);
+            //     $this->photosController->store($photoRequest);
+            // }
+            foreach ($validatedData["photo"] as $photoFile) {
+                $filePath = $photoFile->store('photos', 'public');
+                $photoName = basename($filePath);
                 $photoRequest = new Request([
                     'id_real_estate' => $realEstate->id,
-                    'photo' => $photo,
+                    'photo' => $photoName,
                 ]);
                 $this->photosController->store($photoRequest);
             }
-
             return response()->json([
                 'message' => 'Real Estate created successfully',
                 'real_estate' => $realEstate
@@ -377,36 +387,35 @@ class RealEstateController extends Controller
         }
     }
     public function deleteRentalById($id)
-{
-    try {
-        $realEstate = RealEstate::find($id);
-        if (!$realEstate) {
-            return ['status' => 'error'];
-        }
-        
-        $addressResponse = $this->addressController->destroy(new Request([
-            'id_address' => $realEstate->id_address
-        ]));
-        
-        if ($addressResponse['status'] === 'error') {
-            return ['status' => 'error'];
-        }
-        
-        $photosResponse = $this->photosController->deleteAllPhotos(new Request([
-            'id_real_estate' => $id
-        ]));
+    {
+        try {
+            $realEstate = RealEstate::find($id);
+            if (!$realEstate) {
+                return ['status' => 'error'];
+            }
 
-        if ($photosResponse['status'] === 'error') {
-            return ['status' => 'error photo'];
+            $addressResponse = $this->addressController->destroy(new Request([
+                'id_address' => $realEstate->id_address
+            ]));
+
+            if ($addressResponse['status'] === 'error') {
+                return ['status' => 'error'];
+            }
+
+            $photosResponse = $this->photosController->deleteAllPhotos(new Request([
+                'id_real_estate' => $id
+            ]));
+
+            if ($photosResponse['status'] === 'error') {
+                return ['status' => 'error photo'];
+            }
+
+            $realEstate->delete();
+            return ['status' => 'successful'];
+        } catch (\Exception $e) {
+            return ['status' => 'error realestate'];
         }
-
-        $realEstate->delete();
-        return ['status' => 'successful'];
-
-    } catch (\Exception $e) {
-        return ['status' => 'error realestate'];
     }
-}
 
     public function filterRentals(Request $request)
     {
@@ -416,28 +425,28 @@ class RealEstateController extends Controller
                 'rooms' => 'nullable|integer',
                 'bathrooms' => 'nullable|integer',
                 'type' => 'nullable|string',
-                
+
                 'has_garage' => 'nullable|boolean',
                 'has_garden' => 'nullable|boolean',
                 'has_patio' => 'nullable|boolean',
-    
+
                 // TODO: Se necesita filtrar por la tabla address
                 'zipcode' => 'nullable|string|max:20',
                 'city' => 'nullable|string|max:100',
                 'state' => 'nullable|string|max:100',
                 'country' => 'nullable|string|max:100',
-    
+
                 // TODO: Se necesita filtrar por los precios
                 'min_price' => 'nullable|numeric',
                 'max_price' => 'nullable|numeric',
-    
+
                 'is_occupied' => 'nullable|boolean',
             ]);
-    
+
             $query = DB::table('real_estate')
                 ->join('address', 'real_estate.id_address', '=', 'address.id')
                 ->select('real_estate.*', 'address.zipcode', 'address.city', 'address.state');
-    
+
             foreach ($validatedData as $field => $value) {
                 if ($value !== null) {
                     if (in_array($field, ['zipcode', 'city', 'state'])) {
@@ -451,7 +460,7 @@ class RealEstateController extends Controller
                     }
                 }
             }
-    
+
             $realEstatesFilter = $query->get();
             $fullRealEstate = $realEstatesFilter->map(function ($realEstate) {
                 $address = $this->addressController->show(new Request(['id_address' =>  $realEstate->id_address]));
