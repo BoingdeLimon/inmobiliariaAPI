@@ -222,12 +222,10 @@ class RealEstateController extends Controller
                 // * despues decimos que cada elemento del array (photo) sea string, vaya lo unico que hace es validar
                 // * -Oliver
 
-                // 'photo' => 'required|array',
-                // 'photo.*' => 'string',
-
                 'photo' => 'required|array',
-                'photo.*' => 'image|mimes:jpg,jpeg,png|max:2048',
+                'photo.*' => 'string',
 
+            
                 'price' => 'required|numeric',
                 'is_occupied' => 'required|boolean',
                 'pdf' => 'nullable|string',
@@ -250,22 +248,14 @@ class RealEstateController extends Controller
 
             // * Como explique arriba en el comentario, aqui es crear un registro de foto por cada elemento del array
 
-            // foreach ($validatedData['photo'] as $photo) {
-            //     $photoRequest = new Request([
-            //         'id_real_estate' => $realEstate->id,
-            //         'photo' => $photo,
-            //     ]);
-            //     $this->photosController->store($photoRequest);
-            // }
-            foreach ($validatedData["photo"] as $photoFile) {
-                $filePath = $photoFile->store('photos', 'public');
-                $photoName = basename($filePath);
+            foreach ($validatedData['photo'] as $photo) {
                 $photoRequest = new Request([
                     'id_real_estate' => $realEstate->id,
-                    'photo' => $photoName,
+                    'photo' => $photo,
                 ]);
-                $this->photosController->store($photoRequest);
+                $this->photosController->newImage($photoRequest);
             }
+           
             return response()->json([
                 'message' => 'Real Estate created successfully',
                 'real_estate' => $realEstate

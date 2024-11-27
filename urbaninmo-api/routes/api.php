@@ -68,7 +68,7 @@ Route::post('/deleteAllPhotos', [PhotosController::class, 'deleteAllPhotos']);
 
 Route::post('/editPhoto', [PhotosController::class, 'updatePhoto']);
 
-Route::post('/createPhoto', [PhotosController::class, 'store']);
+Route::post('/createPhoto', [PhotosController::class, 'newImage']);
 
 
 //* Para address

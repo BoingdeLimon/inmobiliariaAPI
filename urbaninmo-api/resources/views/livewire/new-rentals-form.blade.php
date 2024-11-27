@@ -185,7 +185,7 @@
                             class="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800">
                     </div>
 
-{{-- 
+
                     @csrf
                     <div class="mb-4">
                         <label for="photos"
@@ -197,14 +197,34 @@
                         @enderror
                     </div>
 
-                    <div class="flex items-center justify-center bg-slate-400 space-x-2 ">
-                        @if ($photo)
-                            @foreach ($photo as $preview)
-                                <img src="{{ $preview ->temporaryUrl() }}" alt="Preview"
-                                    class="aspect-square w-20  object-cover rounded-lg">
+
+
+
+                    @if ($photo)
+                        <h2 class="text-lg text-left font-semibold text-gray-900 dark:text-white mb-4">
+                            Previsualización
+                            de
+                            imágenes:
+                        </h2>
+                        <div class="w-full flex items-center overflow-x-scroll space-x-7 ">
+                            @foreach ($photo as $image)
+                                <img src="{{ $image->temporaryUrl() }}" alt="Previsualización de imagen"
+                                    class=" aspect-square w-1/3 bg-gray-300 rounded-lg object-cover">
                             @endforeach
-                        @endif
-                    </div> --}}
+                        </div>
+                    @endif
+
+
+                    @if ($photosAlreadySave)
+                        <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Fotos guardadas en la base
+                            de datos:</h2>
+                        <div class="w-full flex items-center overflow-x-scroll space-x-7 ">
+                            @foreach ($photosAlreadySave as $photo)
+                                <img src="{{ asset('storage/photos/' . $photo->photo) }}" alt="Foto de la propiedad"
+                                    class=" aspect-square w-1/3 bg-gray-300 rounded-lg object-cover">
+                            @endforeach
+                        </div>
+                    @endif
 
                     <button type="submit" class="w-full bg-blue-700 text-white p-2 rounded-lg">
                         {{ $realEstateId ? 'Actualizar' : 'Publicar' }}

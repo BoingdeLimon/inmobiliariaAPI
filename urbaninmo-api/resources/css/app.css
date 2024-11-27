@@ -26,5 +26,12 @@
   .scrollable-container::-webkit-scrollbar {
     display: none;
   }
+
+
+  .scroller {
+    scroll-snap-type: x mandatory;
+  }
   
-  
+  .child  {
+      scroll-snap-align: start;
+  }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Photos;
+use Illuminate\Support\Facades\Storage;
 
 class PhotosController extends Controller
 {
@@ -13,6 +14,51 @@ class PhotosController extends Controller
         $photos = Photos::all();
         return response()->json($photos);
     }
+    public function newImage(Request $request)
+    {
+        // $request->validate([
+        //     'photo' => 'required|string',
+        // ]);
+        $image = $request->photo;
+        $extension = $this->getB64Type($image);
+        if ($extension === 'unknown') {
+            return response()->json(['error' => 'Formato de imagen no válido'], 400);
+        }
+        $image = preg_replace('/^data:image\/\w+;base64,/', '', $image);
+        $file = base64_decode($image);
+        if ($file === false) {
+            return response()->json(['error' => 'La imagen no pudo ser decodificada'], 400);
+        }
+        $filename = 'photo-' . time() . '.' . $extension;
+        $filePath = Storage::disk('public')->put('photos/' . $filename, $file);
+        $photo = new Photos();
+        $photo->photo = $filename;
+        $photo->id_real_estate = $request->id_real_estate;
+        $photo->save();
+
+        return response()->json([
+            "photo" => $photo,
+        ]);
+    }
+
+    private function getB64Type($image)
+    {
+        $types = [
+            'data:image/png;base64' => 'png',
+            'data:image/jpeg;base64' => 'jpg',
+            'data:image/gif;base64' => 'gif',
+        ];
+        $image = trim($image);
+        foreach ($types as $type => $extension) {
+            if (str_starts_with($image, $type)) {
+                return $extension;
+            }
+        }
+        return 'unknown';
+    }
+
+
+
 
     public function store(Request $request)
     {

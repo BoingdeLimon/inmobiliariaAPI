@@ -35,9 +35,20 @@ class NewRentalsForm extends Component
     public $is_occupied = false;
     public $isModalOpen = false;
 
+    public $photosAlreadySave;
+
     public $realEstateId;
 
+    public function update($user_id = null, $realEstateId = null)
+    {
+        $this->selectedRealEstate($user_id, $realEstateId);
+    }
     public function mount($user_id = null, $realEstateId = null)
+    {
+        $this->selectedRealEstate($user_id, $realEstateId);
+    }
+
+    public function selectedRealEstate($user_id = null, $realEstateId = null)
     {
         $this->user_id = $user_id;
         $this->realEstateId = $realEstateId;
@@ -67,10 +78,11 @@ class NewRentalsForm extends Component
                 $this->y = $address->y;
 
                 $photos = $realEstate->photos;
-                $this->photo = $photos;
+                $this->photosAlreadySave = $photos;
             }
         }
     }
+
 
     protected $rules = [
         'title' => 'required|string|max:255',
@@ -115,15 +127,15 @@ class NewRentalsForm extends Component
     {
 
         if ($this->realEstateId) {
-            $this->update();
+            $this->updateRealEstate();
         } else {
-            $this->save();
+            $this->saveRealEstate();
         }
         $this->reset();
     }
 
 
-    public function save()
+    public function saveRealEstate()
     {
         // if ($this->photo) {
         //     $photoNames = collect($this->photo)->map(function ($photo) {
@@ -131,15 +143,15 @@ class NewRentalsForm extends Component
         //     });
         // }
         $this->validate();
-        
+
         $photoNames = [];
         if ($this->photo) {
             foreach ($this->photo as $photoFile) {
-                $filePath = $photoFile->store('photos', 'public'); 
+                $filePath = $photoFile->store('photos', 'public');
                 $photoNames[] = basename($filePath);
             }
         }
-    
+
         $this->photo = $photoNames;
 
         $address = Address::create([
@@ -177,7 +189,7 @@ class NewRentalsForm extends Component
     }
 
 
-    public function update()
+    public function updateRealEstate()
     {
         if ($this->photo) {
             $photoNames = collect($this->photo)->map(function ($photo) {
