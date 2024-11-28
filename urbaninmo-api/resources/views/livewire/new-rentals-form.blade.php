@@ -1,8 +1,6 @@
 <div>
     <button wire:click="openModal"
-        class=" w-full transform transition-transform md:w-full
-        block
-        text-white bg-blue-700 hover:bg-white hover:text-blue-700 border  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:text-white dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+        class=" w-full px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-900 focus:outline-none transition duration-300 ease-in-out transform hover:scale-95 shadow-lg hover:shadow-xl">
         {{ $realEstateId ? 'Actualizar' : 'Publicar' }}
     </button>
 
@@ -185,13 +183,13 @@
                             class="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800">
                     </div>
 
-
                     @csrf
                     <div class="mb-4">
                         <label for="photos"
                             class="block text-gray-900 dark:text-white text-sm text-left">Fotos</label>
-                        <input type="file" wire:model="photo" id="photos" multiple required
-                            class="w-full p-2 border text-gray-900 dark:text-white  border-gray-300 rounded-lg">
+                        <input type="file" wire:model="photo" id="photos" multiple
+                            class="w-full p-2 border text-gray-900 dark:text-white  border-gray-300 rounded-lg"
+                            @if (!$photosAlreadySave) required @endif>
                         @error('photos')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
@@ -220,9 +218,19 @@
                             de datos:</h2>
                         <div class="w-full flex items-center overflow-x-scroll space-x-7 ">
                             @foreach ($photosAlreadySave as $photo)
-                                <img src="{{ asset('storage/photos/' . $photo->photo) }}" alt="Foto de la propiedad"
-                                    class=" aspect-square w-1/3 bg-gray-300 rounded-lg object-cover">
+                                <div class="w-full relative">
+                                    <button wire:click="deletePhoto({{ $photo->id }})" class="absolute dark:hover:bg-white transition-colors transform-none dark:hover:text-red-500  bg-red-500 text-white p-1 rounded-full">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                    </button>
+                                    <img src="{{ asset('storage/photos/' . $photo->photo) }}"
+                                        alt="Foto de la propiedad"
+                                        class="w-52 h-36 bg-gray-300 rounded-lg object-cover">
+                                </div>
                             @endforeach
+                            
+                            
                         </div>
                     @endif
 

@@ -15,15 +15,7 @@ class PhotosSeeder extends Seeder
     {
         Photos::create([
             'id_real_estate' => 1,
-            'photo' => 'https://img10.naventcdn.com/avisos/resize/18/01/44/14/41/30/1200x1200/1476328295.jpg?isFirstImage=true'
-        ]);
-        Photos::create([
-            'id_real_estate' => 1,
-            'photo' => 'https://img10.naventcdn.com/avisos/18/01/44/14/41/30/360x266/1476328304.jpg'
-        ]);
-        Photos::create([
-            'id_real_estate' => 1,
-            'photo' => 'https://img10.naventcdn.com/avisos/18/01/44/14/41/30/360x266/1476328317.jpg'
+            'photo' => 'uno.jpg'
         ]);
     }
 }

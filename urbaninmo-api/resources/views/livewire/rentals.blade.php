@@ -9,7 +9,7 @@
 
                     <!-- Imagen -->
                     <div class="relative h-48 w-full">
-                        <img src="{{ isset($rental['photos'][0]['photo']) ? asset('storage/photos/' . $rental['photos'][0]['photo']) : asset('images/default.jpg') }}"
+                        <img src="{{ asset('storage/photos/' . $rental['photos'][0]['photo']) }}"
                             alt="Foto de la propiedad" class="object-cover h-full w-full" />
                     </div>
 

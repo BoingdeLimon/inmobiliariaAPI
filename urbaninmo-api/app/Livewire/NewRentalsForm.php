@@ -7,7 +7,8 @@ use Livewire\WithFileUploads;
 use App\Models\Address;
 use App\Models\RealEstate;
 use App\Models\Photos;
-
+// use Illuminate\Container\Attributes\Storage;
+use Illuminate\Support\Facades\Storage;
 
 class NewRentalsForm extends Component
 {
@@ -134,7 +135,23 @@ class NewRentalsForm extends Component
         $this->reset();
     }
 
-
+    public function newPhoto($id_real_estate)
+    {
+        $photoNames = [];
+        if ($this->photo) {
+            foreach ($this->photo as $photoFile) {
+                $filePath = $photoFile->store('photos', 'public');
+                $photoNames[] = basename($filePath);
+            }
+        }
+        $this->photo = $photoNames;
+        foreach ($this->photo as $photoFile) {
+            Photos::create([
+                'id_real_estate' => $id_real_estate,
+                'photo' => $photoFile
+            ]);
+        }
+    }
     public function saveRealEstate()
     {
         // if ($this->photo) {
@@ -143,17 +160,6 @@ class NewRentalsForm extends Component
         //     });
         // }
         $this->validate();
-
-        $photoNames = [];
-        if ($this->photo) {
-            foreach ($this->photo as $photoFile) {
-                $filePath = $photoFile->store('photos', 'public');
-                $photoNames[] = basename($filePath);
-            }
-        }
-
-        $this->photo = $photoNames;
-
         $address = Address::create([
             'address' => $this->address,
             'zipcode' => $this->zipcode,
@@ -180,24 +186,21 @@ class NewRentalsForm extends Component
             'price' => $this->price,
             'is_occupied' => $this->is_occupied,
         ]);
-        foreach ($this->photo as $photoFile) {
-            Photos::create([
-                'id_real_estate' => $realEstates->id,
-                'photo' => $photoFile
-            ]);
-        }
+
+        $this->newPhoto($realEstates->id);
     }
 
+    public function deletePhoto($photoId)
+    {
+        $photo = Photos::find($photoId);
+        $photoName = $photo->photo;
+        Storage::disk('public')->delete('photos/' . $photoName);
+        $photo->delete();
+        $this->photosAlreadySave = Photos::where('id_real_estate', $this->realEstateId)->get();
+    }
 
     public function updateRealEstate()
     {
-        if ($this->photo) {
-            $photoNames = collect($this->photo)->map(function ($photo) {
-                return $photo->getClientOriginalName();
-            });
-        }
-        $this->photo = $photoNames;
-
         $address = Address::find($this->realEstateId);
         $address->update([
             'address' => $this->address,
@@ -225,6 +228,8 @@ class NewRentalsForm extends Component
             'price' => $this->price,
             'is_occupied' => $this->is_occupied,
         ]);
+
+        $this->newPhoto($this->realEstateId);
     }
 
     public function render()

@@ -193,7 +193,7 @@ class RealEstateController extends Controller
     }
 
 
-
+    
 
     public function newRental(Request $request)
     {

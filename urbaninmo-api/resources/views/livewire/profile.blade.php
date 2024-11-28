@@ -29,10 +29,16 @@
             <div class="flex-col flex space-y-4 w-full">
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit" class="bg-red-500 text-white mt-4 w-full py-2 rounded-lg">Sign Out</button>
+                    <button type="submit"
+                        class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 focus:outline-none transition duration-300 ease-in-out transform hover:scale-95 mt-4 w-full">
+                        Sign Out
+                    </button>
                 </form>
 
-                <button type="submit" class="bg-purple-600 text-white  w-full py-2 rounded-lg"> Editar Perfil</button>
+                <button
+                    class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 focus:outline-none transition duration-300 ease-in-out transform hover:scale-95 w-full">
+                    Editar Perfil
+                </button>
                 @livewire('new-rentals-form', ['user_id' => Auth::user()->id])
                 <livewire:button-dark-mode />
             </div>
@@ -96,25 +102,24 @@
                                         {{ $selectedProperty->address->y }}</p>
                                 </div>
                             </div>
-
-                            <div class="  w-full flex items-center justify-center p-3 overflow-x-scroll space-x-10 ">
+                            <div class="w-full flex items-center justify-center p-9 overflow-x-auto space-x-10">
                                 @foreach ($selectedProperty->photos as $photo)
                                     <img src="{{ asset('storage/photos/' . $photo->photo) }}"
                                         alt="Foto de la propiedad"
-                                        class=" aspect-square w-1/3 bg-gray-300 rounded-lg object-cover">
+                                        class="w-80 h-44 md:h-[11rem] md:w-[30rem] bg-gray-300 rounded-lg object-cover">
                                 @endforeach
                             </div>
 
-                            <div class="mt-10 space-y-2 flex flex-col w-full">
+                            <div class="space-y-2 flex flex-col w-full">
                                 @livewire('new-rentals-form', ['user_id' => Auth::user()->id, 'realEstateId' => $selectedProperty->id], key($selectedProperty->id))
 
                                 <button
-                                    class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 focus:outline-none">
+                                    class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 focus:outline-none transition duration-300 ease-in-out transform hover:scale-95">
                                     Eliminar
                                 </button>
 
                                 <button
-                                    class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 focus:outline-none">
+                                    class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 focus:outline-none transition duration-300 ease-in-out transform hover:scale-95">
                                     Crear Nueva Renta
                                 </button>
                             </div>

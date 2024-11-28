@@ -44,7 +44,7 @@ return new class extends Migration
             LEFT JOIN 
                 photos p ON p.id_real_estate = re.id
             LEFT JOIN 
-                comments c ON c.id_property = re.id
+                comments c ON c.id_real_estate = re.id
             GROUP BY 
                 re.id, a.id;
         ');
