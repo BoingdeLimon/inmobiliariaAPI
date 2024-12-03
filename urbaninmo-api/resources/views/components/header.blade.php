@@ -42,25 +42,25 @@
             </span>
         </div>
 
-        <div class="w-full md:w-1/4 md:space-x-5 flex flex-row md:flex-row items-center justify-center">
+        <div class="w-full bg-slate-100 md:w-1/4 space-y-1 md:space-x-5 flex flex-col md:flex-row items-center justify-center">
             @auth
                 @livewire('new-rentals-form', ['user_id' => Auth::user()->id, 'token' => Auth::user()->token])
                 @livewire('dropdown-menu', ['user_id' => Auth::user()->id, 'token' => Auth::user()->token])
             @else
-                <a href="{{ route('login') }}">
+                <a class="w-full md:w-1/3 " href="{{ route('login') }}">
                     <button type="button"
-                        class="w-full md:w-auto hover:text-gray-900 hover:bg-white text-white border
+                        class="p-2 w-full  hover:text-gray-900 hover:bg-white text-white border
                 border-gray-800 bg-gray-900 focus:ring-4 focus:outline-none
-                focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2
+                focus:ring-gray-300 font-medium rounded-lg text-sm text-center 
                 transition duration-300 ease-in-out transform hover:scale-105">
                         Login
                     </button>
                 </a>
-                <a href="{{ route('register') }}">
+                <a class="w-full md:w-1/3" href="{{ route('register') }}">
                     <button type="button"
-                        class="w-full md:w-auto text-white bg-blue-700 hover:bg-white hover:text-blue-700 border hover:border-blue-700
+                        class="p-2 w-full text-white bg-blue-700 hover:bg-white hover:text-blue-700 border hover:border-blue-700
                  focus:ring-4 focus:outline-none
-                focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2
+                focus:ring-gray-300 font-medium rounded-lg text-sm  text-center 
                 transition duration-300 ease-in-out transform hover:scale-105">
                         Registrarse
                     </button>

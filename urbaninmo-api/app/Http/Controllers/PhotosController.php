@@ -86,8 +86,7 @@ class PhotosController extends Controller
     public function updatePhoto(Request $request)
     {
         $data = $request->validate([
-            'photo' => 'required|array',
-            'photo.*' => 'string',
+            'photo' => 'string',
         ]);
         $id_real_estate = $request->input('id_real_estate');
 
@@ -104,6 +103,23 @@ class PhotosController extends Controller
             return ['status' => 'successfull'];
         } catch (\Exception $e) {
             return ['status' => 'error'];
+        }
+    }
+    public function checkAndAddPhoto(Request $request)
+    {
+        $request->validate([
+            'id_real_estate' => 'required|exists:real_estate,id',
+            'photo' => 'required|string',
+        ]);
+
+        $existingPhoto = Photos::where('id_real_estate', $request->id_real_estate)
+                                ->where('photo', $request->photo)
+                                ->first();
+
+        if ($existingPhoto) {
+            return response()->json(['message' => 'La foto ya existe'], 200);
+        } else {
+            return $this->newImage($request);
         }
     }
 
