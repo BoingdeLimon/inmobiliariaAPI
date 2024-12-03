@@ -1,6 +1,6 @@
 <div>
     <button wire:click="openModal"
-        class="w-full px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-lg shadow-md hover:shadow-lg hover:from-blue-600 hover:to-blue-800 focus:outline-none transition-transform duration-300 ease-in-out transform hover:scale-105">
+        class="w-full px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-lg shadow-md hover:shadow-lg hover:from-blue-600 hover:to-blue-800 focus:outline-none transition-transform duration-300 ease-in-out transform hover:scale-95">
         Calificar y Comentar
     </button>
 

@@ -119,10 +119,7 @@
                                     Eliminar
                                 </button>
 
-                                <button
-                                    class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 focus:outline-none transition duration-300 ease-in-out transform hover:scale-95">
-                                    Crear Nueva Renta
-                                </button>
+                               @livewire('rent-list', ['realEstateId' => $selectedProperty->id], key($selectedProperty->id))
                             </div>
                         </div>
                     @endif
