@@ -25,7 +25,7 @@
                     </p>
 
 
-                    <div class="flex items-center mb-4 space-x-4">
+                    <div class="flex flex-col md:flex-row md:items-center mb-4 md:space-x-4">
                         <label for="title" class="text-md text-gray-900 dark:text-white text-left w-1/4">
                             Título
                         </label>
@@ -34,7 +34,7 @@
                             placeholder="Título del alquiler" required>
                     </div>
 
-                    <div class="flex items-start mb-4 space-x-4">
+                    <div class="flex flex-col md:flex-row md:items-center mb-4 md:space-x-4">
                         <label for="description" class="text-md text-gray-900 dark:text-white text-left w-1/4">
                             Descripción
                         </label>
@@ -43,7 +43,7 @@
                             placeholder="Introduce una breve descripción de la propiedad" required></textarea>
                     </div>
 
-                    <div class="flex items-center mb-4 space-x-4">
+                    <div class="flex flex-col md:flex-row md:items-center mb-4 md:space-x-4">
                         <label for="size" class="text-md text-gray-900 dark:text-white text-left w-1/4">
                             Tamaño (m²)
                         </label>
@@ -52,7 +52,7 @@
                             placeholder="Tamaño en m²" required step="any" min="0">
                     </div>
 
-                    <div class="flex items-center mb-4 space-x-4">
+                    <div class="flex flex-col md:flex-row md:items-center mb-4 md:space-x-4">
                         <label for="rooms" class="text-md text-gray-900 dark:text-white text-left w-1/4">
                             Habitaciones
                         </label>
@@ -61,7 +61,7 @@
                             placeholder="Número de habitaciones" required>
                     </div>
 
-                    <div class="flex items-center mb-4 space-x-4">
+                    <div class="flex flex-col md:flex-row md:items-center mb-4 md:space-x-4">
                         <label for="bathrooms" class="text-md text-gray-900 dark:text-white text-left w-1/4">
                             Baños
                         </label>
@@ -71,7 +71,7 @@
                             placeholder="Número de baños" required>
                     </div>
 
-                    <div class="flex items-center mb-4 space-x-4">
+                    <div class="flex flex-col md:flex-row md:items-center mb-4 md:space-x-4">
                         <label for="price" class="text-md text-gray-900 dark:text-white text-left w-1/4">
                             Precio
                         </label>
@@ -81,7 +81,7 @@
                             placeholder="Precio mensual" required>
                     </div>
 
-                    <div class="flex items-center mb-4 space-x-4">
+                    <div class="flex flex-col md:flex-row md:items-center mb-4 md:space-x-4">
                         <label for="address" class="text-md text-gray-900 dark:text-white text-left w-1/4">
                             Dirección
                         </label>
@@ -90,7 +90,7 @@
                             placeholder="Dirección de la propiedad" required>
                     </div>
 
-                    <div class="flex items-center mb-4 space-x-4">
+                    <div class="flex flex-col md:flex-row md:items-center mb-4 md:space-x-4">
                         <label for="zipcode" class="text-md text-gray-900 dark:text-white text-left w-1/4">
                             Código Postal
                         </label>
@@ -99,7 +99,7 @@
                             placeholder="Código postal" required>
                     </div>
 
-                    <div class="flex items-center mb-4 space-x-4">
+                    <div class="flex flex-col md:flex-row md:items-center mb-4 md:space-x-4">
                         <label for="city" class="text-md text-gray-900 dark:text-white text-left w-1/4">
                             Ciudad
                         </label>
@@ -108,7 +108,7 @@
                             placeholder="Ciudad" required>
                     </div>
 
-                    <div class="flex items-center mb-4 space-x-4">
+                    <div class="flex flex-col md:flex-row md:items-center mb-4 md:space-x-4">
                         <label for="state" class="text-md text-gray-900 dark:text-white text-left w-1/4">
                             Estado
                         </label>
@@ -117,7 +117,7 @@
                             placeholder="Estado o provincia" required>
                     </div>
 
-                    <div class="flex items-center mb-4 space-x-4">
+                    <div class="flex flex-col md:flex-row md:items-center mb-4 md:space-x-4">
                         <label for="country" class="text-md text-gray-900 dark:text-white text-left w-1/4">
                             País
                         </label>
@@ -126,8 +126,8 @@
                             placeholder="País" required>
                     </div>
 
-                    <div class="flex items-center mb-4 space-x-4">
-                        <label for="x" class="text-md text-gray-900 dark:text-white text-left w-1/4">
+                    <div class="flex flex-col md:flex-row md:items-center mb-4 md:space-x-4">
+                        <label for="x" class="text-md text-gray-900 dark:text-white text-left md:w-1/4">
                             Coordenada X
                         </label>
                         <input type="number" name="x" id="x" wire:model='x'
@@ -135,8 +135,8 @@
                             placeholder="Coordenada X" required step="any">
                     </div>
 
-                    <div class="flex items-center mb-4 space-x-4">
-                        <label for="y" class="text-md text-gray-900 dark:text-white text-left w-1/4">
+                    <div class="flex flex-col md:flex-row md:items-center mb-4 md:space-x-4">
+                        <label for="y" class="text-md text-gray-900 dark:text-white text-left md:w-1/4">
                             Coordenada Y
                         </label>
                         <input type="number" name="y" id="y" wire:model='y'
@@ -145,7 +145,7 @@
                     </div>
 
 
-                    <div class="flex items-center mb-4 space-x-4">
+                    <div class="flex flex-col md:flex-row md:items-center mb-4 md:space-x-4">
                         <label for="type"
                             class="text-md text-gray-900 dark:text-white text-left w-1/4">Tipo</label>
                         <select id="type" name="type"
@@ -159,24 +159,24 @@
                     </div>
 
 
-                    <div class="flex items-center mb-4 space-x-4">
-                        <label for="has_garage" class="text-md text-gray-900 dark:text-white text-left w-1/4">
+                    <div class="flex items-center mb-4 space-x-4   md:space-x-0">
+                        <label for="has_garage" class="text-md text-gray-900 dark:text-white text-left md:w-1/4">
                             ¿Tiene garaje?
                         </label>
                         <input type="checkbox" name="has_garage" id="has_garage" wire:model='has_garage'
                             class="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800">
                     </div>
 
-                    <div class="flex items-center mb-4 space-x-4">
-                        <label for="has_garden" class="text-md text-gray-900 dark:text-white text-left w-1/4">
+                    <div class="flex items-center mb-4 space-x-5  md:space-x-0">
+                        <label for="has_garden" class="text-md text-gray-900 dark:text-white text-left md:w-1/4">
                             ¿Tiene jardín?
                         </label>
                         <input type="checkbox" name="has_garden" id="has_garden" wire:model='has_garden'
                             class="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800">
                     </div>
 
-                    <div class="flex items-center mb-4 space-x-4">
-                        <label for="has_patio" class="text-md text-gray-900 dark:text-white text-left w-1/4">
+                    <div class="flex items-center mb-4 space-x-6 md:space-x-0">
+                        <label for="has_patio" class="text-md text-gray-900 dark:text-white text-left md:w-1/4">
                             ¿Tiene patio?
                         </label>
                         <input type="checkbox" name="has_patio" id="has_patio" wire:model='has_patio'
@@ -184,11 +184,11 @@
                     </div>
 
                     @csrf
-                    <div class="mb-4">
+                    <div class="flex flex-col md:flex-row md:items-center mb-4 md:space-x-4">
                         <label for="photos"
-                            class="block text-gray-900 dark:text-white text-sm text-left">Fotos</label>
+                            class="block text-gray-900 dark:text-white text-sm text-left w-1/4">Fotos</label>
                         <input type="file" wire:model="photo" id="photos" multiple
-                            class="w-full p-2 border text-gray-900 dark:text-white  border-gray-300 rounded-lg"
+                            class="w-full md:w-3/4 p-2 border text-gray-900 dark:text-white  border-gray-300 rounded-lg"
                             @if (!$photosAlreadySave) required @endif>
                         @error('photos')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
