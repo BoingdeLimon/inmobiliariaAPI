@@ -42,7 +42,7 @@
             </span>
         </div>
 
-        <div class="w-full bg-slate-100 md:w-1/4 space-y-1 md:space-x-5 flex flex-col md:flex-row items-center justify-center">
+        <div class="w-full  md:w-1/4 space-y-1 md:space-x-5 flex flex-col md:flex-row items-center justify-center">
             @auth
                 @livewire('new-rentals-form', ['user_id' => Auth::user()->id, 'token' => Auth::user()->token])
                 @livewire('dropdown-menu', ['user_id' => Auth::user()->id, 'token' => Auth::user()->token])

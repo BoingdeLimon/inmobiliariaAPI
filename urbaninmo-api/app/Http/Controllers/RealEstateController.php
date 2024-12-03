@@ -326,7 +326,7 @@ class RealEstateController extends Controller
             $realEstate->update($realEstateData);
 
             foreach ($validatedData['photo'] as $photo) {
-                $this->photosController->updatePhoto(new Request(
+                $this->photosController->newImage(new Request(
                     [
                         "id_real_estate" => $realEstate->id,
                         "photo" => $photo
