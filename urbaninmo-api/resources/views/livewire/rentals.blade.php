@@ -1,14 +1,13 @@
-<div class=" grid grid-cols-1  gap-6 p-2 w-full h-screen dark:bg-gray-900 ">
+<div class="grid grid-cols-1 gap-6 p-2 w-full h-screen dark:bg-gray-900">
     @livewire('filters')
-    <ul class="space-y-4">
-        @foreach ($rentals as $rental)
-        <li class="p-4 w-full rounded-lg">
 
+    <ul class="space-y-4">
+        @forelse ($rentals as $rental)
+            <li class="p-4 w-full rounded-lg">
                 <a href="{{ route('rental.show', $rental['id']) }}"
                     class="flex flex-col md:flex-row bg-white dark:bg-gray-600 shadow-md rounded-lg overflow-hidden max-w-5xl mx-auto">
-
                     <!-- Imagen -->
-                    <div class="relative h-48 w-full ">
+                    <div class="relative h-48 w-full">
                         <img src="{{ $rental['photos'][0]['photo'] ?? '/default-image.jpg' }}" alt="Foto Principal"
                             class="object-cover h-full w-full" />
                     </div>
@@ -53,6 +52,37 @@
                     </div>
                 </a>
             </li>
-        @endforeach
+            @empty
+            <!-- Mensaje si no se encuentran resultados -->
+            <div class="col-span-1 text-center p-6 text-xl text-gray-700 dark:text-gray-300">
+                No se encontraron resultados
+            </div>
+            
+            <!-- Skeleton Loader si no hay datos disponibles -->
+            @foreach (range(1, 3) as $index) <!-- Mostrar 5 skeletons por ejemplo -->
+            <li class="p-4 w-full rounded-lg">
+                <a class="flex flex-col h-48 md:flex-row bg-white dark:bg-gray-600 shadow-md rounded-lg overflow-hidden max-w-5xl mx-auto animate-pulse">
+                    <!-- Bloque de imagen -->
+                    <div class="w-full md:w-1/3 bg-gray-300 dark:bg-gray-600 h-52 md:h-auto"></div>
+
+                    <!-- Contenedor de texto -->
+                    <div class="flex-1 p-6 space-y-4">
+                        <!-- Título -->
+                        <div class="h-3 bg-gray-300 dark:bg-gray-600 rounded w-1/2"></div>
+
+                        <!-- Subtítulo -->
+                        <div class="h-3 bg-gray-300 dark:bg-gray-600 rounded w-1/3"></div>
+
+                        <!-- Líneas de texto -->
+                        <div class="space-y-3">
+                            <div class="h-2 bg-gray-300 dark:bg-gray-600 rounded w-full"></div>
+                            <div class="h-2 bg-gray-300 dark:bg-gray-600 rounded w-5/6"></div>
+                            <div class="h-2 bg-gray-300 dark:bg-gray-600 rounded w-4/6"></div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            @endforeach
+        @endforelse
     </ul>
 </div>
