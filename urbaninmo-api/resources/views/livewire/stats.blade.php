@@ -1,7 +1,7 @@
 
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full min-h-screen p-5 md:p-0 justify-center items-center bg-white dark:bg-slate-700 ">
+<div class="grid sm:grid-cols-1 md:grid-cols-2 gap-6 sm:w-full md:w-3/5 mt-6 sm:ml-[20%] lg:ml-[20%] min-h-screen p-5 md:p-0 justify-center items-center bg-white dark:bg-slate-700 ">
     <!-- Columna Izquierda -->
-    <div class="col-span-1 flex flex-col mx-auto mt-5 gap-5">
+    <div class="col-span-2 flex flex-row mx-auto mt-5 gap-5">
         <!-- Dropdown -->
         <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown"
             class="text-white  w-fit bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300  rounded-lg text-sm px-5 py-2.5 font-semibold text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
@@ -58,8 +58,14 @@
         </div>
         
 
+        
+    </div>
+
+    <!-- Row 2 -->
+    <div class="col-span-2 h-fit w-full lg:w-full mt-5 bg-white rounded-lg overflow-hidden border shadow-md dark:bg-slate-800 dark:border-slate-800  dark:shadow-md">
+        
         <!--Grafica-->
-        <div class="max-w-sm w-full mt-5 bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
+        <div class=" w-full mt-5 bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
             <div class="flex justify-between">
                 <div>
                     <h5 id="rental-days" class="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">0</h5>
@@ -68,10 +74,11 @@
             </div>
             <div id="area-chart"></div>
         </div>
+       
     </div>
-
-    <!-- Columna Derecha -->
-    <div class="col-span-1 h-fit md:w-[600px] mt-5 bg-white rounded-lg overflow-hidden border shadow-md dark:bg-slate-800 dark:border-slate-800  dark:shadow-md">
+    <!-- Row 3 -->
+    <div class="col-span-2 h-fit md:w-[600px] lg:w-full ml-22 mt-5 bg-white rounded-lg overflow-hidden border shadow-md dark:bg-slate-800 dark:border-slate-800  dark:shadow-md">
+        
         <!-- Contenido -->
         <div class="bg-[#3563E9] px-4 py-2">
             <h2 class="text-lg font-semibold text-white">Comentarios Destacados</h2>
