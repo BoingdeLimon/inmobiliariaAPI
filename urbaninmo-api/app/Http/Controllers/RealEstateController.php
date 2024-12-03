@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class RealEstateController extends Controller
 {
@@ -378,28 +379,28 @@ class RealEstateController extends Controller
                 'rooms' => 'nullable|integer',
                 'bathrooms' => 'nullable|integer',
                 'type' => 'nullable|string',
-                
+
                 'has_garage' => 'nullable|boolean',
                 'has_garden' => 'nullable|boolean',
                 'has_patio' => 'nullable|boolean',
-    
+
                 // TODO: Se necesita filtrar por la tabla address
                 'zipcode' => 'nullable|string|max:20',
                 'city' => 'nullable|string|max:100',
                 'state' => 'nullable|string|max:100',
                 'country' => 'nullable|string|max:100',
-    
+
                 // TODO: Se necesita filtrar por los precios
                 'min_price' => 'nullable|numeric',
                 'max_price' => 'nullable|numeric',
-    
+
                 'is_occupied' => 'nullable|boolean',
             ]);
-    
+
             $query = DB::table('real_estate')
                 ->join('address', 'real_estate.id_address', '=', 'address.id')
                 ->select('real_estate.*', 'address.zipcode', 'address.city', 'address.state');
-    
+
             foreach ($validatedData as $field => $value) {
                 if ($value !== null) {
                     if (in_array($field, ['zipcode', 'city', 'state'])) {
@@ -413,7 +414,7 @@ class RealEstateController extends Controller
                     }
                 }
             }
-    
+
             $realEstatesFilter = $query->get();
             $fullRealEstate = $realEstatesFilter->map(function ($realEstate) {
                 $address = $this->addressController->show(new Request(['id_address' =>  $realEstate->id_address]));
@@ -427,6 +428,30 @@ class RealEstateController extends Controller
         } catch (\Throwable $th) {
             return response()->json(['status' => 'error'], 500);
         }
+    }
+
+    // ! ENDPOINTS SEARCHBAR PARA NEXT 
+    // ! Evelio
+    public function searchRealEstate(Request $request)
+    {
+        // Leer el parámetro 'search' desde el cuerpo de la solicitud
+        $search = $request->input('search');
+        
+        // Si la búsqueda está vacía, retornar una respuesta vacía
+        if (empty($search)) {
+            return response()->json([]);
+        }
+
+        // Realizar la búsqueda en los campos 'title' y 'description' sin importar mayúsculas/minúsculas
+        $results = RealEstate::with('address') // Agregar la relación 'address' a la consulta
+            ->where(function($query) use ($search) {
+                $query->whereRaw('LOWER(title) LIKE ?', ['%' . strtolower($search) . '%'])
+                      ->orWhereRaw('LOWER(description) LIKE ?', ['%' . strtolower($search) . '%']);
+            })
+            ->get();
+
+        // Retornar los resultados encontrados, incluyendo la dirección
+        return response()->json($results);
     }
 
     // public function filterRentals(Request $request)
