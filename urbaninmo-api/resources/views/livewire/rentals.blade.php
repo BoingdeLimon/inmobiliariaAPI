@@ -2,19 +2,17 @@
     @livewire('filters')
     <ul class="space-y-4 overflow-y-auto h-full">
         @foreach ($rentals as $rental)
-        <li class="p-4 w-full rounded-lg ">
+            <li class="p-4 w-full rounded-lg ">
 
                 <a href="{{ route('rental.show', $rental['id']) }}"
                     class="flex flex-col md:flex-row bg-white dark:bg-gray-600 shadow-md rounded-lg overflow-hidden max-w-5xl mx-auto">
 
                     <!-- Imagen -->
-                    <div class="relative h-48 w-full ">
-                        <img 
-                         src="{{ asset('storage/photos/' . $rental['photos'][0]['photo'])  }}" alt="Foto de la propiedad "
-
-                        {{-- src="{{ asset($rental['photos'][0]['photo']) ?? '/default-image.jpg' }}" alt="Foto Principal" --}}
-                            class="object-cover h-full w-full" />
+                    <div class="relative h-48 w-full">
+                        <img src="{{ asset('storage/photos/' . $rental['photos'][0]['photo']) }}"
+                            alt="Foto de la propiedad" class="object-cover h-full w-full" />
                     </div>
+
 
                     <!-- Detalles -->
                     <div class="p-5 flex flex-col justify-between w-full">

@@ -68,3 +68,9 @@ Route::get('/statistics', function () {
     return view('statistics'); 
 })->name('statistics'); 
 Route::get('/rental/{id}/pdf', [PdfController::class, 'generatePdf']);
+
+
+
+Route::fallback(function () {
+    return view('errors.404');
+});

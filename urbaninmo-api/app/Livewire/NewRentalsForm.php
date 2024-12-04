@@ -7,7 +7,8 @@ use Livewire\WithFileUploads;
 use App\Models\Address;
 use App\Models\RealEstate;
 use App\Models\Photos;
-
+// use Illuminate\Container\Attributes\Storage;
+use Illuminate\Support\Facades\Storage;
 
 class NewRentalsForm extends Component
 {
@@ -35,9 +36,20 @@ class NewRentalsForm extends Component
     public $is_occupied = false;
     public $isModalOpen = false;
 
+    public $photosAlreadySave;
+
     public $realEstateId;
 
+    public function update($user_id = null, $realEstateId = null)
+    {
+        $this->selectedRealEstate($user_id, $realEstateId);
+    }
     public function mount($user_id = null, $realEstateId = null)
+    {
+        $this->selectedRealEstate($user_id, $realEstateId);
+    }
+
+    public function selectedRealEstate($user_id = null, $realEstateId = null)
     {
         $this->user_id = $user_id;
         $this->realEstateId = $realEstateId;
@@ -67,10 +79,11 @@ class NewRentalsForm extends Component
                 $this->y = $address->y;
 
                 $photos = $realEstate->photos;
-                $this->photo = $photos;
+                $this->photosAlreadySave = $photos;
             }
         }
     }
+
 
     protected $rules = [
         'title' => 'required|string|max:255',
@@ -115,15 +128,31 @@ class NewRentalsForm extends Component
     {
 
         if ($this->realEstateId) {
-            $this->update();
+            $this->updateRealEstate();
         } else {
-            $this->save();
+            $this->saveRealEstate();
         }
         $this->reset();
     }
 
-
-    public function save()
+    public function newPhoto($id_real_estate)
+    {
+        $photoNames = [];
+        if ($this->photo) {
+            foreach ($this->photo as $photoFile) {
+                $filePath = $photoFile->store('photos', 'public');
+                $photoNames[] = basename($filePath);
+            }
+        }
+        $this->photo = $photoNames;
+        foreach ($this->photo as $photoFile) {
+            Photos::create([
+                'id_real_estate' => $id_real_estate,
+                'photo' => $photoFile
+            ]);
+        }
+    }
+    public function saveRealEstate()
     {
         // if ($this->photo) {
         //     $photoNames = collect($this->photo)->map(function ($photo) {
@@ -131,17 +160,6 @@ class NewRentalsForm extends Component
         //     });
         // }
         $this->validate();
-        
-        $photoNames = [];
-        if ($this->photo) {
-            foreach ($this->photo as $photoFile) {
-                $filePath = $photoFile->store('photos', 'public'); 
-                $photoNames[] = basename($filePath);
-            }
-        }
-    
-        $this->photo = $photoNames;
-
         $address = Address::create([
             'address' => $this->address,
             'zipcode' => $this->zipcode,
@@ -168,24 +186,21 @@ class NewRentalsForm extends Component
             'price' => $this->price,
             'is_occupied' => $this->is_occupied,
         ]);
-        foreach ($this->photo as $photoFile) {
-            Photos::create([
-                'id_real_estate' => $realEstates->id,
-                'photo' => $photoFile
-            ]);
-        }
+
+        $this->newPhoto($realEstates->id);
     }
 
-
-    public function update()
+    public function deletePhoto($photoId)
     {
-        if ($this->photo) {
-            $photoNames = collect($this->photo)->map(function ($photo) {
-                return $photo->getClientOriginalName();
-            });
-        }
-        $this->photo = $photoNames;
+        $photo = Photos::find($photoId);
+        $photoName = $photo->photo;
+        Storage::disk('public')->delete('photos/' . $photoName);
+        $photo->delete();
+        $this->photosAlreadySave = Photos::where('id_real_estate', $this->realEstateId)->get();
+    }
 
+    public function updateRealEstate()
+    {
         $address = Address::find($this->realEstateId);
         $address->update([
             'address' => $this->address,
@@ -213,6 +228,8 @@ class NewRentalsForm extends Component
             'price' => $this->price,
             'is_occupied' => $this->is_occupied,
         ]);
+
+        $this->newPhoto($this->realEstateId);
     }
 
     public function render()

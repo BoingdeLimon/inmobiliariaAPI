@@ -14,7 +14,6 @@ class AddressSeeder extends Seeder
     public function run(): void
     {
         Address::create([
-            'id' => 1,
             'address' => 'Calle 1 #123',
             'zipcode' => '12345',
             'city' => 'Campeche',

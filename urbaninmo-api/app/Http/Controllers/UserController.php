@@ -25,8 +25,10 @@ class UserController extends Controller
             'role' => 'nullable|string',
         ]);
 
+        //! Los usuarios se dividen en: admin, user, mod
         $data['password'] = bcrypt($data['password']);
-
+        $role = $data['role'] ?? 'user';
+        $data['role'] = $role;
         $user = User::create($data);
 
         return response()->json($user, 201);

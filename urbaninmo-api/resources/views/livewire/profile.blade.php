@@ -1,13 +1,14 @@
 <div
     class="h-full bg-gray-100 dark:bg-gray-900 md:overflow-y-hidden text-gray-800 dark:text-gray-200 transition duration-300">
-    <div class="max-w-7xl mx-auto  w-full h-full md:flex p-4 lg:space-x-4">
+    <div class=" mx-auto  w-11/12 h-full md:flex p-4 lg:space-x-4">
 
         <div id="profile"
             class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-10 md:w-1/4  h-modal text-center md:block hidden">
 
             <div class="w-full flex items-start mb-5">
-                <button className="l hover:bg-slate-200 text-gray-600 dark:text-gray-300 hover:text-gray-900 ">
-                    <a href="/" class="flex items-start justify-start w-full dark:hover:text-white">
+                <button class="text-gray-600 dark:text-gray-300 hover:text-gray-900">
+                    <a href="/"
+                        class="flex items-start justify-start w-full dark:hover:text-white transform transition-transform duration-300 hover:scale-105">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor" class="size-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
@@ -22,7 +23,6 @@
                     class="aspect-square w-24 rounded-full mr-2">
             </div>
 
-            </Link>
             <h2 class="text-lg font-semibold">{{ Auth::user()->name }}</h2>
             <p class="text-gray-600 dark:text-gray-400">{{ Auth::user()->email }}</p>
             <p class="text-gray-600 dark:text-gray-400">{{ Auth::user()->phone ?? 'Teléfono inexistente' }}</p>
@@ -30,22 +30,27 @@
             <div class="flex-col flex space-y-4 w-full">
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit" class="bg-red-500 text-white mt-4 w-full py-2 rounded-lg">Sign Out</button>
+                    <button type="submit"
+                        class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 focus:outline-none transition duration-300 ease-in-out transform hover:scale-95 mt-4 w-full">
+                        Sign Out
+                    </button>
                 </form>
 
-                <button type="submit" class="bg-purple-600 text-white  w-full py-2 rounded-lg"> Editar Perfil</button>
+                <button
+                    class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 focus:outline-none transition duration-300 ease-in-out transform hover:scale-95 w-full">
+                    Editar Perfil
+                </button>
                 @livewire('new-rentals-form', ['user_id' => Auth::user()->id])
                 <livewire:button-dark-mode />
             </div>
-
-
         </div>
 
         <div class="overflow-y-auto grid w-full space-y-4 h-modal">
+
             <div id="properties" class="lg:w-full space-y-6 md:block hidden ">
 
                 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-                    <div class="flex justify-between items-center">
+                    <div class="  w-full flex justify-between items-end">
                         <h3 class="text-xl font-semibold">Mis Propiedades</h3>
                         <select wire:change="updatePropertyInfo($event.target.value)"
                             class="text-sm bg-gray-100 dark:bg-gray-700 p-2 rounded-lg">
@@ -59,19 +64,19 @@
                     </div>
 
                     @if ($selectedProperty)
-                        <div id="propertyInfo" class="mt-4">
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div id="propertyInfo" class="mt-4 w-full">
+                            <div class="grid grid-cols-1 justify-items-start sm:grid-cols-2 gap-4">
                                 @foreach ([
-        'Nombre' => $selectedProperty->title,
-        'Tamaño' => $selectedProperty->size . ' m²',
-        'Precio de Renta' => number_format($selectedProperty->price, 2),
-        'Cuartos' => $selectedProperty->rooms,
-        'Baños' => $selectedProperty->bathrooms,
-        'Tipo' => $selectedProperty->type,
-        '¿Tiene Garage?' => $selectedProperty->has_garage ? 'Sí' : 'No',
-        '¿Tiene Jardín?' => $selectedProperty->has_garden ? 'Sí' : 'No',
-        '¿Tiene Patio?' => $selectedProperty->has_patio ? 'Sí' : 'No',
-    ] as $label => $value)
+                                            'Nombre' => $selectedProperty->title,
+                                            'Tamaño' => $selectedProperty->size . ' m²',
+                                            'Precio de Renta' => number_format($selectedProperty->price, 2),
+                                            'Cuartos' => $selectedProperty->rooms,
+                                            'Baños' => $selectedProperty->bathrooms,
+                                            'Tipo' => $selectedProperty->type,
+                                            '¿Tiene Garage?' => $selectedProperty->has_garage ? 'Sí' : 'No',
+                                            '¿Tiene Jardín?' => $selectedProperty->has_garden ? 'Sí' : 'No',
+                                            '¿Tiene Patio?' => $selectedProperty->has_patio ? 'Sí' : 'No',
+                                                    ] as $label => $value)
                                     <div>
                                         <p class="text-sm font-semibold text-gray-600 dark:text-gray-400">
                                             {{ $label }}</p>
@@ -98,36 +103,70 @@
                                         {{ $selectedProperty->address->y }}</p>
                                 </div>
                             </div>
-
-                            <div class="mt-6">
-                                <p class="text-sm font-semibold text-gray-600 dark:text-gray-400">Fotos</p>
-                                <div class="grid grid-cols-1 sm:grid-cols-2 l :grid-cols-3 gap-4 mt-2">
-                                    @foreach ($selectedProperty->photos as $photo)
-                                        <img src="{{ asset('storage/photos/' . $photo->photo) }}" alt="Foto de la propiedad "
-                                            class="aspect-auto w-96 bg-gray-300 rounded-lg object-cover">
-                                    @endforeach
-                                </div>
+                            <div class="w-full flex items-center justify-center p-9 overflow-x-auto space-x-10">
+                                @foreach ($selectedProperty->photos as $photo)
+                                    <img src="{{ asset('storage/photos/' . $photo->photo) }}"
+                                        alt="Foto de la propiedad"
+                                        class="w-80 h-44 md:h-[11rem] md:w-[30rem] bg-gray-300 rounded-lg object-cover">
+                                @endforeach
                             </div>
 
-                            <div class="mt-10 space-y-2 flex flex-col w-full">
-                                @livewire('new-rentals-form', ['user_id' => Auth::user()->id, 'realEstateId' => $selectedProperty->id])
-
+                            <div class="space-y-2 flex flex-col w-full">
+                                @livewire('new-rentals-form', ['user_id' => Auth::user()->id, 'realEstateId' => $selectedProperty->id], key($selectedProperty->id))
 
                                 <button
-                                    class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 focus:outline-none">
+                                    class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 focus:outline-none transition duration-300 ease-in-out transform hover:scale-95">
                                     Eliminar
                                 </button>
 
-                                <button
-                                    class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 focus:outline-none">
-                                    Crear Nueva Renta
-                                </button>
+                               @livewire('rent-list', ['realEstateId' => $selectedProperty->id], key($selectedProperty->id))
                             </div>
                         </div>
                     @endif
                 </div>
             </div>
 
+
+
+            <div id="rentals"
+                class="lg:w-full space-y-6 h-modal bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 md:block hidden">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-xl font-semibold">Rentas</h3>
+                </div>
+
+                <div class="mt-6">
+                    <div class="space-y-2 overflow-y-scroll h-full md:h-80">
+                        @forelse ($rentals as $rental)
+                            <div
+                                class="p-6 h-1/2 bg-gray-50 dark:bg-gray-700 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
+                                <div class="flex items-center justify-between">
+                                    <p class="font-semibold text-lg text-gray-800 dark:text-gray-100">
+                                        Propiedad: {{ $real_estate_property->title }}
+                                    </p>
+                                    <span class="text-sm text-gray-500 dark:text-gray-400">
+                                        Inicio: {{ $rental->rent_start->format('d/m/Y') }}
+                                    </span>
+                                </div>
+                                <div class="mt-2">
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">
+                                        <strong>Fin:</strong>
+                                        {{ $rental->rent_end ? $rental->rent_end->format('d/m/Y') : 'N/A' }}
+                                    </p>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">
+                                        <strong>Razón de Fin:</strong> {{ $rental->reason_end ?? 'N/A' }}
+                                    </p>
+                                    @livewire('create-comment', ['title_rental' => $real_estate_property->title])
+                                </div>
+                            </div>
+                        @empty
+                            <div
+                                class="p-6 bg-gray-50 dark:bg-gray-800 rounded-lg shadow-lg text-center border border-gray-200 dark:border-gray-700">
+                                <p class="text-gray-600 dark:text-gray-400">No hay rentas disponibles.</p>
+                            </div>
+                        @endforelse
+                    </div>
+                </div>
+            </div>
 
 
 
@@ -175,6 +214,8 @@
                 </div>
             </div>
 
+
+
         </div>
     </div>
 
@@ -207,12 +248,20 @@
             <span class="text-xs">Mensajes</span>
         </button>
 
+
+        <button id='rentals_button' class="flex flex-col items-center text-gray-500 dark:text-gray-400"
+            onclick="showSection('rentals')">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M3 3h18v2H3V3zm0 4h18v2H3V7zm0 4h18v2H3v-2zm0 4h18v2H3v-2zm0 4h18v2H3v-2z" />
+            </svg>
+            <span class="text-xs">Rentas</span>
+        </button>
     </div>
 </div>
 
 <script>
     function showSection(sectionId) {
-        const sections = ['profile', 'properties', 'messages'];
+        const sections = ['profile', 'properties', 'messages', 'rentals'];
         sections.forEach(id => {
             const idBtn = id + "_button";
             document.getElementById(id).classList.add('hidden');

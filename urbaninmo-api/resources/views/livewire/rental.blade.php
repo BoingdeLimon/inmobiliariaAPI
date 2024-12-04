@@ -16,7 +16,7 @@
                 {{ $description ?? 'Bonita Casa en Fraccionamiento Privado.' }}
             </p>
             <p class="text-3xl font-semibold text-[#3563E9]">
-                {{ $price . ' / mes' }}
+              $  {{ number_format($price, 0, ',', ',') . ' / mes' }}
             </p>
             <p class="text-md text-gray-500 dark:text-gray-400">
                 {{ 'Ubicación: ' . $address . ', ' . $city . ', ' . $state . ', ' . $zipcode }}
