@@ -89,13 +89,13 @@ class PhotosController extends Controller
 
 
     public function deleteSpecificPhoto(Request $request) {
-        $id_photo = $request->input('id_photo');        
-        $photo = Photos::find($id_photo);
+        $photo = $request->input('photo');       
+        $photo = Photos::where('photo', $photo)->first();
         if (!$photo) {
-            return ['status' => 'error'];
+            return ['status' => 'error', 'message' => $photo];
         }
         $photo->delete();
-        return ['status' => 'successfull'];
+        return ['status' => 'successful'];
     }
 
 
