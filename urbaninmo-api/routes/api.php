@@ -48,17 +48,11 @@ Route::post("/filterRentals", [RealEstateController::class, 'filterRentals']);
 
 
 //  Solo usuario autenticado puede crear, editar y eliminar
-Route:: 
-middleware(['auth:sanctum'])->
-post("/newRental", [RealEstateController::class, 'newRental']);
+Route::middleware(['auth:sanctum'])->post("/newRental", [RealEstateController::class, 'newRental']);
 
-Route:: 
-middleware(['auth:sanctum'])->
-post("/editRental", [RealEstateController::class, 'editRental']);
+Route::middleware(['auth:sanctum'])->post("/editRental", [RealEstateController::class, 'editRental']);
 
-Route:: 
-middleware(['auth:sanctum'])->
-post("/deleteRental", [RealEstateController::class, 'deleteRental']);
+Route::middleware(['auth:sanctum'])->post("/deleteRental", [RealEstateController::class, 'deleteRental']);
 
 
 // * Para fotos 
@@ -70,6 +64,7 @@ Route::post('/editPhoto', [PhotosController::class, 'updatePhoto']);
 
 Route::post('/createPhoto', [PhotosController::class, 'newImage']);
 
+Route::middleware(['auth:sanctum'])->post('/deleteSpecificPhoto', [PhotosController::class, 'deleteSpecificPhoto']);
 
 //* Para address
 
@@ -90,7 +85,3 @@ Route::get('/showAllMessages', [MessagesController::class, "showAllMessages"]);
 Route::post('/newMessage', [MessagesController::class, "newMessage"]);
 
 Route::post('/deleteMessage', [MessagesController::class, "deleteMessage"]);
-
-
-
-

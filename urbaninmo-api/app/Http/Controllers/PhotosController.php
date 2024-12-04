@@ -83,39 +83,20 @@ class PhotosController extends Controller
 
 
 
-    public function updatePhoto(Request $request)
-    {
 
-        // $existingPhoto = Photos::where('id_real_estate', $request->id_real_estate)
-        //     ->where('photo', $request->photo)
-        //     ->first();
-        $allPhotosRealEstate = Photos::where('id_real_estate', $request->id_real_estate)->get();
 
-        $existingPhoto = $allPhotosRealEstate->firstWhere('photo', $request->photo);
 
-        if ($existingPhoto) {
-            return response()->json(['message' => 'La foto ya existe'], 200);
-        } 
-        $this->newImage($request);
-    }
-    public function checkAndAddPhoto(Request $request)
-    {
 
-        $existingPhoto = Photos::where('id_real_estate', $request->id_real_estate)
-            ->where('photo', $request->photo)
-            ->first();
 
-        if ($existingPhoto) {
-            return response()->json(['message' => 'La foto ya existe'], 200);
-        } else {
-            return $this->newImage($request);
+    public function deleteSpecificPhoto(Request $request) {
+        $id_photo = $request->input('id_photo');        
+        $photo = Photos::find($id_photo);
+        if (!$photo) {
+            return ['status' => 'error'];
         }
+        $photo->delete();
+        return ['status' => 'successfull'];
     }
-
-
-
-
-    public function deleteSpecificPhoto(Request $request) {}
 
 
     public function deleteAllPhotos(Request $request)

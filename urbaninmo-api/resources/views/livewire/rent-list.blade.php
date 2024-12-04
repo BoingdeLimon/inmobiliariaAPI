@@ -18,7 +18,6 @@
             <div
                 class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-2xl w-10/12 max-h-[80%] overflow-y-auto relative">
                 <div class="mt-4">
-                    <!-- Contenedor scroll horizontal -->
                     <div class="overflow-x-auto">
                         <table
                             class="min-w-full bg-white dark:bg-gray-800 rounded-lg border-collapse border border-gray-200 dark:border-gray-700">
