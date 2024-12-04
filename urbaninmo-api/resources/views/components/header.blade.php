@@ -30,16 +30,7 @@
           md:justify-end space-y-2 md:space-y-0">
 
         <div class="relative flex md:w-8/12 w-full ">
-
-            <input type="text" placeholder="Buscar..."
-                class=" text-lg w-full  bg-white dark:bg-gray-900 dark:border-gray-700 text-black dark:text-gray-300 rounded-lg" />
-            <span class="absolute inset-y-0 right-0 flex items-center pr-2  text-black hover:text-gray-400">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="size-6">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-                </svg>
-            </span>
+                @livewire('search-bar')
         </div>
 
         <div class="w-full  md:w-1/4 space-y-1 md:space-x-5 flex flex-col md:flex-row items-center justify-center">

@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class RealEstateController extends Controller
 {
@@ -466,6 +467,30 @@ class RealEstateController extends Controller
         } catch (\Throwable $th) {
             return response()->json(['status' => 'error'], 500);
         }
+    }
+
+    // ! ENDPOINTS SEARCHBAR PARA NEXT 
+    // ! Evelio
+    public function searchRealEstate(Request $request)
+    {
+        // Leer el parámetro 'search' desde el cuerpo de la solicitud
+        $search = $request->input('search');
+        
+        // Si la búsqueda está vacía, retornar una respuesta vacía
+        if (empty($search)) {
+            return response()->json([]);
+        }
+
+        // Realizar la búsqueda en los campos 'title' y 'description' sin importar mayúsculas/minúsculas
+        $results = RealEstate::with('address') // Agregar la relación 'address' a la consulta
+            ->where(function($query) use ($search) {
+                $query->whereRaw('LOWER(title) LIKE ?', ['%' . strtolower($search) . '%'])
+                      ->orWhereRaw('LOWER(description) LIKE ?', ['%' . strtolower($search) . '%']);
+            })
+            ->get();
+
+        // Retornar los resultados encontrados, incluyendo la dirección
+        return response()->json($results);
     }
 
     // public function filterRentals(Request $request)
