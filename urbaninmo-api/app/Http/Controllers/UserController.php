@@ -8,14 +8,49 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function index()
+    // ! OLIVER FUNCIONES
+    public function getAllUsers()
     {
-        return User::all();
+        return ['status' => 'success', 'users' => User::all()];
+    }
+    public function getUserById(Request $request)
+    {
+        return User::findOrFail($request->id);
+    }
+
+    public function updateUser(Request $request)
+    {
+        $id = $request->id;
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $id,
+            // 'password' => 'required|string|min:8',
+            'phone' => 'nullable|string|max:10',
+            'photo' => 'nullable|string',
+            'role' => 'nullable|string',
+        ]);
+        $user = User::findOrFail($id);
+        if (!$user) {
+            return response()->json(['status' => 'errror']);
+        }
+        $user->update($validatedData);
+        return response()->json(['status' => 'success', 'user' => $user]);
+    }
+
+    public function deleteUser(Request $request)
+    {
+        $id = $request->id;
+        $user = User::findOrFail($id);
+        if (!$user) {
+            return response()->json(['status' => 'errror']);
+        }
+        $user->delete();
+        return response()->json(['status' => 'success']);
     }
 
     public function store(Request $request)
     {
-        
+
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
@@ -34,6 +69,32 @@ class UserController extends Controller
         return response()->json($user, 201);
     }
 
+    public function filterUser(Request $request)
+    {
+        $query = User::query();
+
+        $filters = ['name', 'email', 'phone', 'role'];
+
+        foreach ($filters as $filter) {
+            if ($request->has($filter)) {
+                if ($filter == 'role') {
+                    $query->where($filter, $request->$filter);
+                } else {
+                    $query->where($filter, 'like', '%' . $request->$filter . '%');
+                }
+            }
+        }
+        $users = $query->get();
+        $users = User::all();
+
+        return response()->json($users);
+    }
+    //!
+
+    public function index()
+    {
+        return User::all();
+    }
     public function show($id)
     {
         $user = User::findOrFail($id);
@@ -74,4 +135,3 @@ class UserController extends Controller
         return response()->json(['message' => 'User deleted successfully']);
     }
 }
-
