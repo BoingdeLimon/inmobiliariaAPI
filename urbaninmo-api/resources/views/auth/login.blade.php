@@ -1,5 +1,14 @@
+
 <x-guest-layout>
     <x-authentication-card>
+        <div class="text-center justify-center">
+            <a href="/">
+                <h1 class="p-2 text-xl">
+                    <span class="p-[2.5px] dark:text-white">Urban</span>
+                    <span class="bg-[#3563E9]  text-white p-1 border rounded-lg">Inmo</span>
+                </h1>
+            </a>
+        </div>
         <x-label class="flex flex-col space-y-1.5 p-6">
             <div class="w-full flex flex-col gap-y-4 items-center justify-center text-black dark:text-white">
                 <h1 class="text-3xl font-semibold">Nos alegra verte de nuevo</h1>
