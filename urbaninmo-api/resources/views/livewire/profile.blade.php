@@ -67,16 +67,16 @@
                         <div id="propertyInfo" class="mt-4 w-full">
                             <div class="grid grid-cols-1 justify-items-start sm:grid-cols-2 gap-4">
                                 @foreach ([
-                                            'Nombre' => $selectedProperty->title,
-                                            'Tamaño' => $selectedProperty->size . ' m²',
-                                            'Precio de Renta' => number_format($selectedProperty->price, 2),
-                                            'Cuartos' => $selectedProperty->rooms,
-                                            'Baños' => $selectedProperty->bathrooms,
-                                            'Tipo' => $selectedProperty->type,
-                                            '¿Tiene Garage?' => $selectedProperty->has_garage ? 'Sí' : 'No',
-                                            '¿Tiene Jardín?' => $selectedProperty->has_garden ? 'Sí' : 'No',
-                                            '¿Tiene Patio?' => $selectedProperty->has_patio ? 'Sí' : 'No',
-                                                    ] as $label => $value)
+        'Nombre' => $selectedProperty->title,
+        'Tamaño' => $selectedProperty->size . ' m²',
+        'Precio de Renta' => number_format($selectedProperty->price, 2),
+        'Cuartos' => $selectedProperty->rooms,
+        'Baños' => $selectedProperty->bathrooms,
+        'Tipo' => $selectedProperty->type,
+        '¿Tiene Garage?' => $selectedProperty->has_garage ? 'Sí' : 'No',
+        '¿Tiene Jardín?' => $selectedProperty->has_garden ? 'Sí' : 'No',
+        '¿Tiene Patio?' => $selectedProperty->has_patio ? 'Sí' : 'No',
+    ] as $label => $value)
                                     <div>
                                         <p class="text-sm font-semibold text-gray-600 dark:text-gray-400">
                                             {{ $label }}</p>
@@ -119,7 +119,7 @@
                                     Eliminar
                                 </button>
 
-                               @livewire('rent-list', ['realEstateId' => $selectedProperty->id], key($selectedProperty->id))
+                                @livewire('rent-list', ['realEstateId' => $selectedProperty->id], key($selectedProperty->id))
                             </div>
                         </div>
                     @endif
@@ -129,46 +129,80 @@
 
 
             <div id="rentals"
-                class="lg:w-full space-y-6 h-modal bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 md:block hidden">
-                <div class="flex justify-between items-center">
-                    <h3 class="text-xl font-semibold">Rentas</h3>
-                </div>
-
-                <div class="mt-6">
-                    <div class="space-y-2 overflow-y-scroll h-full md:h-80">
-                        @forelse ($rentals as $rental)
-                            <div
-                                class="p-6 h-1/2 bg-gray-50 dark:bg-gray-700 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
-                                <div class="flex items-center justify-between">
-                                    <p class="font-semibold text-lg text-gray-800 dark:text-gray-100">
-                                        Propiedad: {{ $real_estate_property->title }}
-                                    </p>
-                                    <span class="text-sm text-gray-500 dark:text-gray-400">
-                                        Inicio: {{ $rental->rent_start->format('d/m/Y') }}
+            class="lg:w-full h-modal bg-white dark:bg-gray-800 rounded-xl shadow-2xl p-6 md:block hidden">
+            <div class="flex justify-between items-center border-b pb-4 border-gray-300 dark:border-gray-700">
+                <h3 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Rentas</h3>
+            </div>
+        
+            <div class="mt-6">
+                <div class="space-y-6 overflow-y-scroll h-full md:h-80 scrollbar-thin scrollbar-thumb-gray-400 dark:scrollbar-thumb-gray-600 scrollbar-track-gray-200 dark:scrollbar-track-gray-800">
+                    @forelse ($rentals as $rental)
+                        <div
+                            class="p-6 bg-gray-50 dark:bg-gray-700 rounded-xl shadow-lg border border-gray-200 dark:border-gray-600 transition-transform duration-300 hover:scale-95 hover:shadow-xl">
+                            <div class="flex items-center justify-between mb-4">
+                                <p class="font-semibold text-lg text-gray-900 dark:text-gray-100">
+                                    Propiedad: {{ $this->loadRealEstateTitle($rental->id_real_estate) }}
+                                </p>
+                                <span class="text-sm text-gray-600 dark:text-gray-400">
+                                    Inicio: <span
+                                        class="font-medium text-blue-500">{{ \Carbon\Carbon::parse($rental->rent_start)->format('d M, Y') }}</span>
+                                </span>
+                            </div>
+        
+                            <div class="space-y-3">
+                                <p class="text-sm text-gray-700 dark:text-gray-300">
+                                    <strong>Fin:</strong> <span class="font-medium text-blue-500">
+                                        {{ $rental->rent_end ? \Carbon\Carbon::parse($rental->rent_end)->format('d M, Y') : 'N/A' }}
                                     </span>
-                                </div>
-                                <div class="mt-2">
-                                    <p class="text-sm text-gray-600 dark:text-gray-400">
-                                        <strong>Fin:</strong>
-                                        {{ $rental->rent_end ? $rental->rent_end->format('d/m/Y') : 'N/A' }}
-                                    </p>
-                                    <p class="text-sm text-gray-600 dark:text-gray-400">
-                                        <strong>Razón de Fin:</strong> {{ $rental->reason_end ?? 'N/A' }}
-                                    </p>
-                                    @livewire('create-comment', ['title_rental' => $real_estate_property->title])
-                                </div>
+                                </p>
+                                <p class="text-sm text-gray-700 dark:text-gray-300">
+                                    <strong>Razón de Fin:</strong> <span
+                                        class="font-medium text-blue-500">{{ $rental->reason_end ?? 'N/A' }}</span>
+                                </p>
                             </div>
-                        @empty
-                            <div
-                                class="p-6 bg-gray-50 dark:bg-gray-800 rounded-lg shadow-lg text-center border border-gray-200 dark:border-gray-700">
-                                <p class="text-gray-600 dark:text-gray-400">No hay rentas disponibles.</p>
-                            </div>
-                        @endforelse
-                    </div>
+        
+                            @if ($comments)
+                                @foreach ($comments as $comment)
+                                    @if ($comment->id_real_estate == $rental->id_real_estate)
+                                        <div class="mt-4">
+                                            <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Comentario</h2>
+                                            <div
+                                                class="p-4 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md border border-gray-300 dark:border-gray-600 space-y-2">
+                                                <p class="text-base text-gray-800 dark:text-gray-200">
+                                                    {{ $comment->comment }}
+                                                </p>
+                                                <div class="flex items-center space-x-1">
+                                                    @for ($i = 1; $i <= 5; $i++)
+                                                        <svg class="w-5 h-5 {{ $comment->rating >= $i ? 'text-yellow-500' : 'text-gray-300' }}"
+                                                            fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                                                            <path
+                                                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.957a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.37 2.448a1 1 0 00-.364 1.118l1.286 3.957c.3.921-.755 1.688-1.54 1.118l-3.37-2.448a1 1 0 00-1.175 0l-3.37 2.448c-.784.57-1.838-.197-1.54-1.118l1.286-3.957a1 1 0 00-.364-1.118L2.465 9.384c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.957z" />
+                                                        </svg>
+                                                    @endfor
+                                                </div>
+                                                <p class="text-sm text-gray-500 dark:text-gray-400">
+                                                    Creado el {{ $comment->created_at->translatedFormat('d F, Y') }} a las {{ $comment->created_at->translatedFormat('H:i') }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            @else
+                                <div class="mt-4">
+                                    @livewire('create-comment', ['id_real_estate' => $rental->id_real_estate], key($rental->id_real_estate))
+                                </div>
+                            @endif
+                        </div>
+                    @empty
+                        <div
+                            class="p-6 bg-gray-50 dark:bg-gray-800 rounded-lg shadow-lg text-center border border-gray-300 dark:border-gray-600">
+                            <p class="text-gray-600 dark:text-gray-400">No hay rentas disponibles.</p>
+                        </div>
+                    @endforelse
                 </div>
             </div>
-
-
+        </div>
+        
 
 
             <div id="messages"

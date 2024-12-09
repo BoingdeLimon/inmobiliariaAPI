@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\MessagesController;
 use App\Http\Controllers\PhotosController;
 use App\Http\Controllers\RealEstateController;
@@ -38,8 +39,9 @@ Route::delete('addresses/{id}', [AddressController::class, 'destroy']);
 /// Añadir logica para update de usuario (para utilizarlos en Next)
 //* Para Usuarios
 
-Route::middleware(['auth:sanctum'])
-->post('/getAllUsers', [UserController::class, 'getAllUsers']);
+Route::
+middleware(['auth:sanctum'])->
+post('/getAllUsers', [UserController::class, 'getAllUsers']);
 
 Route::middleware(['auth:sanctum'])
 ->post('/getUserById', [UserController::class, 'getUserById']);
@@ -92,3 +94,7 @@ Route::post('/showMessagesByUser', [MessagesController::class, "showMessagesByUs
 Route::get('/showAllMessages', [MessagesController::class, "showAllMessages"]);
 Route::post('/newMessage', [MessagesController::class, "newMessage"]);
 Route::post('/deleteMessage', [MessagesController::class, "deleteMessage"]);
+
+
+// * Para comentarios
+Route::post('/listAllComments', [CommentsController::class, "listAllComments"]);

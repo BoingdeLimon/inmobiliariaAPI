@@ -1,7 +1,6 @@
 <?php
 
-use App\Models\RealEstate;
-use App\Models\User;
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -21,9 +20,10 @@ return new class extends Migration
             $table->date('rent_end')->nullable();
             $table->text('reason_end')->nullable();
             $table->timestampTz('created_at')->useCurrent();
+            $table->timestampTz('updated_at')->useCurrent()->nullable();
         });
     }
-  
+
 
     /**
      * Reverse the migrations.
