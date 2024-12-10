@@ -16,7 +16,7 @@ class Comments extends Model
     protected $fillable = [
         'comment',
         'rating', 
-        'id_real_estate',
+        'id_rentals',
         'user_id'
     ];
 }

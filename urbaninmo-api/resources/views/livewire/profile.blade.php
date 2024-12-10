@@ -128,6 +128,7 @@
 
 
 
+
             <div id="rentals"
                 class="lg:w-full h-modal bg-white dark:bg-gray-800 rounded-xl shadow-2xl p-6 md:block hidden">
                 <div class="flex justify-between items-center  border-gray-300 dark:border-gray-700">
@@ -141,7 +142,7 @@
                                 class="p-6 bg-gray-50 dark:bg-gray-700 rounded-xl shadow-lg border border-gray-200 dark:border-gray-600 transition-transform duration-300  hover:shadow-xl  ">
                                 <div class="flex items-center justify-between mb-4">
                                     <p class="font-semibold text-lg text-gray-900 dark:text-gray-100">
-                                        Propiedad: {{ $this->loadRealEstateTitle($rental->id_real_estate) }}
+                                        Propiedad: {{ $this->loadRealEstateTitle($rental->id) }}
                                     </p>
                                     <span class="text-sm text-gray-600 dark:text-gray-400">
                                         Inicio: <span
@@ -187,7 +188,7 @@
                                         </div>
                                 @else
                                     <div class="mt-4">
-                                        @livewire('create-comment', ['id_real_estate' => $rental->id_real_estate], key($rental->id_real_estate))
+                                        @livewire('create-comment', ['id_rentals' => $rental->id], key($rental->id))
                                     </div>
                                 @endif
                             </div>

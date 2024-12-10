@@ -35,16 +35,13 @@ return new class extends Migration
                 a.country,
                 a.x,
                 a.y,
-                ARRAY_AGG(DISTINCT p.photo) AS photos,
-                ARRAY_AGG(DISTINCT c.comment) AS comments
+                ARRAY_AGG(DISTINCT p.photo) AS photos
             FROM 
                 real_estate re
             LEFT JOIN 
                 address a ON re.id_address = a.id
             LEFT JOIN 
                 photos p ON p.id_real_estate = re.id
-            LEFT JOIN 
-                comments c ON c.id_real_estate = re.id
             GROUP BY 
                 re.id, a.id;
         ');
@@ -72,8 +69,7 @@ return new class extends Migration
                 country VARCHAR,
                 x NUMERIC,
                 y NUMERIC,
-                photos VARCHAR[],
-                comments TEXT[]
+                photos VARCHAR[]
             ) AS $$
             BEGIN
                 RETURN QUERY SELECT * FROM realestate_view;

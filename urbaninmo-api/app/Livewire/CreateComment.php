@@ -3,6 +3,8 @@
 namespace App\Livewire;
 
 use App\Models\RealEstate;
+use App\Models\Rentals;
+
 use App\Models\Comments;
 
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +16,7 @@ class CreateComment extends Component
     public $rating;
     public $titleRealEstate;
     public $user_id;
-    public $id_real_estate;
+    public $id_rentals;
 
     public $isModalOpen = false;
 
@@ -35,11 +37,14 @@ class CreateComment extends Component
     {
         $this->isModalOpen = false;
     }
-    public function mount($id_real_estate = null)
+    public function mount($id_rentals = null)
     {
-        $this->id_real_estate = $id_real_estate;
+        $this->id_rentals = $id_rentals;
         $this->user_id = Auth::user()->id;
-        $this->titleRealEstate = RealEstate::find($id_real_estate)->title;
+        
+        $this->titleRealEstate =  RealEstate::find(
+            Rentals::find($id_rentals)->id_real_estate
+        )->title;
     }
     public function submitComment()
     {
@@ -49,7 +54,7 @@ class CreateComment extends Component
             'comment' => $this->comment,
             'rating' => $this->rating,
             'user_id' => $this->user_id,
-            'id_real_estate' => $this->id_real_estate,
+            'id_rentals' => $this->id_rentals,
         ]);
         $this->reset();
     }

@@ -18,7 +18,7 @@ class Profile extends Component
     public $selectedProperty;
 
     public $rentalRealEstate;
-    
+
 
     public $rentWithComment;
 
@@ -34,19 +34,18 @@ class Profile extends Component
         $comments = Comments::where('user_id', Auth::user()->id)->get();
 
         $this->rentWithComment = $rentals;
+        
         foreach ($this->rentWithComment as $rental) {
-            $temporalComment = $comments->where('id_real_estate', $rental->id_real_estate)->first();
-            if ($temporalComment) {
-                $rental->comment = $temporalComment;
-                $comments = $comments->reject(function ($comment) use ($temporalComment) {
-                    return $comment->id === $temporalComment->id;
-                });
-            }
+            $rental->comment = $comments->where('id_rentals', $rental->id)->first();
         }
+        // var_dump($comments);
+        // var_dump($this->rentWithComment);
     }
-    public function loadRealEstateTitle($id_real_estate)
+    public function loadRealEstateTitle($id_rentals)
     {
-        $rentalRealEstate = RealEstate::find($id_real_estate);
+        $rentalRealEstate = RealEstate::find(
+            Rentals::find($id_rentals)->id_real_estate
+        );
         return $this->rentalRealEstate = $rentalRealEstate->title;
     }
 
