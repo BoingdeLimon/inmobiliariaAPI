@@ -6,7 +6,9 @@ use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\MessagesController;
 use App\Http\Controllers\PhotosController;
 use App\Http\Controllers\RealEstateController;
+use App\Http\Controllers\RentalsController;
 use App\Http\Controllers\UserController;
+use App\Livewire\Rentals;
 use App\Models\Messages;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -94,6 +96,28 @@ Route::post('/showMessagesByUser', [MessagesController::class, "showMessagesByUs
 Route::get('/showAllMessages', [MessagesController::class, "showAllMessages"]);
 Route::post('/newMessage', [MessagesController::class, "newMessage"]);
 Route::post('/deleteMessage', [MessagesController::class, "deleteMessage"]);
+
+
+// * Para rentals 
+Route::
+middleware(['auth:sanctum'])->
+post('getRentalsByRealEstateId', [RentalsController::class, 'getRentalsByRealEstateId']);
+
+Route::
+// middleware(['auth:sanctum'])->
+post('/getRentalsWithCommentsByUserId', [RentalsController::class, 'getRentalsWithCommentsByUserId']);
+
+
+Route::
+middleware(['auth:sanctum'])->
+post('/createRental', [RentalsController::class, 'createRental']);
+
+Route::
+middleware(['auth:sanctum'])->
+post('/editRental', [RentalsController::class, 'editRental']);
+
+
+Route::post('getRentalsWithCommentsAndUserByRealEstateId', [RentalsController::class, 'getRentalsWithCommentsAndUserByRealEstateId']);
 
 
 // * Para comentarios

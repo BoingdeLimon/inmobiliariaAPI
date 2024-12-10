@@ -26,12 +26,12 @@
                             <thead class="bg-blue-500 text-white">
                                 <tr>
                                     <th class="p-3 text-left text-sm font-semibold">ID</th>
-                                    <th class="p-3 text-left text-sm font-semibold">Rent Start</th>
-                                    <th class="p-3 text-left text-sm font-semibold">Rent End</th>
+                                    <th class="p-3 text-left text-sm font-semibold">Inicio de Renta</th>
+                                    <th class="p-3 text-left text-sm font-semibold">Final de Renta</th>
                                     <th class="p-3 text-left text-sm font-semibold">Foto Usuario</th>
                                     <th class="p-3 text-left text-sm font-semibold">Nombre Usuario</th>
                                     <th class="p-3 text-left text-sm font-semibold">Nombre Propiedad</th>
-                                    <th class="p-3 text-left text-sm font-semibold">Actions</th>
+                                    <th class="p-3 text-left text-sm font-semibold">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
