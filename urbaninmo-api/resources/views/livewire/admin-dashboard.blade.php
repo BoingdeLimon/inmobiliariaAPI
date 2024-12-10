@@ -1,4 +1,4 @@
-<div x-data="{ sidebarOpen: true }">
+<div x-data="{ sidebarOpen: true }" class="dark:bg-slate-700">
     <!-- Navbar -->
     <nav class="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
         <div class="px-3 py-3 lg:px-5 lg:pl-3">
@@ -74,7 +74,7 @@
 
     <!-- Main Content -->
     <div 
-        class="content mt-24 px-4 transition-all duration-300 md:ml-64"
+        class="content mt-24 px-4 transition-all duration-300 md:ml-64 dark:bg-slate-800"
         :class="{
             'ml-64': sidebarOpen, 
             'ml-0': !sidebarOpen
