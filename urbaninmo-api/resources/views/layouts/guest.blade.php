@@ -21,8 +21,8 @@
         <!-- Styles -->
         @livewireStyles
     </head>
-    <body  class="{{ session('darkMode') ? 'dark' : '' }}"> 
-        <section class='w-full lg:grid  lg:grid-cols-5 '>
+    <body  class="{{ session('darkMode') ? 'dark' : '' }}" class="dark:bg-slate-800"> 
+        <section class='w-full lg:grid  lg:grid-cols-5 dark:bg-gray-800'>
             <div class="hidden bg-muted lg:block col-span-3">
                 @php
                 // Determine which image to show based on the route
