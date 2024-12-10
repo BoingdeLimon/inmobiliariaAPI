@@ -17,11 +17,11 @@ class Profile extends Component
     public $realEstates;
     public $selectedProperty;
 
-    public $rentals;
     public $rentalRealEstate;
-
-    public $comments;
     
+
+    public $rentWithComment;
+
     public function mount()
     {
         $this->messages = Messages::where('user_id', Auth::user()->id)->get();
@@ -30,11 +30,19 @@ class Profile extends Component
             ->get();
         $this->selectedProperty = $this->realEstates->first();
 
-        $this->rentals = Rentals::where('user_id', Auth::user()->id)->get();
+        $rentals = Rentals::where('user_id', Auth::user()->id)->get();
+        $comments = Comments::where('user_id', Auth::user()->id)->get();
 
-
-        $this->comments = Comments::where('user_id', Auth::user()->id)->get();
-
+        $this->rentWithComment = $rentals;
+        foreach ($this->rentWithComment as $rental) {
+            $temporalComment = $comments->where('id_real_estate', $rental->id_real_estate)->first();
+            if ($temporalComment) {
+                $rental->comment = $temporalComment;
+                $comments = $comments->reject(function ($comment) use ($temporalComment) {
+                    return $comment->id === $temporalComment->id;
+                });
+            }
+        }
     }
     public function loadRealEstateTitle($id_real_estate)
     {
