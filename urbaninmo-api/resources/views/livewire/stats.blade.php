@@ -20,7 +20,8 @@
                 <div id="dropdown"
                     class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-3/12 dark:bg-gray-700">
 
-                    <ul class="py-2 text-sm w-full text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+                    <ul class="py-2 text-sm w-full text-gray-700 dark:text-gray-200"
+                        aria-labelledby="dropdownDefaultButton">
                         @foreach ($rentals as $rental)
                             <li>
                                 <a href="#"
@@ -35,7 +36,7 @@
 
                 </div>
             </div>
-            
+
             <div class="flex items-center gap-4">
                 <input id="datepicker-range-start" name="start" type="text"
                     class="bg-gray-50 dark:bg-gray-800 border border-gray-300 text-gray-800 dark:text-gray-200 text-sm rounded-lg px-4 py-2"
@@ -126,29 +127,31 @@
                 // Función para dividir los días entre los meses
                 const getDaysPerMonth = (start, end) => {
                     let monthsData = [];
-                    let currentMonth = start.getMonth();
-                    let currentYear = start.getFullYear();
+                    let current = new Date(start); // Copia de la fecha inicial
 
-                    // Bucle para recorrer cada mes dentro del rango
-                    while (start <= end) {
-                        let monthStart = new Date(start);
-                        let monthEnd = new Date(start);
-                        monthEnd.setMonth(monthEnd.getMonth() + 1);
-                        monthEnd.setDate(0);
+                    while (current <= end) {
+                        // Definir el primer y último día del mes actual
+                        let monthStart = new Date(current.getFullYear(), current.getMonth(),
+                            1);
+                        let monthEnd = new Date(current.getFullYear(), current.getMonth() +
+                            1, 0);
 
-                        // Limitar al rango de fechas
-                        if (monthEnd > end) monthEnd = end;
+                        // Asegurarse de no exceder el rango de fechas
+                        if (monthStart < start) monthStart = new Date(start);
+                        if (monthEnd > end) monthEnd = new Date(end);
+
                         const daysInMonth = Math.floor((monthEnd - monthStart) / (1000 *
                             60 * 60 * 24)) + 1;
+
                         monthsData.push({
                             month: monthStart.toLocaleString('default', {
                                 month: 'short'
-                            }), // Mes abreviado
+                            }),
                             days: daysInMonth
                         });
 
-                        // Mover al siguiente mes
-                        start.setMonth(start.getMonth() + 1);
+                        // Avanzar al siguiente mes
+                        current.setMonth(current.getMonth() + 1);
                     }
 
                     return monthsData;

@@ -13,9 +13,9 @@ class Stats extends Component
         // Datos mock
         $this->rentals = [
             ['id' => '1', 'user_id' => '1', 'name' => 'Rental 1', 'rent_start' => '2024-01-01', 'rent_end' => '2024-02-12', 'reason_end' => null, 'created_at' => '24-12-10T10:44:27.000000Z', 'updated_at' => '24-12-10T10:44:27.000000Z'],
-            ['id' => '2', 'user_id' => '2', 'name' => 'Rental 2', 'rent_start' => '2024-15-11', 'rent_end' => '2024-30-12', 'reason_end' => null, 'created_at' => '24-12-10T10:46:15.000000Z', 'updated_at' => '24-12-10T10:46:15.000000Z'],
-            ['id' => '3', 'user_id' => '3', 'name' => 'Rental 3', 'rent_start' => '2024-22-11', 'rent_end' => '2024-30-12', 'reason_end' => null, 'created_at' => '24-12-10T10:48:03.000000Z', 'updated_at' => '24-12-10T10:48:03.000000Z'],
-            ['id' => '4', 'user_id' => '4', 'name' => 'Rental 4', 'rent_start' => '2024-23-11', 'rent_end' => '2024-31-12', 'reason_end' => null, 'created_at' => '24-12-10T10:50:17.000000Z', 'updated_at' => '24-12-10T10:50:17.000000Z'],
+            ['id' => '2', 'user_id' => '2', 'name' => 'Rental 2', 'rent_start' => '2024-15-11', 'rent_end' => '2024-16-12', 'reason_end' => null, 'created_at' => '24-12-10T10:46:15.000000Z', 'updated_at' => '24-12-10T10:46:15.000000Z'],
+            ['id' => '3', 'user_id' => '3', 'name' => 'Rental 3', 'rent_start' => '2024-22-06', 'rent_end' => '2024-30-12', 'reason_end' => null, 'created_at' => '24-12-10T10:48:03.000000Z', 'updated_at' => '24-12-10T10:48:03.000000Z'],
+            ['id' => '4', 'user_id' => '4', 'name' => 'Rental 4', 'rent_start' => '2024-23-02', 'rent_end' => '2024-31-12', 'reason_end' => null, 'created_at' => '24-12-10T10:50:17.000000Z', 'updated_at' => '24-12-10T10:50:17.000000Z'],
             ['id' => '5', 'user_id' => '5', 'name' => 'Rental 5', 'rent_start' => '2024-04-12', 'rent_end' => '2024-31-12', 'reason_end' => null, 'created_at' => '24-12-10T10:52:09.000000Z', 'updated_at' => '24-12-10T10:52:09.000000Z'],
         ];
 
