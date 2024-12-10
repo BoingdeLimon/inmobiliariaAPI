@@ -10,12 +10,13 @@ class PdfController extends Controller
 {
     public function generatePdf($id)
     {
+        $baseUrl = env('WINDOW_LOCATION_ORIGIN', 'http://localhost:8000/');
         $rental = RealEstate::with(['address', 'photos'])->find($id);
 
         if (!$rental) {
             abort(404, 'Rental not found');
         }
-        $qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=' . urlencode('http://localhost:8000/rental/' . $rental->id);
+        $qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=' . urlencode($baseUrl . $rental->id);
 
         // Fetch the image and convert to base64
         $imageData = base64_encode(file_get_contents($qrUrl));
