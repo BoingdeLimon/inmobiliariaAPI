@@ -220,7 +220,8 @@
                                         De: {{ $message->name }}
                                     </p>
                                     <span class="text-sm text-gray-500 dark:text-gray-400">
-                                        Enviado: {{ $message->created_at->format('d/m/Y H:i') }}
+                                        Enviado: {{ \Carbon\Carbon::parse($message->created_at)->format('d M, Y') }} a las 
+                                        {{ \Carbon\Carbon::parse($message->created_at)->format('H:i') }}
                                     </span>
                                 </div>
                                 <div class="mt-2">
