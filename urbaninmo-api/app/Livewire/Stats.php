@@ -11,12 +11,15 @@ class Stats extends Component
 
     public function mount()
     {
-        // FORMATO MES/DIA/AÑO
+        // FORMATO YYYY/DD/MM
         $this->rentals = [
-            ['start_date' => '10/01/2024', 'end_date' => '11/22/2024', 'name' => 'Rental 1'],
-            ['start_date' => '12/02/2024', 'end_date' => '12/31/2024', 'name' => 'Rental 2'],
-            ['start_date' => '01/02/2024', 'end_date' => '12/31/2024', 'name' => 'Rental 3'],
+            ['id' => '1', 'user_id' => '1', 'name' => 'Rental 1', 'rent_start' => '2024-01-11', 'end' => '2024-4-11', 'reason_end' => null, 'created_at' => '2024-12-10T10:44:27.000000Z', 'updated_at' => '2024-12-10T10:44:27.000000Z'],
+            ['id' => '2', 'user_id' => '2', 'name' => 'Rental 2', 'rent_start' => '2024-01-15', 'end' => '2024-12-15', 'reason_end' => null, 'created_at' => '2024-12-10T10:46:15.000000Z', 'updated_at' => '2024-12-10T10:46:15.000000Z'],
+            ['id' => '3', 'user_id' => '3', 'name' => 'Rental 3', 'rent_start' => '2024-03-20', 'end' => '2024-6-20', 'reason_end' => null, 'created_at' => '2024-12-10T10:48:03.000000Z', 'updated_at' => '2024-12-10T10:48:03.000000Z'],
+            ['id' => '4', 'user_id' => '4', 'name' => 'Rental 4', 'rent_start' => '2024-07-25', 'end' => '2024-12-25', 'reason_end' => null, 'created_at' => '2024-12-10T10:50:17.000000Z', 'updated_at' => '2024-12-10T10:50:17.000000Z'],
+            ['id' => '5', 'user_id' => '5', 'name' => 'Rental 5', 'rent_start' => '2024-09-01', 'end' => '2024-10-30', 'reason_end' => null, 'created_at' => '2024-12-10T10:52:09.000000Z', 'updated_at' => '2024-12-10T10:52:09.000000Z'],
         ];
+        
     }
     public function render()
     {

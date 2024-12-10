@@ -1,13 +1,10 @@
-<div
-    class="min-h-screen p-6 bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 flex justify-center items-center">
+<div class="min-h-screen p-6 bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 flex justify-center items-center">
     <div class="grid gap-8 max-w-6xl w-full">
         <!-- Dropdown + Date Picker -->
-        <div
-            class="flex flex-col items-center justify-center md:flex-row gap-6 bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
+        <div class="flex flex-col items-center justify-center md:flex-row gap-6 bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
             <div class="flex  w-full ">
-
                 <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown"
-                    class="text-white  w-4/6 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300  rounded-lg text-sm text- p-4 font-semibold text-center inline-flex justify-between items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    class="text-white  w-4/6 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300  rounded-lg text-sm p-4 font-semibold text-center inline-flex justify-between items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                     type="button">Historial de Rentas
                     <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                         viewBox="0 0 10 6">
@@ -15,24 +12,21 @@
                             d="m1 1 4 4 4-4" />
                     </svg>
                 </button>
-                </button>
-
+                <!-- Dropdown -->
                 <div id="dropdown"
                     class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-3/12 dark:bg-gray-700">
-
                     <ul class="py-2 text-sm w-full text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
                         @foreach ($rentals as $rental)
                             <li>
                                 <a href="#"
                                     class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white rental-option"
-                                    data-start-date="{{ $rental['start_date'] }}"
-                                    data-end-date="{{ $rental['end_date'] }}">
+                                    data-start-date="{{ $rental['rent_start'] }}"
+                                    data-end-date="{{ $rental['end'] }}">
                                     {{ $rental['name'] }}
                                 </a>
                             </li>
                         @endforeach
                     </ul>
-
                 </div>
             </div>
             
@@ -69,19 +63,51 @@
     </div>
 </div>
 
-
 <script>
-    // render del chart
+    // Función para convertir una fecha en formato 'YYYY-DD-MM' a un objeto Date
+    function parseDate(dateString) {
+        const parts = dateString.split('-');
+        return new Date(parts[0], parts[2] - 1, parts[1]);
+    }
+
+    // Función para calcular los días entre dos fechas
+    function getDaysBetweenDates(startDate, endDate) {
+        const start = parseDate(startDate);
+        const end = parseDate(endDate);
+        return Math.floor((end - start) / (1000 * 60 * 60 * 24)) + 1;
+    }
+
+    // Función para obtener los días por mes dentro de un rango
+    function getDaysPerMonth(start, end) {
+        let monthsData = [];
+        let currentMonth = start.getMonth();
+        let currentYear = start.getFullYear();
+
+        while (start <= end) {
+            let monthStart = new Date(start);
+            let monthEnd = new Date(start);
+            monthEnd.setMonth(monthEnd.getMonth() + 1);
+            monthEnd.setDate(0);
+
+            if (monthEnd > end) monthEnd = end;
+            const daysInMonth = Math.floor((monthEnd - monthStart) / (1000 * 60 * 60 * 24)) + 1;
+            monthsData.push({
+                month: monthStart.toLocaleString('default', { month: 'short' }),
+                days: daysInMonth
+            });
+
+            start.setMonth(start.getMonth() + 1);
+        }
+
+        return monthsData;
+    }
+
+    // Inicializar la gráfica
     document.addEventListener('DOMContentLoaded', () => {
         const rentalOptions = document.querySelectorAll('.rental-option');
         const startDateInput = document.getElementById('datepicker-range-start');
         const endDateInput = document.getElementById('datepicker-range-end');
 
-        // Prevenir la edición directamente en los campos de fecha
-        startDateInput.setAttribute('readonly', true);
-        endDateInput.setAttribute('readonly', true);
-
-        // Inicializar la gráfica de ApexCharts
         const chart = new ApexCharts(document.querySelector("#area-chart"), {
             chart: {
                 type: 'area',
@@ -89,10 +115,10 @@
             },
             series: [{
                 name: 'Rentals',
-                data: [] // Comienza sin datos
+                data: [] 
             }],
             xaxis: {
-                categories: [] // Comienza sin categorías
+                categories: [] 
             },
             yaxis: {
                 min: 0,
@@ -116,52 +142,12 @@
                 startDateInput.value = startDate;
                 endDateInput.value = endDate;
 
-                // Convertir las fechas de string a objeto Date
-                const start = new Date(startDate);
-                const end = new Date(endDate);
-
-                // Calcular la cantidad de días de renta (total)
-                const daysCount = Math.floor((end - start) / (1000 * 60 * 60 * 24)) + 1;
-
-                // Función para dividir los días entre los meses
-                const getDaysPerMonth = (start, end) => {
-                    let monthsData = [];
-                    let currentMonth = start.getMonth();
-                    let currentYear = start.getFullYear();
-
-                    // Bucle para recorrer cada mes dentro del rango
-                    while (start <= end) {
-                        let monthStart = new Date(start);
-                        let monthEnd = new Date(start);
-                        monthEnd.setMonth(monthEnd.getMonth() + 1);
-                        monthEnd.setDate(0);
-
-                        // Limitar al rango de fechas
-                        if (monthEnd > end) monthEnd = end;
-                        const daysInMonth = Math.floor((monthEnd - monthStart) / (1000 *
-                            60 * 60 * 24)) + 1;
-                        monthsData.push({
-                            month: monthStart.toLocaleString('default', {
-                                month: 'short'
-                            }), // Mes abreviado
-                            days: daysInMonth
-                        });
-
-                        // Mover al siguiente mes
-                        start.setMonth(start.getMonth() + 1);
-                    }
-
-                    return monthsData;
-                };
-
-                // Obtener los datos de días por mes
+                // Obtener los días por mes
                 const monthsData = getDaysPerMonth(new Date(startDate), new Date(endDate));
 
-                // Obtener los meses y días para actualizar la gráfica
                 const months = monthsData.map(data => data.month);
                 const days = monthsData.map(data => data.days);
 
-                // Actualizar la gráfica con los datos de cada mes
                 chart.updateOptions({
                     series: [{
                         name: 'Rentals',
@@ -171,43 +157,7 @@
                         categories: months
                     }
                 });
-
-                const rentalDaysElement = document.getElementById('rental-days');
-                rentalDaysElement.textContent = daysCount;
             });
         });
-    });
-
-
-
-    document.addEventListener('DOMContentLoaded', () => {
-        const rentalOptions = document.querySelectorAll('.rental-option');
-        const startDateInput = document.getElementById('datepicker-range-start');
-        const endDateInput = document.getElementById('datepicker-range-end');
-        const dropdownMenu = document.getElementById('dropdown');
-        const dropdownButton = document.getElementById('dropdownDefaultButton');
-
-        // Prevenir la edición directamente
-        startDateInput.addEventListener('keydown', (e) => e.preventDefault());
-        endDateInput.addEventListener('keydown', (e) => e.preventDefault());
-
-        // Manejo del click en las opciones de alquiler
-        rentalOptions.forEach(option => {
-            option.addEventListener('click', (e) => {
-                e.preventDefault();
-
-                // Limpia los campos antes de asignar nuevos valores
-                startDateInput.value = '';
-                endDateInput.value = '';
-
-                const startDate = option.getAttribute('data-start-date');
-                const endDate = option.getAttribute('data-end-date');
-
-                // Rellena los campos del datepicker
-                startDateInput.value = startDate;
-                endDateInput.value = endDate;
-            });
-        });
-
     });
 </script>
