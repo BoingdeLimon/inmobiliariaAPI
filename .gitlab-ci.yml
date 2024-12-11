@@ -12,7 +12,7 @@ services:
 variables:
   POSTGRES_DB: urbaninmo_api
   POSTGRES_USER: postgres
-  POSTGRES_PASSWORD: 123
+  POSTGRES_PASSWORD: root
 
 configure-job:
   stage: configure
