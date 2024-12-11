@@ -4,20 +4,19 @@ stages:
   - deploy
 
 image: alejandroamaro/laravel_icpw2024
-
+variables:
+  POSTGRES_DB: $POSTGRES_DB
+  POSTGRES_USER: $POSTGRES_USER
+  POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+  DB_CONNECTION: $DB_CONNECTION
+  DB_HOST: $DB_HOST
+  DB_PORT: $DB_PORT
+  DB_DATABASE: $DB_DATABASE
+  DB_USERNAME: $DB_USERNAME
+  DB_PASSWORD: $DB_PASSWORD
+  
 services:
   - postgres:13
-
-variables:
-  POSTGRES_DB: urbaninmo_api
-  POSTGRES_USER: postgres
-  POSTGRES_PASSWORD: root
-  DB_CONNECTION: pgsql
-  DB_HOST: postgres
-  DB_PORT: 5432
-  DB_DATABASE: urbaninmo_api
-  DB_USERNAME: postgres
-  DB_PASSWORD: root
 
 configure-job:
   stage: configure
