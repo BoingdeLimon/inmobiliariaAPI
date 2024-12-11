@@ -1,5 +1,13 @@
 <x-guest-layout>
     <x-authentication-card>
+        <div class="text-center justify-center">
+            <a href="/">
+                <h1 class="p-2 text-xl">
+                    <span class="p-[2.5px] dark:text-white">Urban</span>
+                    <span class="bg-[#3563E9]  text-white p-1 border rounded-lg">Inmo</span>
+                </h1>
+            </a>
+        </div>
         <x-label class="flex flex-col space-y-1.5 p-6">
             <div class="w-full flex flex-col gap-y-4 items-center justify-center text-black dark:text-white">
             <h1 class="text-3xl font-semibold">Registra tus datos</h1>
@@ -51,7 +59,7 @@
             <div class="flex items-center justify-end mt-4">
                 
 
-                <x-button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 text-primary-foreground shadow h-9 px-4 py-2 w-full bg-blue-600 hover:bg-blue-900">
+                <x-button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 text-primary-foreground shadow h-9 px-4 py-2 w-full bg-blue-600 hover:bg-blue-800">
                     {{ __('Registrarse') }}
                 </x-button>
             </div>

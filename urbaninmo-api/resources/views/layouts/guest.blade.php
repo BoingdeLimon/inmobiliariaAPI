@@ -21,8 +21,8 @@
         <!-- Styles -->
         @livewireStyles
     </head>
-    <body  class="{{ session('darkMode') ? 'dark' : '' }}"> 
-        <section class='w-full lg:grid lg:min-h-[600px] lg:grid-cols-5 xl:min-h-[800px]'>
+    <body  class="{{ session('darkMode') ? 'dark' : '' }}" class="dark:bg-slate-800"> 
+        <section class='w-full lg:grid  lg:grid-cols-5 dark:bg-gray-800'>
             <div class="hidden bg-muted lg:block col-span-3">
                 @php
                 // Determine which image to show based on the route
@@ -35,9 +35,10 @@
 
             <img src="{{ asset($imagePath) }}" 
                  alt="Page Image" 
-                 class='h-full w-full object-cover '/>
+                 class='h-screen w-full object-cover '/>
             </div>
-              <div class='h-screen  flex items-center justify-center col-span-2 grow px-3 font-sans antialiased dark:bg-gray-800'>
+              <div class='h-screen w-3/4 ml-[10%] flex items-center justify-center col-span-2 grow px-3 font-sans antialiased dark:bg-gray-800'>
+                
                 {{ $slot }}
               </div>
           </section>
