@@ -138,9 +138,9 @@
                 <div class="mt-6">
                     <div class="space-y-6 overflow-y-scroll h-full md:h-80 scrollbar-thin scrollbar-thumb-gray-400 ">
                         @forelse ($rentWithComment as $rental)
-                        <div>
+                        {{-- <div>
                             {{$rental}}
-                        </div>
+                        </div> --}}
                             <div
                                 class="p-6 bg-gray-50 dark:bg-gray-700 rounded-xl shadow-lg border border-gray-200 dark:border-gray-600 transition-transform duration-300  hover:shadow-xl  ">
                                 <div class="flex items-center justify-between mb-4">

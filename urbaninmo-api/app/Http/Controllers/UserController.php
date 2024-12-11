@@ -84,11 +84,12 @@ class UserController extends Controller
                 }
             }
         }
-        $users = $query->get();
-        $users = User::all();
+        $users = $query->get(['id', 'name']);
 
         return response()->json($users);
     }
+
+    
     //!
 
     public function index()

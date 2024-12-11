@@ -294,9 +294,12 @@ class RealEstateController extends Controller
                 'x' => 'required|numeric',
                 'y' => 'required|numeric',
 
+           
+
                 'photo' => 'required|array',
                 'photo.*' => 'string',
 
+            
                 'price' => 'required|numeric',
                 'is_occupied' => 'required|boolean',
                 'pdf' => 'nullable|string',

@@ -8,8 +8,6 @@ use App\Http\Controllers\PhotosController;
 use App\Http\Controllers\RealEstateController;
 use App\Http\Controllers\RentalsController;
 use App\Http\Controllers\UserController;
-use App\Livewire\Rentals;
-use App\Models\Messages;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -55,8 +53,9 @@ Route::middleware(['auth:sanctum'])
 Route::middleware(['auth:sanctum'])
 ->post('/deleteUser', [UserController::class, 'deleteUser']);
 
-Route::middleware(['auth:sanctum'])
-->post('/filterUser', [UserController::class, 'filterUser']);
+Route::
+// middleware(['auth:sanctum'])->
+post('/filterUser', [UserController::class, 'filterUser']);
 
 
 
@@ -72,7 +71,11 @@ Route::post("/filterRentals", [RealEstateController::class, 'filterRentals']);
 
 //  Solo usuario autenticado puede crear, editar y eliminar
 Route::middleware(['auth:sanctum'])->post("/newRental", [RealEstateController::class, 'newRental']);
-Route::middleware(['auth:sanctum'])->post("/editRental", [RealEstateController::class, 'editRental']);
+
+Route::
+middleware(['auth:sanctum'])->
+post("/editRental", [RealEstateController::class, 'editRental']);
+
 Route::middleware(['auth:sanctum'])->post("/deleteRental", [RealEstateController::class, 'deleteRental']);
 
 
@@ -114,7 +117,7 @@ post('/createRental', [RentalsController::class, 'createRental']);
 
 Route::
 middleware(['auth:sanctum'])->
-post('/editRental', [RentalsController::class, 'editRental']);
+post('/editRents', [RentalsController::class, 'editRental']);
 
 
 Route::post('getRentalsWithCommentsAndUserByRealEstateId', [RentalsController::class, 'getRentalsWithCommentsAndUserByRealEstateId']);
@@ -122,3 +125,6 @@ Route::post('getRentalsWithCommentsAndUserByRealEstateId', [RentalsController::c
 
 // * Para comentarios
 Route::post('/listAllComments', [CommentsController::class, "listAllComments"]);
+Route::
+middleware(['auth:sanctum'])->
+post('/createComment', [CommentsController::class, "createComment"]);
