@@ -17,7 +17,9 @@
             <div
                 class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-2xl w-11/12 md:w-2/5 h-auto overflow-y-auto max-h-[80%] relative">
                 <h1 class="text-xl font-bold text-gray-800 dark:text-white mb-6 text-center">
-                    {{ $title_rental }}
+                    {{ $titleRealEstate
+                    
+                     }}
                 </h1>
                 <form wire:submit.prevent="submitComment">
                     <div class="mb-6">

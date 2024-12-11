@@ -196,7 +196,9 @@ class NewRentalsForm extends Component
         $photoName = $photo->photo;
         Storage::disk('public')->delete('photos/' . $photoName);
         $photo->delete();
-        $this->photosAlreadySave = Photos::where('id_real_estate', $this->realEstateId)->get();
+        $this->photosAlreadySave = $this->photosAlreadySave->except($photoId);
+        
+        //$this->photosAlreadySave = Photos::where('id_real_estate', $this->realEstateId)->get();
     }
 
     public function updateRealEstate()

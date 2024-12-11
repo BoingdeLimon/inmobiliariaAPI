@@ -11,71 +11,43 @@ class RentList extends Component
 {
     public $isModalOpen = false;
     public $rentals;
+    public $userAndReal;
 
-
+    protected $listeners = ['rentAdded' => 'updateListRents'];
+    public $realEstateId;
     public function update($realEstateId = null)
     {
         $this->refreshData($realEstateId);
     }
     public function mount($realEstateId = null)
     {
-      $this->refreshData($realEstateId);
-
+        $this->refreshData($realEstateId);
     }
-    public function refreshData($realEstateId = null){
+    public function refreshData($realEstateId = null)
+    {
+        $this->realEstateId = $realEstateId;
+        $this->rentals = Rentals::where('id_real_estate', $realEstateId)->get();
 
-        // $this->rentals = Rentals::where('real_estate_id', $realEstateId)->get();
-
-        $this->rentals = collect([
-            (object) [
-                'id' => 1,
-                'user_id' => 1,
-                'id_real_estate' => 1,
-                'rent_start' => now()->subMonth(),
-                'rent_end' => null,
-                'reason_end' => null,
-                'created_at' => now(),
-            ],
-            (object) [
-                'id' => 2,
-                'user_id' => 1,
-                'id_real_estate' => 1,
-                'rent_start' => now()->subMonth(),
-                'rent_end' => null,
-                'reason_end' => null,
-                'created_at' => now(),
-            ],
-            (object) [
-                'id' => 3,
-                'user_id' => 1,
-                'id_real_estate' => 1,
-                'rent_start' => now()->subMonth(),
-                'rent_end' => null,
-                'reason_end' => null,
-                'created_at' => now(),
-            ],
-            (object) [
-                'id' => 4,
-                'user_id' => 1,
-                'id_real_estate' => 1,
-                'rent_start' => now()->subMonth(),
-                'rent_end' => null,
-                'reason_end' => null,
-                'created_at' => now(),
-            ],
-        ]);
-        $this->rentals = $this->rentals->map(function ($rental) {
-            $user = User::find($rental->user_id);
-            $realEstate = RealEstate::find($rental->id_real_estate);
-            if ($user) {
-                $rental->nameUser = $user->name;
-                $rental->photoUser = $user->photo;
-            } 
-            if($realEstate){
-                $rental->nameRealEstate = $realEstate->title;
+        if ($this->rentals->count() > 0) {
+            foreach ($this->rentals as $rent) {
+                if (!$this->userAndReal) {
+                    $this->userAndReal = new \stdClass();
+                }
+                $user = User::find($rent->user_id);
+                $realEstate = RealEstate::find($rent->id_real_estate);
+                if ($user && $realEstate) {
+                    $this->userAndReal->userName = $user->name;
+                    $this->userAndReal->userPhoto = $user->photo;
+                    $this->userAndReal->reaLEstateName = $realEstate->title;
+                }
             }
-            return $rental;
-        });
+        }
+    }
+
+
+    public function updateListRents($rentID = null)
+    {
+        $this->refreshData($this->realEstateId);
     }
 
 

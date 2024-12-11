@@ -2,8 +2,11 @@
 
 namespace App\Livewire;
 
+use App\Models\Comments;
 use App\Models\Messages;
 use App\Models\RealEstate;
+use App\Models\Rentals;
+use App\Models\User;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,68 +17,44 @@ class Profile extends Component
     public $realEstates;
     public $selectedProperty;
 
-    public $rentals;
-     public $real_estate_property;
- 
+    public $rentalRealEstate;
+
+
+    public $rentWithComment;
+
     public function mount()
     {
         $this->messages = Messages::where('user_id', Auth::user()->id)->get();
         $this->realEstates = RealEstate::with(['address', 'photos'])
-            ->where('user_id',Auth::user()->id)
+            ->where('user_id', Auth::user()->id)
             ->get();
         $this->selectedProperty = $this->realEstates->first();
 
-        $this->rentals = collect([
-            (object) [
-                'id' => 1,
-                'id_user' => 1,
-                'id_real_estate' => 2,
-                'rent_start' => now()->subMonth(),
-                'rent_end' => null,
-                'reason_end' => null,
-                'created_at' => now(),
-            ],
-            (object) [
-                'id' => 1,
-                'id_user' => 1,
-                'id_real_estate' => 2,
-                'rent_start' => now()->subMonth(),
-                'rent_end' => null,
-                'reason_end' => null,
-                'created_at' => now(),
-            ],
-            (object) [
-                'id' => 1,
-                'id_user' => 1,
-                'id_real_estate' => 2,
-                'rent_start' => now()->subMonth(),
-                'rent_end' => null,
-                'reason_end' => null,
-                'created_at' => now(),
-            ],
-            (object) [
-                'id' => 1,
-                'id_user' => 1,
-                'id_real_estate' => 2,
-                'rent_start' => now()->subMonth(),
-                'rent_end' => null,
-                'reason_end' => null,
-                'created_at' => now(),
-            ],
-        ]);
+        $rentals = Rentals::where('user_id', Auth::user()->id)->get();
+        $comments = Comments::where('user_id', Auth::user()->id)->get();
 
-        $this -> real_estate_property = RealEstate::find(1);
-
+        $this->rentWithComment = $rentals;
         
+        foreach ($this->rentWithComment as $rental) {
+            $rental->comment = $comments->where('id_rentals', $rental->id)->first();
+        }
+        // var_dump($comments);
+        // var_dump($this->rentWithComment);
+    }
+    public function loadRealEstateTitle($id_rentals)
+    {
+        $rentalRealEstate = RealEstate::find(
+            Rentals::find($id_rentals)->id_real_estate
+        );
+        return $this->rentalRealEstate = $rentalRealEstate->title;
     }
 
     public function updatePropertyInfo($propertyId)
     {
         $this->selectedProperty = $this->realEstates->find($propertyId);
-        $this->dispatch('post-updated.' . $propertyId); 
-
+        $this->dispatch('post-updated.' . $propertyId);
     }
-    
+
 
     public function render()
     {
