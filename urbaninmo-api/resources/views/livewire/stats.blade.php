@@ -2,6 +2,7 @@
     class="min-h-screen p-6 bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 flex justify-center items-center">
     <div class="grid gap-8 max-w-6xl w-full">
         <!-- Dropdown + Date Picker -->
+      
         <div
             class="flex flex-col items-center justify-center md:flex-row gap-6 bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
             <div class="flex  w-full ">
@@ -16,13 +17,12 @@
                     </svg>
                 </button>
                 </button>
-
                 <div id="dropdown"
                     class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-3/12 dark:bg-gray-700">
 
                     <ul class="py-2 text-sm w-full text-gray-700 dark:text-gray-200"
                         aria-labelledby="dropdownDefaultButton">
-                        {{-- @foreach ($rentals as $rental)
+                        @foreach ($rentals as $rental)
                             <li>
                                 <a href="#"
                                     class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white rental-option"
@@ -31,7 +31,7 @@
                                     {{ $rental['name'] }}
                                 </a>
                             </li>
-                        @endforeach --}}
+                        @endforeach
                     </ul>
 
                 </div>

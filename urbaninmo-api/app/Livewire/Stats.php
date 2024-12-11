@@ -2,12 +2,14 @@
 
 namespace App\Livewire;
 
+use App\Models\Comments;
+use App\Models\RealEstate;
 use Livewire\Component;
 use App\Models\Rentals;
 class Stats extends Component
 {
-    public $rentals;
     public $rentalID;
+    public $rentals;
     public function mount($rentalID = null)
     {
         $this->rentalID = $rentalID;
@@ -19,9 +21,18 @@ class Stats extends Component
         //     ['id' => '4', 'user_id' => '4', 'name' => 'Rental 4', 'rent_start' => '2024-23-02', 'rent_end' => '2024-31-12', 'reason_end' => null, 'created_at' => '24-12-10T10:50:17.000000Z', 'updated_at' => '24-12-10T10:50:17.000000Z'],
         //     ['id' => '5', 'user_id' => '5', 'name' => 'Rental 5', 'rent_start' => '2024-04-12', 'rent_end' => '2024-31-12', 'reason_end' => null, 'created_at' => '24-12-10T10:52:09.000000Z', 'updated_at' => '24-12-10T10:52:09.000000Z'],
         // ];
-        $this->rentals = Rentals::find($rentalID)->get()->toArray();
+        $rentals = Rentals::where('id_real_estate', $rentalID)->get()->toArray();
+        $rentals = array_filter($rentals, function($rental) {
+            return !is_null($rental['rent_end']);
+        });
+        foreach ($rentals as &$rental) {
+            $rental['name'] = "Rental " . $rental['id'];
+            $rental['comments'] = Comments::where('id_rentals', $rental['id'])->get()->toArray();
+        }
+        $this->rentals = $rentals;
+        
         // Reformatear fechas
-        $this->rentals = $this->reformatRentalDates($this->rentals);
+        $rentals = $this->reformatRentalDates($this->rentals);
     }
 
     /**
