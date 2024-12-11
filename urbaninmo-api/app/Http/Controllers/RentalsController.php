@@ -123,4 +123,17 @@ class RentalsController extends Controller
         );
         return response()->json(['status' => 'success', 'rental' => $rental]);
     }
+
+    public function getOnlyRentById(Request $request)
+    {
+        $validated = $request->validate([
+            'id' => 'required|integer:exists:rentals,id'
+        ]);
+        $rental = Rentals::find($validated['id']);
+        $rental->user_name = User::find($rental->user_id)->name;
+        if(!$rental){
+            return response()->json(['status' => 'error', 'rental' => null]);
+        }
+        return response()->json(['status' => 'success', 'rental' => $rental]);
+    }
 }

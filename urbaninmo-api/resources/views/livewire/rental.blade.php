@@ -5,11 +5,11 @@
     </div>
 
     <div
-        class="w-11/12 shadow-md rounded-lg justify-items-center justify-self-center mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
+        class="w-full md:w-11/12 shadow-md rounded-lg justify-items-center justify-self-center mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
 
         <div
             class="p-6 w-full bg-white dark:bg-gray-800 space-y-6 shadow-md dark:shadow-lg rounded-lg transition-all duration-300 hover:shadow-2xl dark:hover:shadow-gray-700">
-            <div class="h-5/6 space-y-4">
+            <div class="h-5/6 md:mb-0 mb-12 space-y-4">
                 <h2 class="text-4xl font-extrabold text-gray-900 dark:text-white">
                     {{ 'Casa en Renta en ' . $city . ', ' . $state }}
                 </h2>

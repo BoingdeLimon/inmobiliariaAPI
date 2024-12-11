@@ -101,13 +101,13 @@ Route::post('/newMessage', [MessagesController::class, "newMessage"]);
 Route::post('/deleteMessage', [MessagesController::class, "deleteMessage"]);
 
 
-// * Para rentals 
+// * Para rents
 Route::
 middleware(['auth:sanctum'])->
 post('getRentalsByRealEstateId', [RentalsController::class, 'getRentalsByRealEstateId']);
 
 Route::
-// middleware(['auth:sanctum'])->
+middleware(['auth:sanctum'])->
 post('/getRentalsWithCommentsByUserId', [RentalsController::class, 'getRentalsWithCommentsByUserId']);
 
 
@@ -121,6 +121,11 @@ post('/editRents', [RentalsController::class, 'editRental']);
 
 
 Route::post('getRentalsWithCommentsAndUserByRealEstateId', [RentalsController::class, 'getRentalsWithCommentsAndUserByRealEstateId']);
+
+
+Route::
+middleware(['auth:sanctum'])->
+post('/getOnlyRentById', [RentalsController::class, 'getOnlyRentById']);
 
 
 // * Para comentarios
