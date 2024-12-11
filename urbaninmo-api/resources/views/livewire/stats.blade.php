@@ -1,43 +1,37 @@
 <div
-    class="min-h-screen p-6 bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 flex justify-center items-center">
-    <div class="grid gap-8 max-w-6xl w-full">
+    class="min-h-screen w-full px-4 pt-5 bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 flex justify-center items-center">
+    <div class="grid gap-8 max-w-6xl w-full ">
         <!-- Dropdown + Date Picker -->
-      
         <div
             class="flex flex-col items-center justify-center md:flex-row gap-6 bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
-            <div class="flex  w-full ">
+            <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown"
+                class="text-white md:w-4/6 w-[190px] h-[40px] bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-sm p-4 font-semibold text-center inline-flex justify-between items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                type="button">Historial de Rentas
+                <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 10 6">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="m1 1 4 4 4-4" />
+                </svg>
+            </button>
 
-                <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown"
-                    class="text-white  w-4/6 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300  rounded-lg text-sm text- p-4 font-semibold text-center inline-flex justify-between items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                    type="button">Historial de Rentas
-                    <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                        viewBox="0 0 10 6">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="m1 1 4 4 4-4" />
-                    </svg>
-                </button>
-                </button>
-                <div id="dropdown"
-                    class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-3/12 dark:bg-gray-700">
-
-                    <ul class="py-2 text-sm w-full text-gray-700 dark:text-gray-200"
-                        aria-labelledby="dropdownDefaultButton">
-                        @foreach ($rentals as $rental)
-                            <li>
-                                <a href="#"
-                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white rental-option"
-                                    data-start-date="{{ $rental['rent_start'] }}"
-                                    data-end-date="{{ $rental['rent_end'] }}">
-                                    {{ $rental['name'] }}
-                                </a>
-                            </li>
-                        @endforeach
-                    </ul>
-
-                </div>
+            <div id="dropdown"
+                class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow md:w-1/3 w-1/2 dark:bg-gray-700">
+                <ul class="py-2 text-sm w-full text-gray-700 dark:text-gray-200"
+                    aria-labelledby="dropdownDefaultButton">
+                    @foreach ($rentals as $rental)
+                        <li>
+                            <a href="#"
+                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white rental-option"
+                                data-start-date="{{ $rental['rent_start'] }}" data-end-date="{{ $rental['rent_end'] }}"
+                                data-name="{{ $rental['name'] }}">
+                                {{ $rental['name'] }}
+                            </a>
+                        </li>
+                    @endforeach
+                </ul>
             </div>
 
-            <div class="flex items-center gap-4">
+            <div class="flex md:flex-row flex-col items-center gap-4">
                 <input id="datepicker-range-start" name="start" type="text"
                     class="bg-gray-50 dark:bg-gray-800 border border-gray-300 text-gray-800 dark:text-gray-200 text-sm rounded-lg px-4 py-2"
                     placeholder="Fecha de Inicio" disabled>
@@ -56,22 +50,68 @@
 
         <!-- Comentarios -->
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-            <h3 class="text-lg font-semibold mb-4">Comentarios Destacados</h3>
-            <div class="flex items-start gap-4 bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+            <h3 class="text-lg font-semibold mb-4">Comentarios</h3>
+            <div
+                class="md:flex-row flex items-center flex-col border md:items-start gap-4 bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
                 <img src="https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg"
                     alt="Foto" class="w-16 h-16 rounded-full">
-                <div>
-                    <p class="text-sm font-semibold">Jorge Bazán <span class="text-gray-500">- 28 DIC 2021</span></p>
-                    <p class="text-gray-700 dark:text-gray-300 text-sm">Siento que lo que ofrece esta casa no lo vale
-                        por 10k mensuales...</p>
+                <div class="w-full flex flex-col  md:flexrow ">
+                    <div class="flex flex-col md:flex-row md:justify-between items-center">
+                        <p class="text-sm font-semibold">Jorge Bazán <span class="text-gray-500">- 28 DIC 2021</span>
+                        </p>
+                        {{-- Contenedor de estrellitas --}}
+                        <div class="flex gap-2 ">
+                            <svg class="w-5 h-5 text-yellow-500"fill="currentColor" viewBox="0 0 20 20"
+                                aria-hidden="true">
+                                <path
+                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.957a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.37 2.448a1 1 0 00-.364 1.118l1.286 3.957c.3.921-.755 1.688-1.54 1.118l-3.37-2.448a1 1 0 00-1.175 0l-3.37 2.448c-.784.57-1.838-.197-1.54-1.118l1.286-3.957a1 1 0 00-.364-1.118L2.465 9.384c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.957z" />
+                            </svg>
+                            <svg class="w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20"
+                                aria-hidden="true">
+                                <path
+                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.957a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.37 2.448a1 1 0 00-.364 1.118l1.286 3.957c.3.921-.755 1.688-1.54 1.118l-3.37-2.448a1 1 0 00-1.175 0l-3.37 2.448c-.784.57-1.838-.197-1.54-1.118l1.286-3.957a1 1 0 00-.364-1.118L2.465 9.384c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.957z" />
+                            </svg>
+                            <svg class="w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20"
+                                aria-hidden="true">
+                                <path
+                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.957a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.37 2.448a1 1 0 00-.364 1.118l1.286 3.957c.3.921-.755 1.688-1.54 1.118l-3.37-2.448a1 1 0 00-1.175 0l-3.37 2.448c-.784.57-1.838-.197-1.54-1.118l1.286-3.957a1 1 0 00-.364-1.118L2.465 9.384c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.957z" />
+                            </svg>
+                            <svg class="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 20 20"
+                                aria-hidden="true">
+                                <path
+                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.957a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.37 2.448a1 1 0 00-.364 1.118l1.286 3.957c.3.921-.755 1.688-1.54 1.118l-3.37-2.448a1 1 0 00-1.175 0l-3.37 2.448c-.784.57-1.838-.197-1.54-1.118l1.286-3.957a1 1 0 00-.364-1.118L2.465 9.384c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.957z" />
+                            </svg>
+                            <svg class="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 20 20"
+                                aria-hidden="true">
+                                <path
+                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.957a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.37 2.448a1 1 0 00-.364 1.118l1.286 3.957c.3.921-.755 1.688-1.54 1.118l-3.37-2.448a1 1 0 00-1.175 0l-3.37 2.448c-.784.57-1.838-.197-1.54-1.118l1.286-3.957a1 1 0 00-.364-1.118L2.465 9.384c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.957z" />
+                            </svg>
+                        </div>
+                        {{-- Fin de contenedor de estrellitas --}}
+                    </div>
+                    <p class="text-gray-700 md:pr-60 dark:text-gray-300 text-sm">
+                        Siento que lo que ofrece esta casa no lo vale
+                        por 10k mensuales... Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum, consectetur
+                        accusamus in voluptatem placeat exercitationem illum esse veritatis tenetur incidunt cum
+                        expedita et labore praesentium ipsum maiores quo! Doloribus, ut?
+                    </p>
                 </div>
             </div>
         </div>
+
     </div>
 </div>
 
 
 <script>
+    // Actualizar el texto del botón
+    document.querySelectorAll('.rental-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const rentalName = this.getAttribute('data-name');
+            const button = document.getElementById('dropdownDefaultButton');
+            button.textContent = rentalName;
+        });
+    });
     // render del chart
     document.addEventListener('DOMContentLoaded', () => {
         const rentalOptions = document.querySelectorAll('.rental-option');
