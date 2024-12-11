@@ -9,7 +9,6 @@ services:
   - php:8.1-fpm
   - postgres:13
 
-
 variables:
   POSTGRES_DB: urbaninmo_api
   POSTGRES_USER: postgres
@@ -18,7 +17,7 @@ variables:
 configure-job:
   stage: configure
   script:
-    # apk add rsync
+    - cd urbaninmo-api
     - cp .env.example .env
     - echo DB_CONNECTION=pgsql >> .env
     - echo DB_HOST=postgres >> .env
@@ -48,15 +47,13 @@ configure-job:
       paths:
         - urbaninmo-api/vendor/
         - urbaninmo-api/.env
-        #- urbaninmo-api/.env.example
         - urbaninmo-api/public/
       expire_in: 1 hour
-
-   
 
 test-job:
   stage: testing
   script:
+    - cd urbaninmo-api
     - php artisan migrate --seed
     - php artisan test --filter=RealEstateControllerTest
     - echo "Testeado"
@@ -75,12 +72,10 @@ deploy-job:
     - chmod -R 600 ~/.ssh/id_rsa
     - echo "$KNOWN_HOSTS" >> ~/.ssh/known_hosts
     - chown -R root:root ~/.ssh
-    #- chmod -R 700 ~/.ssh/authorized_keys
     - echo -e "Host *\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
     - cat ~/.ssh/id_rsa
     - echo "Desplegando usando Runner..."
-    # ssh -i ~/.ssh/id_rsa $DEPLOY_USER@$DEPLOY_HOST
-    - rsync -avz --delete-after -e "ssh -i ~/.ssh/id_rsa" --exclude='.git/' --exclude='node_modules/' --exclude='vendor/' --exclude='storage/' --exclude='public/storage/' --exclude='bootstrap/cache/' --exclude='bootstrap/compiled.php' ./ $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
+    - rsync -avz --delete-after -e "ssh -i ~/.ssh/id_rsa" --exclude='.git/' --exclude='node_modules/' --exclude='vendor/' --exclude='storage/' --exclude='public/storage/' --exclude='bootstrap/cache/' --exclude='bootstrap/compiled.php' ./urbaninmo-api/ $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
     - echo "Desplegado"
   tags:
     - UrbanInmo
