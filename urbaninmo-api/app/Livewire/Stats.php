@@ -3,21 +3,58 @@
 namespace App\Livewire;
 
 use Livewire\Component;
-
+use App\Models\Rentals;
 class Stats extends Component
 {
-
-    public $rentals = [];
-
-    public function mount()
+    public $rentals;
+    public $rentalID;
+    public function mount($rentalID = null)
     {
-        // FORMATO MES/DIA/AÑO
-        $this->rentals = [
-            ['start_date' => '10/01/2024', 'end_date' => '11/22/2024', 'name' => 'Rental 1'],
-            ['start_date' => '12/02/2024', 'end_date' => '12/31/2024', 'name' => 'Rental 2'],
-            ['start_date' => '01/02/2024', 'end_date' => '12/31/2024', 'name' => 'Rental 3'],
-        ];
+        $this->rentalID = $rentalID;
+        // Datos mock
+        // $this->rentals = [
+        //     ['id' => '1', 'user_id' => '1', 'name' => 'Rental 1', 'rent_start' => '2024-01-01', 'rent_end' => '2024-02-12', 'reason_end' => null, 'created_at' => '24-12-10T10:44:27.000000Z', 'updated_at' => '24-12-10T10:44:27.000000Z'],
+        //     ['id' => '2', 'user_id' => '2', 'name' => 'Rental 2', 'rent_start' => '2024-15-11', 'rent_end' => '2024-16-12', 'reason_end' => null, 'created_at' => '24-12-10T10:46:15.000000Z', 'updated_at' => '24-12-10T10:46:15.000000Z'],
+        //     ['id' => '3', 'user_id' => '3', 'name' => 'Rental 3', 'rent_start' => '2024-22-06', 'rent_end' => '2024-30-12', 'reason_end' => null, 'created_at' => '24-12-10T10:48:03.000000Z', 'updated_at' => '24-12-10T10:48:03.000000Z'],
+        //     ['id' => '4', 'user_id' => '4', 'name' => 'Rental 4', 'rent_start' => '2024-23-02', 'rent_end' => '2024-31-12', 'reason_end' => null, 'created_at' => '24-12-10T10:50:17.000000Z', 'updated_at' => '24-12-10T10:50:17.000000Z'],
+        //     ['id' => '5', 'user_id' => '5', 'name' => 'Rental 5', 'rent_start' => '2024-04-12', 'rent_end' => '2024-31-12', 'reason_end' => null, 'created_at' => '24-12-10T10:52:09.000000Z', 'updated_at' => '24-12-10T10:52:09.000000Z'],
+        // ];
+        $this->rentals = Rentals::find($rentalID)->get()->toArray();
+        // Reformatear fechas
+        $this->rentals = $this->reformatRentalDates($this->rentals);
     }
+
+    /**
+     * Reformatea las fechas de los rentals.
+     *
+     * @param array $rentals
+     * @return array
+     */
+    private function reformatRentalDates(array $rentals): array
+    {
+        foreach ($rentals as &$rental) {
+            if ($rental['rent_start']) {
+                $rental['rent_start'] = $this->reformatDate($rental['rent_start']);
+            }
+            if ($rental['rent_end']) {
+                $rental['rent_end'] = $this->reformatDate($rental['rent_end']);
+            }
+        }
+        return $rentals;
+    }
+
+    /**
+     * Reformatea una fecha del formato YYYY-DD-MM al formato MM-DD-YYYY.
+     *
+     * @param string $date
+     * @return string
+     */
+    private function reformatDate(string $date): string
+    {
+        $parsedDate = \DateTime::createFromFormat('Y-d-m', $date);
+        return $parsedDate ? $parsedDate->format('m-d-Y') : $date;
+    }
+
     public function render()
     {
         return view('livewire.stats');

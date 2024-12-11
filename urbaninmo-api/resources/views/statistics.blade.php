@@ -1,4 +1,4 @@
 @extends('layouts.RentalsLayout')
 @section('content')
-    @livewire('stats')
+    @livewire('stats', ['rentalID' => $rentalID])
 @endsection

@@ -77,10 +77,12 @@ class Rental extends Component
         $this->country = $address->country;
         $this->x = $address->x;
         $this->y = $address->y;
-
+        
         foreach ($photo as $p) {
             $this->photos[] = $p->photo;
         }
+
+        
     }
 
 

@@ -28,9 +28,6 @@ Route::middleware('auth')->group(function () {
     })->name('profile');
 });
 
-Route::get('/rental/{id}', function ($id) {
-    return view('rental', ['rentalId' => $id]); 
-})->name('rental.show');
 
 Route::get('/', function () {
     return view('home'); 
@@ -63,10 +60,16 @@ Route::get('/admin-dashboard', function () {
     return view('admin-dash');
 })->name('admin-dashboard');
 
+Route::get('/rental/{id}', function ($id) {
+    return view('rental', ['rentalId' => $id]); 
+})->name('rental.show');
 
-Route::get('/statistics', function () {
-    return view('statistics'); 
+
+Route::get('/statistics/{id}', function ($rentalId) {
+    return view('statistics', ['rentalID' => $rentalId]); 
 })->name('statistics'); 
+
+
 Route::get('/rental/{id}/pdf', [PdfController::class, 'generatePdf']);
 
 
