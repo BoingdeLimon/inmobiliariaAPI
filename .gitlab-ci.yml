@@ -48,6 +48,7 @@ configure-job:
       paths:
         - urbaninmo-api/vendor/
         - urbaninmo-api/.env
+        #- urbaninmo-api/.env.example
         - urbaninmo-api/public/
       expire_in: 1 hour
 
