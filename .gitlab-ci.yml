@@ -6,26 +6,30 @@ stages:
 image: alejandroamaro/laravel_icpw2024
 
 services:
-  - php:8.1-fpm
   - postgres:13
 
 variables:
   POSTGRES_DB: urbaninmo_api
   POSTGRES_USER: postgres
   POSTGRES_PASSWORD: root
+  DB_CONNECTION: pgsql
+  DB_HOST: postgres
+  DB_PORT: 5432
+  DB_DATABASE: urbaninmo_api
+  DB_USERNAME: postgres
+  DB_PASSWORD: root
 
 configure-job:
   stage: configure
   script:
     - cd urbaninmo-api
     - cp .env.example .env
-    - echo DB_CONNECTION=pgsql >> .env
-    - echo DB_HOST=postgres >> .env
-    - echo DB_PORT=5432 >> .env
-    - echo DB_DATABASE=$VAR_DB >> .env
-    - echo DB_USERNAME=$VAR_DB_USR >> .env
-    - echo DB_PASSWORD=$VAR_DB_PWD >> .env
-    - rm .env.testing
+    - echo "DB_CONNECTION=$DB_CONNECTION" >> .env
+    - echo "DB_HOST=$DB_HOST" >> .env
+    - echo "DB_PORT=$DB_PORT" >> .env
+    - echo "DB_DATABASE=$DB_DATABASE" >> .env
+    - echo "DB_USERNAME=$DB_USERNAME" >> .env
+    - echo "DB_PASSWORD=$DB_PASSWORD" >> .env
     - cp .env .env.testing
     - composer install
     - npm install
@@ -35,20 +39,12 @@ configure-job:
     - php artisan storage:link
     - php artisan cache:clear
     - php artisan key:generate --env=testing
-    - echo "=== .env FILE ==="
-    - cat .env
-    - echo "=== .env.testing FILE ==="
-    - cat .env.testing
-    - echo "=== LARAVEL MIGRATION STATUS ==="
-    - php artisan migrate:status
-    - echo "=== TEST DATABASE CHECK ==="
-    - php artisan migrate:status --env=testing
   artifacts:
-      paths:
-        - urbaninmo-api/vendor/
-        - urbaninmo-api/.env
-        - urbaninmo-api/public/
-      expire_in: 1 hour
+    paths:
+      - urbaninmo-api/vendor/
+      - urbaninmo-api/.env
+      - urbaninmo-api/public/
+    expire_in: 1 hour
 
 test-job:
   stage: testing
@@ -67,14 +63,9 @@ deploy-job:
     - apk update
     - apk add rsync openssh
     - mkdir -p ~/.ssh
-    - echo "Configurando SSH..."
     - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-    - chmod -R 600 ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
     - echo "$KNOWN_HOSTS" >> ~/.ssh/known_hosts
-    - chown -R root:root ~/.ssh
-    - echo -e "Host *\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
-    - cat ~/.ssh/id_rsa
-    - echo "Desplegando usando Runner..."
     - rsync -avz --delete-after -e "ssh -i ~/.ssh/id_rsa" --exclude='.git/' --exclude='node_modules/' --exclude='vendor/' --exclude='storage/' --exclude='public/storage/' --exclude='bootstrap/cache/' --exclude='bootstrap/compiled.php' ./urbaninmo-api/ $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
     - echo "Desplegado"
   tags:
