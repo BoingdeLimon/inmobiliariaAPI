@@ -16,7 +16,7 @@
                <p class="text-sm text-gray-600 dark:text-gray-400">Price: ${{ number_format($rental->price, 2) }}</p>
                <p class="text-sm text-gray-600 dark:text-gray-400">Location: {{ $rental->address->address }}, {{ $rental->address->city }}, {{ $rental->address->state }}</p>
                <button wire:click="borrar({{$rental->id}})"
-               wire:confirm="¿Esta seguro? Esta acción es irreversible" 
+               wire:confirm="¿Esta seguro? Esta acción es irreversible\n\nEscribe BORRAR para continuar|BORRAR" 
                 class="mt-3 text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
                   Borrar
                </button>
