@@ -8,7 +8,7 @@
         <div wire:click.self="closeModal"
         class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 dark:bg-opacity-80">
             <div class="bg-white rounded-lg shadow-lg w-96 p-6 dark:bg-gray-800">
-                <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200">Eliminar usuario</h2>
+                <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200">Eliminar Propiedad</h2>
                 <p class="mt-4 text-gray-600 dark:text-gray-400">¿Está seguro que quiere eliminar a {{$rental->title }}?. Esta acción es irreversible</p>
                 @if($tagBorrado)
                     <p class="text-green-600 ">El usuario se actualizo correctamente</p>
