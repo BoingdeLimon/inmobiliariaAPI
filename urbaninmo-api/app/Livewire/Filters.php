@@ -34,7 +34,7 @@ class Filters extends Component
         "Hidalgo",
         "Jalisco",
         "Estado de México",
-        "Michoacán",
+        "Michoacan",
         "Morelos",
         "Nayarit",
         "Nuevo León",

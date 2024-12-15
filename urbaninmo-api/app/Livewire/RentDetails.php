@@ -72,20 +72,20 @@ class RentDetails extends Component
     }
     protected $rules = [
         'searchUserFinal.id' => 'required|exists:users,id',
-        // 'selectedUser' => 'required',
         'rentStart' => 'required|date',
-        'rentEnd' => 'nullable|date',
+        'rentEnd' => 'nullable|date|after:rentStart',
         'reasonEnd' => 'nullable|string',
     ];
 
     public function submit()
     {
-        $this->validate([
-            'searchUserFinal.id' => 'required|exists:users,id',
-            'rentStart' => 'required',
-            'rentEnd' => 'nullable',
-            'reasonEnd' => 'nullable',
-        ]);
+        // $this->validate([
+        //     'searchUserFinal.id' => 'required|exists:users,id',
+        //     'rentStart' => 'required',
+        //     'rentEnd' => 'nullable',
+        //     'reasonEnd' => 'nullable',
+        // ]);
+        $this->validate();
 
         if ($this->rentalID) {
             $this->updateRent();

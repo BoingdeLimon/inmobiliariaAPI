@@ -57,6 +57,9 @@ Route::middleware([
 // });
 
 Route::get('/admin-dashboard', function () {
+    if (auth()->user()->role !== 'admin') {
+        return view('errors.404');
+    }
     return view('admin-dash');
 })->name('admin-dashboard');
 
@@ -65,7 +68,7 @@ Route::get('/rental/{id}', function ($id) {
 })->name('rental.show');
 
 
-Route::get('/statistics/{id}', function ($rentalId) {
+Route::get('/rental/statistics/{id}', function ($rentalId) {
     return view('statistics', ['rentalID' => $rentalId]); 
 })->name('statistics'); 
 

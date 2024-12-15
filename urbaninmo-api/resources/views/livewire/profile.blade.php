@@ -19,8 +19,8 @@
             </div>
 
             <div class="w-full flex items-center justify-center">
-                <img src="{{ Auth::user()->photo }}" alt="{{ Auth::user()->name }}"
-                    class="aspect-square w-24 rounded-full mr-2">
+                <img src="{{ Auth::user()->photo ? asset('storage/photos/' . Auth::user()->photo) : asset('img/default.jpg') }}"
+                    alt="{{ Auth::user()->name }}" class="aspect-square w-24 rounded-full mr-2">
             </div>
 
             <h2 class="text-lg font-semibold">{{ Auth::user()->name }}</h2>
@@ -36,21 +36,21 @@
                     </button>
                 </form>
 
-                <button
+                @livewire('editar-usuarios-modal', ['user' => Auth::user()])
+                {{-- <button
                     class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 focus:outline-none transition duration-300 ease-in-out transform hover:scale-95 w-full">
                     Editar Perfil
-                </button>
+                </button> --}}
                 @livewire('new-rentals-form', ['user_id' => Auth::user()->id])
                 <livewire:button-dark-mode />
             </div>
         </div>
 
         <div class="overflow-y-auto grid w-full space-y-4 h-modal">
+            <div id="properties" class="lg:w-full h-full space-y-6 md:block hidden ">
 
-            <div id="properties" class="lg:w-full space-y-6 md:block hidden ">
-
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-                    <div class="  w-full flex justify-between items-end">
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg h-full p-6">
+                    <div class="w-full mb-2 flex justify-between items-end">
                         <h3 class="text-xl font-semibold">Mis Propiedades</h3>
                         <select wire:change="updatePropertyInfo($event.target.value)"
                             class="text-sm bg-gray-100 dark:bg-gray-700 p-2 rounded-lg">
@@ -67,16 +67,16 @@
                         <div id="propertyInfo" class="mt-4 w-full">
                             <div class="grid grid-cols-1 justify-items-start sm:grid-cols-2 gap-4">
                                 @foreach ([
-        'Nombre' => $selectedProperty->title,
-        'Tamaño' => $selectedProperty->size . ' m²',
-        'Precio de Renta' => number_format($selectedProperty->price, 2),
-        'Cuartos' => $selectedProperty->rooms,
-        'Baños' => $selectedProperty->bathrooms,
-        'Tipo' => $selectedProperty->type,
-        '¿Tiene Garage?' => $selectedProperty->has_garage ? 'Sí' : 'No',
-        '¿Tiene Jardín?' => $selectedProperty->has_garden ? 'Sí' : 'No',
-        '¿Tiene Patio?' => $selectedProperty->has_patio ? 'Sí' : 'No',
-    ] as $label => $value)
+                                            'Nombre' => $selectedProperty->title,
+                                            'Tamaño' => $selectedProperty->size . ' m²',
+                                            'Precio de Renta' => number_format($selectedProperty->price, 2),
+                                            'Cuartos' => $selectedProperty->rooms,
+                                            'Baños' => $selectedProperty->bathrooms,
+                                            'Tipo' => $selectedProperty->type,
+                                            '¿Tiene Garage?' => $selectedProperty->has_garage ? 'Sí' : 'No',
+                                            '¿Tiene Jardín?' => $selectedProperty->has_garden ? 'Sí' : 'No',
+                                            '¿Tiene Patio?' => $selectedProperty->has_patio ? 'Sí' : 'No',
+                                        ] as $label => $value)
                                     <div>
                                         <p class="text-sm font-semibold text-gray-600 dark:text-gray-400">
                                             {{ $label }}</p>
@@ -122,7 +122,13 @@
                                 @livewire('rent-list', ['realEstateId' => $selectedProperty->id], key($selectedProperty->id))
                             </div>
                         </div>
+                    @else
+                        <div
+                                class="p-6 bg-gray-50 dark:bg-gray-800 rounded-lg shadow-lg text-center border border-gray-200 dark:border-gray-700">
+                                <p class="text-gray-600 dark:text-gray-400">No tienes propiedades.</p>
+                            </div>
                     @endif
+
                 </div>
             </div>
 
@@ -138,7 +144,7 @@
                 <div class="mt-6">
                     <div class="space-y-6 overflow-y-scroll h-full md:h-80 scrollbar-thin scrollbar-thumb-gray-400 ">
                         @forelse ($rentWithComment as $rental)
-                        {{-- <div>
+                            {{-- <div>
                             {{$rental}}
                         </div> --}}
                             <div
@@ -166,29 +172,30 @@
                                 </div>
 
                                 @if ($rental->comment)
-                                        <div class="mt-4">
-                                            <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                                                Comentario</h2>
-                                            <div
-                                                class="p-4 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md border border-gray-300 dark:border-gray-600 space-y-2">
-                                                <p class="text-base text-gray-800 dark:text-gray-200">
-                                                    {{ $rental->comment->comment }}
-                                                </p>
-                                                <div class="flex items-center space-x-1">
-                                                    @for ($i = 1; $i <= 5; $i++)
-                                                        <svg class="w-5 h-5 {{ $rental->comment->rating >= $i ? 'text-yellow-500' : 'text-gray-300' }}"
-                                                            fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
-                                                            <path
-                                                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.957a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.37 2.448a1 1 0 00-.364 1.118l1.286 3.957c.3.921-.755 1.688-1.54 1.118l-3.37-2.448a1 1 0 00-1.175 0l-3.37 2.448c-.784.57-1.838-.197-1.54-1.118l1.286-3.957a1 1 0 00-.364-1.118L2.465 9.384c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.957z" />
-                                                        </svg>
-                                                    @endfor
-                                                </div>
-                                                <p class="text-sm text-gray-500 dark:text-gray-400">
-                                                    Creado el {{ $rental->comment->created_at->translatedFormat('d F, Y') }} a
-                                                    las {{ $rental->comment->created_at->translatedFormat('H:i') }}
-                                                </p>
+                                    <div class="mt-4">
+                                        <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                                            Comentario</h2>
+                                        <div
+                                            class="p-4 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md border border-gray-300 dark:border-gray-600 space-y-2">
+                                            <p class="text-base text-gray-800 dark:text-gray-200">
+                                                {{ $rental->comment->comment }}
+                                            </p>
+                                            <div class="flex items-center space-x-1">
+                                                @for ($i = 1; $i <= 5; $i++)
+                                                    <svg class="w-5 h-5 {{ $rental->comment->rating >= $i ? 'text-yellow-500' : 'text-gray-300' }}"
+                                                        fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                                                        <path
+                                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.957a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.37 2.448a1 1 0 00-.364 1.118l1.286 3.957c.3.921-.755 1.688-1.54 1.118l-3.37-2.448a1 1 0 00-1.175 0l-3.37 2.448c-.784.57-1.838-.197-1.54-1.118l1.286-3.957a1 1 0 00-.364-1.118L2.465 9.384c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.957z" />
+                                                    </svg>
+                                                @endfor
                                             </div>
+                                            <p class="text-sm text-gray-500 dark:text-gray-400">
+                                                Creado el
+                                                {{ $rental->comment->created_at->translatedFormat('d F, Y') }} a
+                                                las {{ $rental->comment->created_at->translatedFormat('H:i') }}
+                                            </p>
                                         </div>
+                                    </div>
                                 @else
                                     <div class="mt-4">
                                         @livewire('create-comment', ['id_rentals' => $rental->id], key($rental->id))
@@ -223,7 +230,8 @@
                                         De: {{ $message->name }}
                                     </p>
                                     <span class="text-sm text-gray-500 dark:text-gray-400">
-                                        Enviado: {{ \Carbon\Carbon::parse($message->created_at)->format('d M, Y') }} a las 
+                                        Enviado: {{ \Carbon\Carbon::parse($message->created_at)->format('d M, Y') }} a
+                                        las
                                         {{ \Carbon\Carbon::parse($message->created_at)->format('H:i') }}
                                     </span>
                                 </div>

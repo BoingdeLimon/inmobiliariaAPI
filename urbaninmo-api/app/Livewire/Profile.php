@@ -9,7 +9,7 @@ use App\Models\Rentals;
 use App\Models\User;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
-
+use Livewire\Attributes\On;
 
 class Profile extends Component
 {
@@ -19,9 +19,9 @@ class Profile extends Component
 
     public $rentalRealEstate;
 
-
     public $rentWithComment;
-
+    
+    #[On('realEstateUpdated')]
     public function mount()
     {
         $this->messages = Messages::where('user_id', Auth::user()->id)->get();
@@ -29,12 +29,11 @@ class Profile extends Component
             ->where('user_id', Auth::user()->id)
             ->get();
         $this->selectedProperty = $this->realEstates->first();
-
         $rentals = Rentals::where('user_id', Auth::user()->id)->get();
         $comments = Comments::where('user_id', Auth::user()->id)->get();
 
         $this->rentWithComment = $rentals;
-        
+
         foreach ($this->rentWithComment as $rental) {
             $rental->comment = $comments->where('id_rentals', $rental->id)->first();
         }
@@ -52,7 +51,14 @@ class Profile extends Component
     public function updatePropertyInfo($propertyId)
     {
         $this->selectedProperty = $this->realEstates->find($propertyId);
-        $this->dispatch('post-updated.' . $propertyId);
+        $rentals = Rentals::where('user_id', Auth::user()->id)->get();
+        $comments = Comments::where('user_id', Auth::user()->id)->get();
+
+        $this->rentWithComment = $rentals;
+
+        foreach ($this->rentWithComment as $rental) {
+            $rental->comment = $comments->where('id_rentals', $rental->id)->first();
+        }
     }
 
 

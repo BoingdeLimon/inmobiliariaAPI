@@ -44,7 +44,7 @@ class RentalsController extends Controller
         $rentals = Rentals::where('user_id', $validated['user_id'])->get();
 
         foreach ($rentals as $rental) {
-            
+
             $realEstate = RealEstate::find($rental->id_real_estate);
             if ($realEstate) {
                 $rental->titleRealEstate = $realEstate->title;
@@ -61,19 +61,20 @@ class RentalsController extends Controller
     public function getRentalsWithCommentsAndUserByRealEstateId(Request $request)
     {
         $validated = $request->validate([
-            'id_real_estate' => 'required|integer:exists:real_estates,id'
+            'id_real_estate' => 'required|integer|exists:real_estate,id'
         ]);
         $rentals = Rentals::where('id_real_estate', $validated['id_real_estate'])->get();
-        foreach ($rentals as $rental) {
-            $user = User::find($rental->user_id);
-            $rental->user->name = $user->name;
-            $rental->user->photo = $user->photo;
-            $comments = Comments::where('id_rental', $rental->id)->get();
-            if ($comments) {
-                $rental->comments = $comments;
-            }
+        $rentals = $rentals->filter(function ($rental) {
+            return !is_null($rental->rent_end) && $rental->rent_end !== '';
+        })->values()->all();
+        $comments = Comments::whereIn('id_rentals', array_column($rentals, 'id'))->get();
+
+        foreach ($comments as $comment) {
+            $user = User::find($comment->user_id);
+            $comment->user_name = $user ? $user->name : null;
+            $comment->user_photo = $user ? $user->photo : null;
         }
-        return response()->json(['status' => 'success', 'rentals' => $rentals]);
+        return response()->json(['status' => 'success', 'rentals' => $rentals, "comments" => $comments]);
     }
 
     public function createRental(Request $request)
@@ -82,7 +83,7 @@ class RentalsController extends Controller
             'user_id' => 'required|integer:exists:users,id',
             'id_real_estate' => 'required|integer:exists:real_estates,id',
             'rent_start' => 'required|date',
-            'rent_end' => 'date|nullable',
+            'rent_end' => 'date|nullable|after:rent_start',
             'reason_end' => 'string|nullable'
         ]);
 
@@ -131,7 +132,7 @@ class RentalsController extends Controller
         ]);
         $rental = Rentals::find($validated['id']);
         $rental->user_name = User::find($rental->user_id)->name;
-        if(!$rental){
+        if (!$rental) {
             return response()->json(['status' => 'error', 'rental' => null]);
         }
         return response()->json(['status' => 'success', 'rental' => $rental]);

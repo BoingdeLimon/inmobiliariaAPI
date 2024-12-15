@@ -6,6 +6,8 @@ use App\Models\Comments;
 use App\Models\RealEstate;
 use Livewire\Component;
 use App\Models\Rentals;
+use App\Models\User;
+
 class Stats extends Component
 {
     public $rentalID;
@@ -21,18 +23,21 @@ class Stats extends Component
         //     ['id' => '4', 'user_id' => '4', 'name' => 'Rental 4', 'rent_start' => '2024-23-02', 'rent_end' => '2024-31-12', 'reason_end' => null, 'created_at' => '24-12-10T10:50:17.000000Z', 'updated_at' => '24-12-10T10:50:17.000000Z'],
         //     ['id' => '5', 'user_id' => '5', 'name' => 'Rental 5', 'rent_start' => '2024-04-12', 'rent_end' => '2024-31-12', 'reason_end' => null, 'created_at' => '24-12-10T10:52:09.000000Z', 'updated_at' => '24-12-10T10:52:09.000000Z'],
         // ];
-        $rentals = Rentals::where('id_real_estate', $rentalID)->get()->toArray();
-        $rentals = array_filter($rentals, function($rental) {
-            return !is_null($rental['rent_end']);
+        $rentals = Rentals::where('id_real_estate', $rentalID)->get();
+        $rentals = $rentals->filter(function ($rental) {
+            return !is_null($rental->rent_end) && $rental->rent_end !== '';
         });
-        foreach ($rentals as &$rental) {
-            $rental['name'] = "Rental " . $rental['id'];
-            $rental['comments'] = Comments::where('id_rentals', $rental['id'])->get()->toArray();
+        $count = 0;
+        foreach ($rentals as $rental) {
+            $count++;
+            $rental->name = "Rental " . $count;
+            $rental->comments = Comments::where('id_rentals', $rental->id)->get();
+            foreach ($rental->comments as $comment) {
+                $comment->user_name = User::where('id', $rental->user_id)->first()->name;
+                $comment->user_photo = User::where('id', $rental->user_id)->first()->photo;
+            }
         }
         $this->rentals = $rentals;
-        
-        // Reformatear fechas
-        $rentals = $this->reformatRentalDates($this->rentals);
     }
 
     /**
@@ -41,14 +46,14 @@ class Stats extends Component
      * @param array $rentals
      * @return array
      */
-    private function reformatRentalDates(array $rentals): array
+    private function reformatRentalDates($rentals)
     {
-        foreach ($rentals as &$rental) {
-            if ($rental['rent_start']) {
-                $rental['rent_start'] = $this->reformatDate($rental['rent_start']);
+        foreach ($rentals as $rental) {
+            if ($rental->rent_start) {
+                $rental->rent_start = $this->reformatDate($rental->rent_start);
             }
-            if ($rental['rent_end']) {
-                $rental['rent_end'] = $this->reformatDate($rental['rent_end']);
+            if ($rental->rent_end) {
+                $rental->rent_end = $this->reformatDate($rental->ren_end);
             }
         }
         return $rentals;

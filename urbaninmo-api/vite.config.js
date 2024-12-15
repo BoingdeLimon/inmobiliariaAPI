@@ -11,4 +11,11 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    // server: {
+    //     host: '0.0.0.0', 
+    //     https: true,      
+    //     hmr: {
+    //         host: 'https://84a4-2806-266-481-98c7-5f9-aa93-a207-f75f.ngrok-free.app/', 
+    //     },
+    // },
 });

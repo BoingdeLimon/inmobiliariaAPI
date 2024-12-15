@@ -18,8 +18,8 @@
     </select>
 
     {{-- Precio --}}
-    <div class=" flex items-center w-auto border-gray-300 dark:border-gray-600 h-10 rounded-md dark:bg-gray-800 dark:text-white overflow-hidden" id="precio-container">
-        <button class="w-[220px] flex items-center h-10 dark:bg-gray-800 dark:text-white"
+    <div class=" flex items-center w-auto border border-gray-300 dark:border-gray-600 h-10 rounded-md dark:bg-gray-800 dark:text-white overflow-hidden" id="precio-container">
+        <button class="w-[220px] flex items-center h-10 dark:bg-gray-800 dark:text-white "
             onclick="toggleDropdown('precio-dropdown')">
             <span class="ml-4">Precio</span>
             <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
@@ -46,7 +46,7 @@
     </div>
 
     {{-- Más Filtros --}}
-    <div class="flex items-center w-[220px] border-gray-300 dark:border-gray-600 h-10 rounded-md dark:bg-gray-800 dark:text-white overflow-hidden" id="mas-filtros-container">
+    <div class="flex items-center w-[220px] border border-gray-300 dark:border-gray-600 h-10 rounded-md dark:bg-gray-800 dark:text-white overflow-hidden" id="mas-filtros-container">
         <button type="button"
             class="flex items-center w-[220px] border-gray-300 dark:border-gray-600 h-10 rounded-md dark:bg-gray-800 dark:text-white"
             onclick="toggleDropdown('mas-filtros-dropdown')">

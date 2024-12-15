@@ -5,9 +5,12 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\User;
 use Livewire\Attributes\On;
+use Livewire\WithFileUploads;
 
 class EditarUsuariosModal extends Component
 {
+    use WithFileUploads;
+
     public $user;
     public $userId;
     public $name;
@@ -15,6 +18,7 @@ class EditarUsuariosModal extends Component
     public $phone;
     public $role;
     public $photo;
+    public $photoAlreadySave;
     public $isModalOpen = false;
     public $tagEdito = false;
 
@@ -26,10 +30,18 @@ class EditarUsuariosModal extends Component
         $this->email = $email;
         $this->phone = $phone;
         $this->role = $role;
-        $this->photo = $photo;
+        $this->photoAlreadySave = $photo;
         $this->tagEdito = false;
     }
 
+    public function updatedPhoto()
+    {
+        if ($this->photo) {
+            $filePath = $this->photo->store('photos', 'public');
+            return basename($filePath);
+        }
+       return $this->photoAlreadySave;
+    }
     public function closeModal()
     {
         $this->isModalOpen = false;
@@ -37,13 +49,14 @@ class EditarUsuariosModal extends Component
     }
     public function editarUsuario()
     {
-        
+        $photoName = $this->updatedPhoto();
         $user = User::find($this->userId);
         $user->update([
             'name' => $this->name,
             'email' => $this->email,
             'phone' => $this->phone,
             'role' => $this->role,
+            'photo' => $photoName,
         ]);
         $this->tagEdito = true;
         $this->dispatch('editarUsuario');

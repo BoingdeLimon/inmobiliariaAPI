@@ -27,7 +27,7 @@ class Rental extends Component
     public $has_garage;
     public $has_garden;
     public $has_patio;
-    
+
     public $id_address;
     public $price;
     public $is_occupied;
@@ -53,7 +53,7 @@ class Rental extends Component
         $rental = RealEstate::find($this->rentalId);
         $address = Address::find($rental->id_address);
         $photo = Photos::where('id_real_estate', $rental->id)->get();
-       
+
         $this->user_id = $rental->user_id;
         $this->title = $rental->title;
         $this->description = $rental->description;
@@ -77,16 +77,14 @@ class Rental extends Component
         $this->country = $address->country;
         $this->x = $address->x;
         $this->y = $address->y;
-        
+
         foreach ($photo as $p) {
             $this->photos[] = $p->photo;
         }
-
-        
     }
-
-
-
+    public function rendering(){
+        return view('livewire.placeholder.skeletonspecificrental');
+    }
     public function render()
     {
         return view('livewire.rental');

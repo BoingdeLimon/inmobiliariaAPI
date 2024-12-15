@@ -133,6 +133,7 @@ class NewRentalsForm extends Component
             $this->saveRealEstate();
         }
         $this->reset();
+        $this->dispatch("realEstateUpdated");
     }
 
     public function newPhoto($id_real_estate)

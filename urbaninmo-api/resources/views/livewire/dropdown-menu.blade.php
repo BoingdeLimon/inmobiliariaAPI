@@ -1,6 +1,7 @@
 <div class="relative ">
-    <img src="{{ Auth::user()->photo }}" alt="{{ Auth::user()->name }}"
-        class="h-10 w-10 cursor-pointer rounded-full object-cover object-center" wire:click="abrirMenu">
+    <img src="{{ Auth::user()->photo ? asset('storage/photos/' . Auth::user()->photo) : asset('img/default.jpg') }}"
+        alt="{{ Auth::user()->name }}" class="h-10 w-10 cursor-pointer rounded-full object-cover object-center"
+        wire:click="abrirMenu">
 
     @if ($estadoMenu)
         <div wire:click.self="cerrarMenu"
