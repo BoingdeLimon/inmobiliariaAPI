@@ -11,7 +11,7 @@ class UserList extends Component
 {
     
     public $users;
-    #[On('userDeleted', 'editarUsuario')]
+    #[On('eliminarUsuario', 'editarUsuario')]
     public function mount()
     {
         $this->users = User::all(); // Assign the fetched users to the class property
