@@ -10,6 +10,25 @@ use Illuminate\Http\Request;
 
 class RentalsController extends Controller
 {
+    public function listAllRentals(){
+        $rentals = Rentals::all();
+        $rentalsWithUser = $rentals->map(function ($rental) {
+            $user = User::find($rental->user_id);
+            return [
+                'id' => $rental->id,
+                'id_real_estate' => $rental->id_real_estate,
+                'rent_start' => $rental->rent_start,
+                'rent_end' => $rental->rent_end,
+                'reason_end' => $rental->reason_end,
+                'created_at' => $rental->created_at,
+                'updated_at' => $rental->updated_at,
+                'user_name' => $user ? $user->name : null,
+                'user_photo' => $user ? $user->photo : null
+            ];
+        });
+        return response()->json(['status' => 'success', 'rentals' => $rentalsWithUser]);
+    }
+
     public function getRentalsByRealEstateId(Request $request)
     {
         $validated = $request->validate([

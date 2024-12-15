@@ -104,6 +104,8 @@ Route::post('/deleteMessage', [MessagesController::class, "deleteMessage"]);
 
 // * Para rents
 Route::
+post('/listAllRentals', [RentalsController::class, 'listAllRentals']);
+Route::
 middleware(['auth:sanctum'])->
 post('getRentalsByRealEstateId', [RentalsController::class, 'getRentalsByRealEstateId']);
 

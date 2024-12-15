@@ -11,7 +11,7 @@ class RentList extends Component
 {
     public $isModalOpen = false;
     public $rentals;
-    public $userAndReal;
+    public $rentalWithUser;
 
     protected $listeners = ['rentAdded' => 'updateListRents'];
     public $realEstateId;
@@ -29,19 +29,22 @@ class RentList extends Component
         $this->rentals = Rentals::where('id_real_estate', $realEstateId)->get();
 
         if ($this->rentals->count() > 0) {
-            foreach ($this->rentals as $rent) {
-                if (!$this->userAndReal) {
-                    $this->userAndReal = new \stdClass();
-                }
-                $user = User::find($rent->user_id);
-                $realEstate = RealEstate::find($rent->id_real_estate);
-                if ($user && $realEstate) {
-                    $this->userAndReal->userName = $user->name;
-                    $this->userAndReal->userPhoto = $user->photo;
-                    $this->userAndReal->reaLEstateName = $realEstate->title;
-                }
-            }
+           $this->rentalWithUser = $this->rentals->map(function ($rent) {
+            
+                return [
+                    'id' => $rent->id,
+                    'id_user' => $rent->id_user,
+                    'id_real_estate' => $rent->id_real_estate,
+                    'rent_start' => $rent->rent_start,
+                    'rent_end' => $rent->rent_end,
+                    'reason_end' => $rent->reason_end,
+                    'name_real_estate' => RealEstate::find($rent->id_real_estate)->title,
+                    'user_name' => User::find($rent->user_id)->name,
+                    'user_photo' => User::find($rent->user_id)->photo
+                ];
+            });
         }
+        // var_dump($this->rentals);
     }
 
 

@@ -43,30 +43,31 @@
                                         </td>
                                     </tr>
                                 @else
-                                    @foreach ($rentals as $rental)
+                                    {{-- @dump($rentalWithUser) --}}
+                                    @foreach ($rentalWithUser as $rental)
                                         <tr class="even:bg-gray-100 dark:bg-gray-700">
                                             <td class="py-2 px-4 border-t border-gray-200 dark:border-gray-700 text-sm">
-                                                {{ $rental->id }}
+                                                {{ $rental['id'] }}
                                             </td>
                                             <td class="py-2 px-4 border-t border-gray-200 dark:border-gray-700 text-sm">
-                                                {{ \Carbon\Carbon::parse($rental->rent_start)->format('d M, Y') }}
+                                                {{ \Carbon\Carbon::parse($rental['rent_start'])->format('d M, Y') }}
                                             </td>
                                             <td class="py-2 px-4 border-t border-gray-200 dark:border-gray-700 text-sm">
-                                                {{ $rental->rent_end ? \Carbon\Carbon::parse($rental->rent_end)->format('d M, Y') : 'En curso' }}
+                                                {{ $rental['rent_end'] ? \Carbon\Carbon::parse($rental['rent_end'])->format('d M, Y') : 'En curso' }}
                                             </td>
                                             <td class="py-2 px-4 border-t border-gray-200 dark:border-gray-700 text-sm">
-                                                <img src="{{ asset('storage/photos/' . $userAndReal->userPhoto) }}"
+                                                <img src="{{ asset('storage/photos/' . $rental['user_photo']) }}"
                                                     alt="Foto de perfil" class="h-10 w-10 rounded-full">
                                             </td>
                                             <td class="py-2 px-4 border-t border-gray-200 dark:border-gray-700 text-sm">
-                                                {{ $userAndReal->userName }}
+                                                {{ $rental['user_name'] }}
                                             </td>
                                             <td class="py-2 px-4 border-t border-gray-200 dark:border-gray-700 text-sm">
-                                                {{ $userAndReal->reaLEstateName }}
-                                            </td>
-                                            
+                                                {{ $rental['name_real_estate'] }}
+                                        </td>
+
                                             <td class="py-2 px-4 border-t border-gray-200 dark:border-gray-700 text-sm">
-                                                @livewire('rent-details', ['realEstateId' => $realEstateId, 'rentalID' => $rental->id], key($realEstateId, $rental->id))
+                                                @livewire('rent-details', ['realEstateId' => $realEstateId, 'rentalID' => $rental['id']], key($realEstateId, $rental['id']))
                                             </td>
                                         </tr>
                                     @endforeach
