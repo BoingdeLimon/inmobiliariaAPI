@@ -60,7 +60,7 @@
             </div>
             
             <!-- Skeleton Loader si no hay datos disponibles -->
-            @foreach (range(1, 3) as $index) <!-- Mostrar 5 skeletons por ejemplo -->
+            @foreach (range(1, 2) as $index) <!-- Mostrar 5 skeletons por ejemplo -->
             <li class="p-4 w-full overflow-hidden rounded-lg">
                 <a class="flex flex-col h-48 md:flex-row bg-white dark:bg-gray-600 shadow-md rounded-lg overflow-hidden max-w-5xl mx-auto animate-pulse">
                     <!-- Bloque de imagen -->

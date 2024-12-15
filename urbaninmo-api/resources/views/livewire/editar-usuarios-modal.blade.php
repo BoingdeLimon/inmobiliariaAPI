@@ -67,7 +67,7 @@
                             </div>
 
                             @if ($photo)
-                                <div class="flex flex-col items-center space-y-4">
+                                <div class="flex flex-col items-center justify-center space-y-4">
                                     <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300">
                                         Nueva Foto
                                     </h3>

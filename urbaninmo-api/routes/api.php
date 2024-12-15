@@ -63,6 +63,7 @@ post('/filterUser', [UserController::class, 'filterUser']);
 Route::post('/loginAuthApi', [LoginController::class, 'loginAuthApi']);
 Route::post('/register', [UserController::class, 'store']);
 
+
 // * Para RealEstates
 Route::post("/listAllRealEstates", [RealEstateController::class, 'listAllRentals']);
 Route::post("/searchRealEstate", [RealEstateController::class, 'searchRealEstate']);

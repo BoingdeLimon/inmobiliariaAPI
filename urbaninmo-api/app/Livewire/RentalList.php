@@ -23,6 +23,10 @@ class RentalList extends Component
     {
         // Fetch all rentals with their related address and photos
         $this->rentals = RealEstate::with(['address', 'photos'])->get();
+        // $this->rentals = $this->rentals->merge($this->rentals);
+        $rentals = RealEstate::with(['address', 'photos'])->get();
+        $this->rentals = $this->rentals->merge($rentals);
+
     }
     public function borrar($id)
     {

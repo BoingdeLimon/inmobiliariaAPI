@@ -30,47 +30,39 @@ Route::middleware('auth')->group(function () {
 
 
 Route::get('/', function () {
-    return view('home'); 
-})->name('Home'); 
+    return view('home');
+})->name('Home');
+
 
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    
+
     Route::get('/dashboard', function () {
         return view('profile');
     })->name('profile');
 
+
+    Route::get('/admin-dashboard', function () {
+        if (Auth()->user()->role !== 'admin') {
+            return view('errors.404');
+        }
+        return view('admin-dash');
+    })->name('admin-dashboard');
 });
 
 
-// Route::middleware([
-//     'auth:sanctum',
-//     config('jetstream.auth_session'),
-//     'verified',
-// ])->group(function () {
-//     Route::get('/dashboard', function () {
-//         return view('profile');
-//     })->name('profile');
-// });
-
-Route::get('/admin-dashboard', function () {
-    if (auth()->user()->role !== 'admin') {
-        return view('errors.404');
-    }
-    return view('admin-dash');
-})->name('admin-dashboard');
 
 Route::get('/rental/{id}', function ($id) {
-    return view('rental', ['rentalId' => $id]); 
+    return view('rental', ['rentalId' => $id]);
 })->name('rental.show');
 
 
 Route::get('/rental/statistics/{id}', function ($rentalId) {
-    return view('statistics', ['rentalID' => $rentalId]); 
-})->name('statistics'); 
+    return view('statistics', ['rentalID' => $rentalId]);
+})->name('statistics');
 
 
 Route::get('/rental/{id}/pdf', [PdfController::class, 'generatePdf']);

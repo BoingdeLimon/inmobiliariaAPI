@@ -29,15 +29,15 @@ class LoginController extends Controller
         // Check the role of the authenticated user
         $user = Auth::user();
 
-        if ($user->role === 'admin') {
-            // Redirect to admin-dashboard if the role is 'admin'
-            return redirect()->route('admin-dashboard');
-            // Redirect to dashboard or any intended route
-            return redirect()->intended('/');
-        }
+        // if ($user->role === 'admin') {
+        //     // Redirect to admin-dashboard if the role is 'admin'
+        //     // return redirect()->route('admin-dashboard');
+        //     // Redirect to dashboard or any intended route
+        //     return redirect()->intended('/');
+        // }
 
         // Redirect to dashboard or any intended route for non-admin users
-        return redirect()->intended('/dashboard');
+        return redirect()->intended('/');
     }
 
     // Handle failed login attempt

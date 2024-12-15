@@ -8,6 +8,12 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    protected $photosController;
+
+    public function __construct(PhotosController $photosController)
+    {
+        $this->photosController = $photosController;
+    }
     // ! OLIVER FUNCIONES
     public function getAllUsers()
     {
@@ -29,16 +35,27 @@ class UserController extends Controller
             'photo' => 'nullable|string',
             'role' => 'nullable|string',
         ]);
+        
         $user = User::findOrFail($id);
         if (!$user) {
             return response()->json(['status' => 'errror']);
         }
+        
+        $photoRequest = new Request([
+            'photo' => $validatedData['photo'],
+            'oldPhoto' => $user->photo
+        ]);
+        $fileName = $this->photosController->newImageUser($photoRequest);
+        $validatedData['photo'] = $fileName;
         $user->update($validatedData);
         return response()->json(['status' => 'success', 'user' => $user]);
     }
 
     public function deleteUser(Request $request)
     {
+        $request->validate([
+            'id' => 'required|integer|exists:users,id',
+        ]);
         $id = $request->id;
         $user = User::findOrFail($id);
         if (!$user) {
@@ -89,7 +106,7 @@ class UserController extends Controller
         return response()->json($users);
     }
 
-    
+
     //!
 
     public function index()

@@ -67,16 +67,16 @@
                         <div id="propertyInfo" class="mt-4 w-full">
                             <div class="grid grid-cols-1 justify-items-start sm:grid-cols-2 gap-4">
                                 @foreach ([
-                                            'Nombre' => $selectedProperty->title,
-                                            'Tamaño' => $selectedProperty->size . ' m²',
-                                            'Precio de Renta' => number_format($selectedProperty->price, 2),
-                                            'Cuartos' => $selectedProperty->rooms,
-                                            'Baños' => $selectedProperty->bathrooms,
-                                            'Tipo' => $selectedProperty->type,
-                                            '¿Tiene Garage?' => $selectedProperty->has_garage ? 'Sí' : 'No',
-                                            '¿Tiene Jardín?' => $selectedProperty->has_garden ? 'Sí' : 'No',
-                                            '¿Tiene Patio?' => $selectedProperty->has_patio ? 'Sí' : 'No',
-                                        ] as $label => $value)
+        'Nombre' => $selectedProperty->title,
+        'Tamaño' => $selectedProperty->size . ' m²',
+        'Precio de Renta' => number_format($selectedProperty->price, 2),
+        'Cuartos' => $selectedProperty->rooms,
+        'Baños' => $selectedProperty->bathrooms,
+        'Tipo' => $selectedProperty->type,
+        '¿Tiene Garage?' => $selectedProperty->has_garage ? 'Sí' : 'No',
+        '¿Tiene Jardín?' => $selectedProperty->has_garden ? 'Sí' : 'No',
+        '¿Tiene Patio?' => $selectedProperty->has_patio ? 'Sí' : 'No',
+    ] as $label => $value)
                                     <div>
                                         <p class="text-sm font-semibold text-gray-600 dark:text-gray-400">
                                             {{ $label }}</p>
@@ -124,9 +124,9 @@
                         </div>
                     @else
                         <div
-                                class="p-6 bg-gray-50 dark:bg-gray-800 rounded-lg shadow-lg text-center border border-gray-200 dark:border-gray-700">
-                                <p class="text-gray-600 dark:text-gray-400">No tienes propiedades.</p>
-                            </div>
+                            class="p-6 bg-gray-50 dark:bg-gray-800 rounded-lg shadow-lg text-center border border-gray-200 dark:border-gray-700">
+                            <p class="text-gray-600 dark:text-gray-400">No tienes propiedades.</p>
+                        </div>
                     @endif
 
                 </div>
@@ -136,14 +136,11 @@
 
 
             <div id="rentals"
-                class="lg:w-full h-modal bg-white dark:bg-gray-800 rounded-xl shadow-2xl p-6 md:block hidden">
-                <div class="flex justify-between items-center  border-gray-300 dark:border-gray-700">
-                    <h3 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Rentas</h3>
-                </div>
-
-                <div class="mt-6">
-                    <div class="space-y-6 overflow-y-scroll h-full md:h-80 scrollbar-thin scrollbar-thumb-gray-400 ">
-                        @forelse ($rentWithComment as $rental)
+                class="lg:w-full    bg-white dark:bg-gray-800 rounded-xl shadow-2xl p-6 md:block hidden">
+                <h3 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Rentas</h3>
+                @if ($rentWithComment->count() > 0)
+                    <div class="space-y-6 overflow-y-scroll  h-80 scrollbar-thin scrollbar-thumb-gray-400 ">
+                        @foreach ($rentWithComment as $rental)
                             {{-- <div>
                             {{$rental}}
                         </div> --}}
@@ -202,14 +199,14 @@
                                     </div>
                                 @endif
                             </div>
-                        @empty
-                            <div
-                                class="p-6 bg-gray-50 dark:bg-gray-800 rounded-lg shadow-lg text-center border border-gray-300 dark:border-gray-600">
-                                <p class="text-gray-600 dark:text-gray-400">No hay rentas disponibles.</p>
-                            </div>
-                        @endforelse
+                        @endforeach
                     </div>
-                </div>
+                @else
+                    <div
+                        class="p-6 bg-gray-50 dark:bg-gray-80 h-auto rounded-lg shadow-lg text-center border border-gray-300 dark:border-gray-600">
+                        <p class="text-gray-600 dark:text-gray-400">No hay rentas disponibles.</p>
+                    </div>
+                @endif
             </div>
 
 

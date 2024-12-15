@@ -57,6 +57,29 @@ class PhotosController extends Controller
         return 'unknown';
     }
 
+    public function newImageUser(Request $request)
+    {
+        $oldPhoto = $request->oldPhoto;
+        if ($oldPhoto) {
+            $oldPhoto = 'photos/' . $oldPhoto;
+            if (Storage::disk('public')->exists($oldPhoto)) {
+                Storage::disk('public')->delete($oldPhoto);
+            }
+        }
+        $image = $request->photo;
+        $extension = $this->getB64Type($image);
+        if ($extension === 'unknown') {
+            return response()->json(['error' => 'Formato de imagen no válido'], 400);
+        }
+        $image = preg_replace('/^data:image\/\w+;base64,/', '', $image);
+        $file = base64_decode($image);
+        if ($file === false) {
+            return response()->json(['error' => 'La imagen no pudo ser decodificada'], 400);
+        }
+        $filename = 'photo-' . time() . '.' . $extension;
+        $filePath = Storage::disk('public')->put('photos/' . $filename, $file);
+        return $filename;
+    }
 
 
 
@@ -88,8 +111,9 @@ class PhotosController extends Controller
 
 
 
-    public function deleteSpecificPhoto(Request $request) {
-        $photo = $request->input('photo');       
+    public function deleteSpecificPhoto(Request $request)
+    {
+        $photo = $request->input('photo');
         $photo = Photos::where('photo', $photo)->first();
         if (!$photo) {
             return ['status' => 'error', 'message' => $photo];
