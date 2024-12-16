@@ -16,7 +16,7 @@
 
     <!-- Dropdown-->
     @if($search && $realEstates->isNotEmpty())
-    <div class="absolute w-full mt-12 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg shadow-lg max-h-60 overflow-y-auto z-10">
+    <div class="absolute w-full mt-12 z-40 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg shadow-lg max-h-60 overflow-y-auto ">
         @foreach($realEstates as $realEstate)
         <div wire:click="redirectToRental({{ $realEstate->id }})" 
             class="px-4 py-2 flex gap-2 text-black dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer">
