@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PdfController;
+use Illuminate\Support\Facades\Auth;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -46,10 +47,10 @@ Route::middleware([
 
 
     Route::get('/admin-dashboard', function () {
-        if (Auth()->user()->role !== 'admin') {
-            return view('errors.404');
+        if (Auth::user()->role === 'admin' || Auth::user()->role === 'mod') {
+            return view('admin-dash');
         }
-        return view('admin-dash');
+        return view('errors.404');
     })->name('admin-dashboard');
 });
 

@@ -216,6 +216,9 @@ class NewRentalsForm extends Component
         ]);
 
         $realEstate = RealEstate::find($this->realEstateId);
+        if($this->user_id == null){
+            $this->user_id = $realEstate->user_id;
+        }
         $realEstate->update([
             'user_id' => $this->user_id,
             'title' => $this->title,

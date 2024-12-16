@@ -6,7 +6,7 @@ use Livewire\Component;
 
 class AdminDashboard extends Component
 {   
-    public $estadoUsuarios = true;
+    public $estadoUsuarios = false;
     public $estadoRentals = false;
 
     public function botonUsuarios()
@@ -22,7 +22,7 @@ class AdminDashboard extends Component
     }
     public function logout()
     {
-        auth()->logout();
+        // Auth::logout();
         return redirect('/');
     }
 

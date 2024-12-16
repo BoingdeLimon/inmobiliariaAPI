@@ -69,7 +69,7 @@ class PhotosController extends Controller
         $image = $request->photo;
         $extension = $this->getB64Type($image);
         if ($extension === 'unknown') {
-            return response()->json(['error' => 'Formato de imagen no válido'], 400);
+            return "unknown";
         }
         $image = preg_replace('/^data:image\/\w+;base64,/', '', $image);
         $file = base64_decode($image);

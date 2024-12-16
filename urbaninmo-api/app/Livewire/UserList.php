@@ -4,7 +4,7 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use Livewire\Attributes\On;
-use App\Models\User; // Ensure the User model is imported
+use App\Models\User; 
 use App\Http\Controllers\UserController;
 
 class UserList extends Component
@@ -21,8 +21,8 @@ class UserList extends Component
     public function borrar($id)
     {
         if($id){
-            $controller = new UserController();
-            $controller->destroy($id);
+            $user = User::find($id);
+            $user->delete();
             $this->dispatch('userDeleted');
         }else{
             session()->flash('error', 'No se ha podido borrar el usuario');

@@ -21,7 +21,14 @@ class UserController extends Controller
     }
     public function getUserById(Request $request)
     {
-        return User::findOrFail($request->id);
+        $validatedData = $request->validate([
+            'id' => 'required|integer|exists:users,id',
+        ]);
+        $user = User::find($validatedData['id']);
+        if (!$user) {
+            return response()->json(['status' => 'error']);
+        }
+        return ['status' => 'success', 'user' => $user];
     }
 
     public function updateUser(Request $request)
@@ -46,7 +53,11 @@ class UserController extends Controller
             'oldPhoto' => $user->photo
         ]);
         $fileName = $this->photosController->newImageUser($photoRequest);
-        $validatedData['photo'] = $fileName;
+        if($fileName !== 'unknown'){
+            $validatedData['photo'] = $fileName;
+        }else{
+            $validatedData['photo'] = $user->photo;
+        }
         $user->update($validatedData);
         return response()->json(['status' => 'success', 'user' => $user]);
     }

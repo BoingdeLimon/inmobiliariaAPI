@@ -47,8 +47,18 @@ class EditarUsuariosModal extends Component
         $this->isModalOpen = false;
         $this->tagEdito = false;
     }
+    protected function rules()
+    {
+        return [
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email,' . $this->userId,
+            'phone' => 'required|numeric|digits:10',
+            'role' => 'required|in:admin,mod,user',
+        ];
+    }
     public function editarUsuario()
     {
+        $this->validate();
         $photoName = $this->updatedPhoto();
         $user = User::find($this->userId);
         $user->update([

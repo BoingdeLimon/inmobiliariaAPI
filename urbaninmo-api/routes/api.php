@@ -40,11 +40,12 @@ Route::delete('addresses/{id}', [AddressController::class, 'destroy']);
 //* Para Usuarios
 
 Route::
-middleware(['auth:sanctum'])->
+// middleware(['auth:sanctum'])->
 post('/getAllUsers', [UserController::class, 'getAllUsers']);
 
-Route::middleware(['auth:sanctum'])
-->post('/getUserById', [UserController::class, 'getUserById']);
+Route::
+// middleware(['auth:sanctum'])->
+post('/getUserById', [UserController::class, 'getUserById']);
 
 
 Route::middleware(['auth:sanctum'])

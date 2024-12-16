@@ -19,7 +19,7 @@
                         <p>My Profile</p>
                     </a>
                 </li>
-                @if (Auth::user()->role == 'admin')
+                @if (Auth::user()->role == 'admin' || Auth::user()->role == 'mod')
                     <li class="">
                         <a href="{{ route('admin-dashboard') }}"
                             class="flex px-4 py-2 space-x-2 text-sm text-gray-800 dark:text-gray-100 hover:font-semibold">

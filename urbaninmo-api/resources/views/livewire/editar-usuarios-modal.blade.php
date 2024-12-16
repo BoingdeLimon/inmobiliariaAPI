@@ -20,6 +20,9 @@
                             class="flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-3 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white transition duration-300 focus:ring-2 focus:ring-purple-300"
                             required>
                     </div>
+                    @error('name')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
 
                     <!-- Email -->
                     <div class="flex flex-col md:flex-row items-center mb-4 space-x-4">
@@ -27,7 +30,11 @@
                         <input type="email" id="email" wire:model='email'
                             class="flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-3 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white transition duration-300 focus:ring-2 focus:ring-purple-300"
                             required>
+
                     </div>
+                    @error('email')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
 
                     <!-- Teléfono -->
                     <div class="flex flex-col md:flex-row items-center mb-4 space-x-4">
@@ -36,16 +43,25 @@
                             class="flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-3 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white transition duration-300 focus:ring-2 focus:ring-purple-300"
                             required>
                     </div>
+                    @error('phone')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
 
                     <!-- Rol -->
                     @if (Auth::user()->role === 'admin')
                         <div class="flex flex-col md:flex-row items-center mb-4 space-x-4" class="block">
                             <label for="role" class="text-md text-gray-900 dark:text-white w-1/4">Rol:</label>
-
-                            <input type="text" id="role" wire:model='role'
+                            <select
                                 class="flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-3 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white transition duration-300 focus:ring-2 focus:ring-purple-300"
-                                required>
+                                wire:model='role' name="role" id="role">
+                                <option value="admin">Administrador</option>
+                                <option value="mod">Moderador</option>
+                                <option value="user">Usuario</option>
+                            </select>
                         </div>
+                        @error('role')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
                     @else
                     @endif
                     <!-- Foto -->
@@ -53,6 +69,10 @@
                         <label for="photo" class="text-md text-gray-900 dark:text-white w-1/4">Foto:</label>
                         <input type="file" id="photo" wire:model='photo'
                             class="flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-3 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white transition duration-300 focus:ring-2 focus:ring-purple-300">
+                        @error('photo')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
+
                     </div>
                     <div
                         class="flex flex-col items-center justify-center p-6 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-lg space-y-8">
@@ -62,7 +82,7 @@
                                 <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300">
                                     Foto Actual
                                 </h3>
-                                 <img src="{{ asset('storage/photos/'.$photoAlreadySave) }}" alt="Foto actual"
+                                <img src="{{ asset('storage/photos/' . $photoAlreadySave) }}" alt="Foto actual"
                                     class="aspect-square w-28 md:w-24 bg-gray-300 dark:bg-gray-700 rounded-full object-cover shadow-md border border-gray-200 dark:border-x-gray-300">
                             </div>
 

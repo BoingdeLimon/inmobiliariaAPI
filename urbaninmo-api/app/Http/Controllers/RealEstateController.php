@@ -379,7 +379,7 @@ class RealEstateController extends Controller
             $realEstate->delete();
             return ['status' => 'successfull'];
         } catch (\Exception $e) {
-            return ['status' => 'error realestate'];
+            return ['status' => 'error'];
         }
     }
     public function deleteRentalById($id)

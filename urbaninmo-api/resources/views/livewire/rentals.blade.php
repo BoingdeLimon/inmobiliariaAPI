@@ -85,5 +85,6 @@
             </li>
             @endforeach
         @endforelse
+        
     </ul>
 </div>
