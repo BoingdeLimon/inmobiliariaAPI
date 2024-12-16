@@ -67,6 +67,7 @@ Route::post('/register', [UserController::class, 'store']);
 
 // * Para RealEstates
 Route::post("/listAllRealEstates", [RealEstateController::class, 'listAllRentals']);
+Route::post("/RentalsPaginate", [RealEstateController::class, 'RentalsPaginate']);
 Route::post("/searchRealEstate", [RealEstateController::class, 'searchRealEstate']);
 Route::post("/filterRentals", [RealEstateController::class, 'filterRentals']);
 

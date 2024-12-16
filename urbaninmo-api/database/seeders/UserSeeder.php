@@ -14,6 +14,7 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+        //6 usuarios
         User::create([
             'name' => 'José Alvarado',
             'email' => 'AlvaradoJose@example.com',
@@ -22,7 +23,46 @@ class UserSeeder extends Seeder
             'role' => 'admin',
             'photo' => 'https://cdn-images.livecareer.es/pages/foto_cv_lc_es_4.jpg', 
         ]);
-
+        User::create([
+            'name' => 'Evelio Alvarez',
+            'email' => 'Evelio@example.com',
+            'password' => Hash::make('password123'), 
+            'phone' => '1234567890',
+            'role' => 'user',
+            'photo' => 'https://cdn-images.livecareer.es/pages/foto_cv_lc_es_4.jpg', 
+        ]);
+        User::create([
+            'name' => 'Oliver Mondragon',
+            'email' => 'Oliver@example.com',
+            'password' => Hash::make('password123'), 
+            'phone' => '1234567890',
+            'role' => 'user',
+            'photo' => 'https://cdn-images.livecareer.es/pages/foto_cv_lc_es_4.jpg', 
+        ]);
+        User::create([
+            'name' => 'Emiliano Flores',
+            'email' => 'Emiliano@example.com',
+            'password' => Hash::make('password123'), 
+            'phone' => '1234567890',
+            'role' => 'user',
+            'photo' => 'https://cdn-images.livecareer.es/pages/foto_cv_lc_es_4.jpg', 
+        ]);
+        User::create([
+            'name' => 'Jorge Bazan',
+            'email' => 'Jorge@example.com',
+            'password' => Hash::make('password123'), 
+            'phone' => '1234567890',
+            'role' => 'user',
+            'photo' => 'https://cdn-images.livecareer.es/pages/foto_cv_lc_es_4.jpg', 
+        ]);
+        User::create([
+            'name' => 'Rodrigo Salgado',
+            'email' => 'Rodrigo@example.com',
+            'password' => Hash::make('password123'), 
+            'phone' => '1234567890',
+            'role' => 'user',
+            'photo' => 'https://cdn-images.livecareer.es/pages/foto_cv_lc_es_4.jpg', 
+        ]);
         
     }
 }
