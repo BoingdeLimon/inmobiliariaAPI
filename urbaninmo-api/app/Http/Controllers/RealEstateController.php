@@ -193,6 +193,42 @@ class RealEstateController extends Controller
         ]);
     }
 
+    public function RentalsPaginate(Request $request)
+    {
+        $realEstates = null;
+
+        if ($request->has('id')) {
+            $realEstate = RealEstate::find($request->input('id'));
+            if (!$realEstate) {
+                return response()->json(['error' => 'Real estate not found'], 404);
+            }
+            $realEstates = collect([$realEstate]);
+        } elseif ($request->has('user_id')) {
+            $realEstates = RealEstate::where('user_id', $request->input('user_id'))->paginate(4);
+        } else {
+            $realEstates = RealEstate::paginate(4);
+        }
+
+        $fullRealEstate = $realEstates->map(function ($realEstate) {
+
+            $address = $this->addressController->show(new Request(['id_address' =>  $realEstate->id_address]));
+            $photos = $this->photosController->show(new Request(['id_real_estate' => $realEstate->id]));
+            $realEstate->address = $address ? $address : null;
+            $realEstate->photos = $photos ? $photos : null;
+
+            $user_id = $realEstate->user_id;
+            $user = User::find($user_id);
+            $phoneRental = $user->phone;
+
+            $realEstate->phoneRental = $phoneRental;
+            return $realEstate;
+        });
+
+        return response()->json([
+            'real_estate' => $fullRealEstate,
+        ]);
+    }
+
 
     
 
