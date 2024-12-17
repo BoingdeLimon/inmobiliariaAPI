@@ -70,6 +70,7 @@ Route::post("/listAllRealEstates", [RealEstateController::class, 'listAllRentals
 Route::post("/RentalsPaginate", [RealEstateController::class, 'RentalsPaginate']);
 Route::post("/searchRealEstate", [RealEstateController::class, 'searchRealEstate']);
 Route::post("/filterRentals", [RealEstateController::class, 'filterRentals']);
+Route::post("/filterPaginate", [RealEstateController::class, 'filterPaginate']);
 
 
 //  Solo usuario autenticado puede crear, editar y eliminar

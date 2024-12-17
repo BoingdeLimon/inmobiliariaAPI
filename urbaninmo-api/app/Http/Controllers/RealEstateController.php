@@ -230,7 +230,7 @@ class RealEstateController extends Controller
     }
 
 
-    
+
 
     public function newRental(Request $request)
     {
@@ -262,7 +262,7 @@ class RealEstateController extends Controller
                 'photo' => 'required|array',
                 'photo.*' => 'string',
 
-            
+
                 'price' => 'required|numeric',
                 'is_occupied' => 'required|boolean',
                 'pdf' => 'nullable|string',
@@ -292,7 +292,7 @@ class RealEstateController extends Controller
                 ]);
                 $this->photosController->newImage($photoRequest);
             }
-           
+
             return response()->json([
                 'message' => 'Real Estate created successfully',
                 'real_estate' => $realEstate
@@ -330,12 +330,12 @@ class RealEstateController extends Controller
                 'x' => 'required|numeric',
                 'y' => 'required|numeric',
 
-           
+
 
                 'photo' => 'required|array',
                 'photo.*' => 'string',
 
-            
+
                 'price' => 'required|numeric',
                 'is_occupied' => 'required|boolean',
                 'pdf' => 'nullable|string',
@@ -514,7 +514,7 @@ class RealEstateController extends Controller
     {
         // Leer el parámetro 'search' desde el cuerpo de la solicitud
         $search = $request->input('search');
-        
+
         // Si la búsqueda está vacía, retornar una respuesta vacía
         if (empty($search)) {
             return response()->json([]);
@@ -522,14 +522,52 @@ class RealEstateController extends Controller
 
         // Realizar la búsqueda en los campos 'title' y 'description' sin importar mayúsculas/minúsculas
         $results = RealEstate::with('address') // Agregar la relación 'address' a la consulta
-            ->where(function($query) use ($search) {
+            ->where(function ($query) use ($search) {
                 $query->whereRaw('LOWER(title) LIKE ?', ['%' . strtolower($search) . '%'])
-                      ->orWhereRaw('LOWER(description) LIKE ?', ['%' . strtolower($search) . '%']);
+                    ->orWhereRaw('LOWER(description) LIKE ?', ['%' . strtolower($search) . '%']);
             })
             ->get();
 
         // Retornar los resultados encontrados, incluyendo la dirección
         return response()->json($results);
+    }
+
+    public function filterPaginate(Request $request)
+    {
+        $state = $request->input('state');
+        $type = $request->input('type');
+        $min_price = $request->input('min_price');
+        $max_price = $request->input('max_price'); 
+        $rooms = $request->input('rooms');
+        $bathrooms = $request->input('bathrooms');
+
+        $query = RealEstate::with(['address', 'photos']);
+
+        $query->when($state, function ($q, $state) {
+            return $q->where('state', $state);
+        });
+
+        $query->when($type, function ($q, $type) {
+            return $q->where('type', $type);
+        });
+
+        $query->when($min_price, function ($q, $min_price) {
+            return $q->where('price', '>=', $min_price);
+        });
+
+        $query->when($max_price, function ($q, $max_price) {
+            return $q->where('price', '<=', $max_price);
+        });
+
+        $query->when($rooms, function ($q, $rooms) {
+            return $q->where('rooms', $rooms);
+        });
+
+        $query->when($bathrooms, function ($q, $bathrooms) {
+            return $q->where('bathrooms', $bathrooms);
+        });
+        $realEstates = $query->paginate(4)->appends($request->query());
+        return response()->json($realEstates);
     }
 
     // public function filterRentals(Request $request)
