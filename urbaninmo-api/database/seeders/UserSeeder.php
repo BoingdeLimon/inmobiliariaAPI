@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password123'), 
             'phone' => '1234567890',
             'role' => 'admin',
-            'photo' => 'https://cdn-images.livecareer.es/pages/foto_cv_lc_es_4.jpg', 
+            'photo' => '', 
         ]);
         User::create([
             'name' => 'Evelio Alvarez',
@@ -29,7 +29,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password123'), 
             'phone' => '1234567890',
             'role' => 'user',
-            'photo' => 'https://cdn-images.livecareer.es/pages/foto_cv_lc_es_4.jpg', 
+            'photo' => '', 
         ]);
         User::create([
             'name' => 'Oliver Mondragon',
@@ -37,7 +37,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password123'), 
             'phone' => '1234567890',
             'role' => 'user',
-            'photo' => 'https://cdn-images.livecareer.es/pages/foto_cv_lc_es_4.jpg', 
+            'photo' => '', 
         ]);
         User::create([
             'name' => 'Emiliano Flores',
@@ -45,7 +45,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password123'), 
             'phone' => '1234567890',
             'role' => 'user',
-            'photo' => 'https://cdn-images.livecareer.es/pages/foto_cv_lc_es_4.jpg', 
+            'photo' => '', 
         ]);
         User::create([
             'name' => 'Jorge Bazan',
@@ -53,7 +53,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password123'), 
             'phone' => '1234567890',
             'role' => 'user',
-            'photo' => 'https://cdn-images.livecareer.es/pages/foto_cv_lc_es_4.jpg', 
+            'photo' => '', 
         ]);
         User::create([
             'name' => 'Rodrigo Salgado',
@@ -61,7 +61,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password123'), 
             'phone' => '1234567890',
             'role' => 'user',
-            'photo' => 'https://cdn-images.livecareer.es/pages/foto_cv_lc_es_4.jpg', 
+            'photo' => '', 
         ]);
         
     }
