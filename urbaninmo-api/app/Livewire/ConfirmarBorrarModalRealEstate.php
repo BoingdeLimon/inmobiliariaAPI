@@ -31,7 +31,7 @@ class ConfirmarBorrarModalRealEstate extends Component
         
         $rental = RealEstate::find($this->rentalId);
         $rental->delete();
-        $this->tagEdito = true;
+        $this->tagBorrado = true;
         $this->dispatch('rentalDeleted');
     }
     public function render()
