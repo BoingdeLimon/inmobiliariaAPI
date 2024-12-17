@@ -8,7 +8,7 @@ use Livewire\Component;
 class Rentals extends Component
 {
     public $rentals = [];
-    public $filteredRentals = []; // Almacena todas las propiedades recibidas
+    public $filteredRentals = []; // Almacena todas las propiedades filtradas
     public $currentPage = 1;
     public $perPage = 4; 
     public $totalPages;
@@ -25,11 +25,13 @@ class Rentals extends Component
         $this->isLoading = true;
         $totalRentals = RealEstate::count();
         $this->totalPages = ceil($totalRentals / $this->perPage);
+
         $this->rentals = RealEstate::with(['address', 'photos'])
             ->offset(($this->currentPage - 1) * $this->perPage)
             ->limit($this->perPage)
             ->get()
             ->toArray();
+
         $this->isLoading = false;
     }
 
@@ -37,23 +39,28 @@ class Rentals extends Component
     {
         if ($page > 0 && $page <= $this->totalPages) {
             $this->currentPage = $page;
-            $this->paginateFilteredRentals();
+            // Hay filtros?
+            if (!empty($this->filteredRentals)) {
+                $this->paginateFilteredRentals();
+            } else {
+
+                $this->loadRentals();
+            }
         }
     }
 
     public function updateRealEstates($realEstates)
     {
         $this->isLoading = true;
-        $this->filteredRentals = $realEstates; // Almacena todas las propiedades filtradas
-        $this->totalPages = ceil(count($this->filteredRentals) / $this->perPage); // Calcula las páginas totales
-        $this->currentPage = 1; // Reinicia la paginación a la primera página
-        $this->paginateFilteredRentals(); // Pagina las propiedades recibidas
+        $this->filteredRentals = $realEstates;
+        $this->totalPages = ceil(count($this->filteredRentals) / $this->perPage);
+        $this->currentPage = 1;
+        $this->paginateFilteredRentals();
         $this->isLoading = false;
     }
 
     private function paginateFilteredRentals()
     {
-        // Divide las propiedades filtradas según la página actual y el tamaño de página
         $offset = ($this->currentPage - 1) * $this->perPage;
         $this->rentals = array_slice($this->filteredRentals, $offset, $this->perPage);
     }

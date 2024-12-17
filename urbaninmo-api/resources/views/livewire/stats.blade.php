@@ -52,45 +52,7 @@
             class="bg-white grid grid-cols-1 h-80 overflow-y-auto  dark:bg-gray-800 rounded-xl space-y-4 shadow-lg p-6">
             <h3 class="text-lg font-semibold mb-4">Comentarios</h3>
 
-            @foreach ($rentals as $rental)
-                @foreach ($rental->comments as $comment)
-                    <div
-                        class="md:flex-row flex items-center flex-col h-auto  md:items-start gap-4 bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                        <img src="{{ $comment->user_photo ? asset('storage/photos/' . $comment->user_photo) : asset('img/default.jpg') }}" alt="Foto"  class="w-16 h-16 rounded-full">
-                        <div class="w-full flex flex-col  md:flexrow ">
-                            <div class="flex flex-col md:flex-row md:justify-between items-center">
-                                <p class="text-sm font-semibold">
-                                    {{ $comment->user_name }}
-                                    <span class="text-gray-500">
-                                        {{ $comment->created_at->diffForHumans() }}
-                                    </span>
-                                </p>
-                                <div class="flex gap-2 ">
-
-                                    @for ($i = 1; $i <= 5; $i++)
-                                        @if ($i <= $comment->rating)
-                                            <svg class="w-4 h-4 text-yellow-500" fill="currentColor"
-                                                viewBox="0 0 20 20">
-                                                <path
-                                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.97a1 1 0 00.95.69h4.18c.969 0 1.371 1.24.588 1.81l-3.392 2.46a1 1 0 00-.364 1.118l1.286 3.97c.3.921-.755 1.688-1.54 1.118l-3.392-2.46a1 1 0 00-1.176 0l-3.392 2.46c-.784.57-1.838-.197-1.54-1.118l1.286-3.97a1 1 0 00-.364-1.118L2.049 9.397c-.783-.57-.38-1.81.588-1.81h4.18a1 1 0 00.95-.69l1.286-3.97z" />
-                                            </svg>
-                                        @else
-                                            <svg class="w-4 h-4 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
-                                                <path
-                                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.97a1 1 0 00.95.69h4.18c.969 0 1.371 1.24.588 1.81l-3.392 2.46a1 1 0 00-.364 1.118l1.286 3.97c.3.921-.755 1.688-1.54 1.118l-3.392-2.46a1 1 0 00-1.176 0l-3.392 2.46c-.784.57-1.838-.197-1.54-1.118l1.286-3.97a1 1 0 00-.364-1.118L2.049 9.397c-.783-.57-.38-1.81.588-1.81h4.18a1 1 0 00.95-.69l1.286-3.97z" />
-                                            </svg>
-                                        @endif
-                                    @endfor
-                                </div>
-
-                            </div>
-                            <p class="text-gray-700 md:pr-60 dark:text-gray-300 text-sm">
-                                {{ $comment->comment }}
-                            </p>
-                        </div>
-                    </div>
-                @endforeach
-            @endforeach
+         
             @foreach ($rentals as $rental)
             @foreach ($rental->comments as $comment)
                 <div

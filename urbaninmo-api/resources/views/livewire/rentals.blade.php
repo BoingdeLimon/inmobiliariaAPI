@@ -58,7 +58,6 @@
                 No se encontraron resultados
             </div>
         @endforelse
-        
     </ul>
 
     <!-- Paginación -->
