@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password123'), 
             'phone' => '1234567890',
             'role' => 'admin',
-            'photo' => '', 
+            'photo' => 'ratero.png', 
         ]);
         User::create([
             'name' => 'Evelio Alvarez',
@@ -29,15 +29,15 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password123'), 
             'phone' => '1234567890',
             'role' => 'user',
-            'photo' => '', 
+            'photo' => 'Evelio.jpg', 
         ]);
         User::create([
             'name' => 'Oliver Mondragon',
             'email' => 'Oliver@example.com',
             'password' => Hash::make('password123'), 
             'phone' => '1234567890',
-            'role' => 'user',
-            'photo' => '', 
+            'role' => 'admin',
+            'photo' => 'yo.jpg', 
         ]);
         User::create([
             'name' => 'Emiliano Flores',
@@ -45,15 +45,15 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password123'), 
             'phone' => '1234567890',
             'role' => 'user',
-            'photo' => '', 
+            'photo' => 'Emi.jpg', 
         ]);
         User::create([
-            'name' => 'Jorge Bazan',
+            'name' => 'Carlos Cardona',
             'email' => 'Jorge@example.com',
             'password' => Hash::make('password123'), 
             'phone' => '1234567890',
             'role' => 'user',
-            'photo' => '', 
+            'photo' => 'Cardona.jpg', 
         ]);
         User::create([
             'name' => 'Rodrigo Salgado',
@@ -61,7 +61,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password123'), 
             'phone' => '1234567890',
             'role' => 'user',
-            'photo' => '', 
+            'photo' => 'ratero.png', 
         ]);
         
     }

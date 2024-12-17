@@ -31,7 +31,7 @@ class ConfirmarBorrarModal extends Component
         
         $user = User::find($this->userId);
         $user->delete();
-        $this->tagEdito = true;
+        $this->tagBorrado = true;
         $this->dispatch('eliminarUsuario');
     }
    

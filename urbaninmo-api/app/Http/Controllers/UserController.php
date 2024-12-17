@@ -33,17 +33,17 @@ class UserController extends Controller
 
     public function updateUser(Request $request)
     {
-        $id = $request->id;
         $validatedData = $request->validate([
+            'id' => 'required|integer|exists:users,id',
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $id,
+            'email' => 'required|string|email|max:255|unique:users,email,' . $request->id,
             // 'password' => 'required|string|min:8',
             'phone' => 'nullable|string|max:10',
             'photo' => 'nullable|string',
             'role' => 'nullable|string',
         ]);
         
-        $user = User::findOrFail($id);
+        $user = User::findOrFail($validatedData['id']);
         if (!$user) {
             return response()->json(['status' => 'errror']);
         }

@@ -61,10 +61,7 @@ class PhotosController extends Controller
     {
         $oldPhoto = $request->oldPhoto;
         if ($oldPhoto) {
-            $oldPhoto = 'photos/' . $oldPhoto;
-            if (Storage::disk('public')->exists($oldPhoto)) {
-                Storage::disk('public')->delete($oldPhoto);
-            }
+            Storage::disk('public')->delete('photos/' . $oldPhoto);
         }
         $image = $request->photo;
         $extension = $this->getB64Type($image);

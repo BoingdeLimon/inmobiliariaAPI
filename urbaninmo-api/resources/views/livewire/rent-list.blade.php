@@ -2,7 +2,7 @@
     <button wire:click="openModal"
         class="w-full px-4 py-2 bg-green-500 text-white rounded-lg 
         hover:bg-green-600 focus:outline-none transition duration-300 ease-in-out transform hover:scale-95">
-        Historial Rentas {{ $realEstateId }}
+        Historial Rentas  
     </button>
 
     @if ($isModalOpen)
