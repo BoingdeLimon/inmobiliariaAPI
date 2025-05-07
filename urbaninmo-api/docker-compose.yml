@@ -80,7 +80,7 @@ services:
   composer:
     image: composer:latest
     container_name: composer
-    user: "197609:197609"  # Usando tu ID de usuario
+    user: "197609:197609"  
     volumes:
       - ./:/app
     working_dir: /app
